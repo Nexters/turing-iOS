@@ -2,6 +2,11 @@ import ProjectDescription
 
 let project = Project(
     name: "Gotchai",
+    settings: .settings(
+        base: [
+            "IPHONEOS_DEPLOYMENT_TARGET": "17.0"
+        ]
+    ),
     targets: [
         .target(
             name: "Gotchai",
