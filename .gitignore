@@ -139,5 +139,6 @@ xcuserdata
 
 # End of https://www.toptal.com/developers/gitignore/api/swiftpackagemanager,swift,macos,xcode
 
+# Xcode 사용자 설정 파일 무시
 *.xcuserstate
-*.xcconfig
+xcuserdata/
