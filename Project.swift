@@ -23,7 +23,9 @@ let project = Project(
             ),
             sources: ["Gotchai/Sources/**"],
             resources: ["Gotchai/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture")
+            ]
         ),
         .target(
             name: "GotchaiTests",
