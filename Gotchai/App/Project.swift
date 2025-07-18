@@ -12,7 +12,7 @@ let project = Project(
             name: "Gotchai",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.Gotchai",
+            bundleId: "com.gotchai.Gotchai",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -21,21 +21,16 @@ let project = Project(
                     ],
                 ]
             ),
-            sources: ["Gotchai/Sources/**"],
-            resources: ["Gotchai/Resources/**"],
+            sources: ["Sources/**"],
+            resources: ["Resources/**"],
             dependencies: [
+                .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
+                .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
+                .project(target: "Home", path: .relativeToRoot("Gotchai/Feature/Home")),
+                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn")),
                 .external(name: "ComposableArchitecture")
             ]
         ),
-        .target(
-            name: "GotchaiTests",
-            destinations: .iOS,
-            product: .unitTests,
-            bundleId: "io.tuist.GotchaiTests",
-            infoPlist: .default,
-            sources: ["Gotchai/Tests/**"],
-            resources: [],
-            dependencies: [.target(name: "Gotchai")]
-        ),
+        
     ]
 )
