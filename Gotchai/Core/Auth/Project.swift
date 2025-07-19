@@ -15,7 +15,12 @@ let project = Project(
                 .external(name: "KakaoSDKCommon"),
                 .external(name: "KakaoSDKAuth"),
                 .external(name: "KakaoSDKUser")
-            ]
+            ],
+            settings: .settings(
+                configurations: [
+                    .debug(name: "Debug", xcconfig: "../../../Tuist/Configurations/Config.xcconfig"),
+                    .release(name: "Release", xcconfig: "../../../Tuist/Configurations/Config.xcconfig")
+            ])
         )
     ]
 )
