@@ -9,7 +9,6 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.design-system",
             sources: ["Sources/**"],
-            resources: ["Resources/**"],
             dependencies: []
         )
     ]
