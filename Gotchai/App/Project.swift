@@ -30,7 +30,6 @@ let project = Project(
                 .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn")),
                 .external(name: "ComposableArchitecture")
             ]
-        ),
-        
+        )
     ]
 )
