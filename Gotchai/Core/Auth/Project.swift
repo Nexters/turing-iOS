@@ -8,8 +8,14 @@ let project = Project(
             destinations: .iOS,
             product: .framework,
             bundleId: "com.gotchai.auth",
+            infoPlist: "Info.plist",
             sources: ["Sources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture"),
+                .external(name: "KakaoSDKCommon"),
+                .external(name: "KakaoSDKAuth"),
+                .external(name: "KakaoSDKUser")
+            ]
         )
     ]
 )
