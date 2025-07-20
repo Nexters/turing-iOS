@@ -9,7 +9,9 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.network",
             sources: ["Sources/**"],
-            dependencies: []
+            dependencies: [
+              .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
+            ]
         )
     ]
 )
