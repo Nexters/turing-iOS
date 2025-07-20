@@ -9,7 +9,10 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.network",
             sources: ["Sources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "Moya"),
+                .external(name: "CombineMoya")
+            ]
         )
     ]
 )
