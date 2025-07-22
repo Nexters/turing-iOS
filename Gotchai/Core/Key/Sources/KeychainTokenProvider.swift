@@ -7,9 +7,10 @@
 
 import Foundation
 import Security
+import Common
 
 public final class KeychainTokenProvider: TokenProvider {
-    public static let shared = KeychainTokenStorage()
+    public static let shared = KeychainTokenProvider()
 
     private let service = "com.gotchai.token"
     private let account = "accessToken"
