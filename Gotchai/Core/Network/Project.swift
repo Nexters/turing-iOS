@@ -10,7 +10,9 @@ let project = Project(
             bundleId: "com.gotchai.network",
             sources: ["Sources/**"],
             dependencies: [
-              .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
+                .external(name: "Moya"),
+                .external(name: "CombineMoya")
+                .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
             ]
         )
     ]
