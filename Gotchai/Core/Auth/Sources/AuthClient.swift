@@ -12,21 +12,12 @@ enum LoginType {
 }
 
 struct User {
-    let id: Int
+    let id: String
     let name: String
 }
 
 public struct AuthClient {
     var login: (LoginType) async throws -> User
-}
-
-extension AuthClient: DependencyKey {
-    public static var liveValue = AuthClient { type in
-        switch type {
-        case .apple:
-        case .kakao:
-        }
-    }
 }
 
 extension DependencyValues {

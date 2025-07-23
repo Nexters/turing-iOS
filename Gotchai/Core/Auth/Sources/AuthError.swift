@@ -10,6 +10,7 @@ import Foundation
 enum AuthError: Error {
     case canceled
     case serverError(String)
+    case appleLoginFailed
 }
 
 extension AuthError {
