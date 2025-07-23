@@ -11,6 +11,8 @@ let workspace = Workspace(
         "Gotchai/Core/Network",
         "Gotchai/Core/Auth",
         "Gotchai/Core/Entity",
+        "Gotchai/Core/Key",
+        "Gotchai/Core/Common",
         "Gotchai/Shared/DesignSystem",
         "Gotchai/Shared/Util",
     ]

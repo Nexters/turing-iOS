@@ -1,13 +1,13 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Network",
+    name: "Key",
     targets: [
         .target(
-            name: "Network",
+            name: "Key",
             destinations: .iOS,
             product: .framework,
-            bundleId: "com.gotchai.network",
+            bundleId: "com.gotchai.key",
             sources: ["Sources/**"],
             dependencies: [
               .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
