@@ -12,6 +12,7 @@ let project = Project(
             dependencies: [
                 .external(name: "Moya"),
                 .external(name: "CombineMoya")
+                .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
             ]
         )
     ]
