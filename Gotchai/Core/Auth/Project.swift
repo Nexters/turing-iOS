@@ -11,7 +11,6 @@ let project = Project(
             infoPlist: "Info.plist",
             sources: ["Sources/**"],
             dependencies: [
-                .external(name: "ComposableArchitecture"),
                 .external(name: "KakaoSDKCommon"),
                 .external(name: "KakaoSDKAuth"),
                 .external(name: "KakaoSDKUser")

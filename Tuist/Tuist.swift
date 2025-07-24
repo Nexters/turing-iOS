@@ -1,9 +1,15 @@
 import ProjectDescription
 
-let config = Config(
-//    Create an account with "tuist auth" and a project with "tuist project create"
-//    then uncomment the section below and set the project full-handle.
-//    * Read more: https://docs.tuist.io/guides/quick-start/gather-insights
-//
-//    fullHandle: "{account_handle}/{project_handle}",
+import ProjectDescription
+
+let tuist = Tuist(
+  project: .tuist(
+    // 필요하다면 Xcode 호환 버전도 명시할 수 있습니다.
+    compatibleXcodeVersions: .all,
+    // 여기서 원하는 Swift 버전을 지정
+    swiftVersion: Version(5, 10, 0),
+    plugins: [],
+    generationOptions: .options(),
+    installOptions: .options()
+  )
 )
