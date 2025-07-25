@@ -25,6 +25,9 @@
       "state" : {
         "revision" : "394ccfc67b206894f55dcaf2dd15e06bf451c4d3",
         "version" : "2.24.5"
+      }
+    },
+    {
       "identity" : "moya",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Moya/Moya.git",
