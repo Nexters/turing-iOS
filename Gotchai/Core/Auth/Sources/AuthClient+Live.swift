@@ -16,6 +16,7 @@ extension AuthClient: DependencyKey {
         case .apple:
             return try await clientLive.loginWithApple()
         case .kakao:
+            return .init(id: "kakao:123456789", name: "nickname")   // dummy
         }
     }
 }
