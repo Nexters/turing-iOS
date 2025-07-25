@@ -30,20 +30,20 @@ public struct SignInFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .loginButtonTapped(type):
+            case let .signInButtonTapped(type):
                 state.isLoggingIn = true
                 return .run { send in
-                    let result = await Result { try await signInClient.login(type) }
+                    let result = await Result { try await signInClient.signIn(type) }
                         .mapError(SignInError.init)
-                    await send(.loginResponse(result))
+                    await send(.signInResponse(result))
                 }
                 
-            case let .loginResponse(.success(user)):
+            case let .signInResponse(.success(user)):
                 state.isLoggingIn = false
                 state.user = user
                 return .none
 
-            case let .loginResponse(.failure(error)):
+            case let .signInResponse(.failure(error)):
                 state.isLoggingIn = false
                 state.errorMessage = error.localizedDescription
                 return .none

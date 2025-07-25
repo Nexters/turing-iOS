@@ -10,7 +10,9 @@ let project = Project(
             bundleId: "com.gotchai.signin",
             sources: ["Sources/**"],
             resources: [],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture")
+            ]
         )
     ]
 )
