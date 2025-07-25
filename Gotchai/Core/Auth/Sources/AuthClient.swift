@@ -7,11 +7,11 @@
 
 import ComposableArchitecture
 
-enum LoginType {
+public enum LoginType {
     case apple, kakao
 }
 
-struct User {
+public struct User {
     let id: String
     let name: String
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthError: Error {
+public enum AuthError: Error {
     case canceled
     case serverError(String)
     case appleLoginFailed

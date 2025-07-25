@@ -8,22 +8,25 @@
 import ComposableArchitecture
 
 @Reducer
-struct AuthFeature {
+public struct AuthFeature {
     
     @ObservableState
-    struct State {
+    public struct State {
+        public init() { }
         var isLoggingIn: Bool = false
         var errorMessage: String?
     }
     
-    enum Action {
+    public enum Action {
         case loginButtonTapped(LoginType)
         case loginResponse(Result<User, AuthError>)
     }
     
+    public init() { }
+    
     @Dependency(\.authClient) var authClient
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case let .loginButtonTapped(type):
