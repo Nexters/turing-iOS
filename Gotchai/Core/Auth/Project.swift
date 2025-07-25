@@ -10,6 +10,7 @@ let project = Project(
             bundleId: "com.gotchai.auth",
             infoPlist: "Info.plist",
             sources: ["Sources/**"],
+            entitlements: "../../App/Gotchai.entitlements",
             dependencies: [
                 .external(name: "ComposableArchitecture"),
                 .external(name: "KakaoSDKCommon"),
@@ -17,6 +18,9 @@ let project = Project(
                 .external(name: "KakaoSDKUser")
             ],
             settings: .settings(
+                base: [
+                    "DEVELOPMENT_TEAM": "$(DEVELOPMENT_TEAM)"
+                ],
                 configurations: [
                     .debug(name: "Debug", xcconfig: "../../../Tuist/Configurations/Config.xcconfig"),
                     .release(name: "Release", xcconfig: "../../../Tuist/Configurations/Config.xcconfig")
