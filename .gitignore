@@ -61,6 +61,7 @@ DerivedData/
 ### Projects ###
 *.xcodeproj
 *.xcworkspace
+*.xcconfig
 
 ### Tuist derived files ###
 graph.dot
@@ -68,3 +69,7 @@ Derived/
 
 ### Tuist managed dependencies ###
 Tuist/.build
+
+# Configuration 폴더 내 비밀 키 파일 무시
+Tuist/Configurations/*
+

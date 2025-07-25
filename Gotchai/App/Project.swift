@@ -27,8 +27,7 @@ let project = Project(
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
                 .project(target: "Home", path: .relativeToRoot("Gotchai/Feature/Home")),
-                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn")),
-                .external(name: "ComposableArchitecture")
+                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn"))
             ]
         )
     ]
