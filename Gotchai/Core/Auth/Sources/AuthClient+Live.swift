@@ -54,7 +54,9 @@ private class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let idToken = credential.user
-            let user = User(id: idToken, name: credential.fullName?.givenName ?? "no name")
+            // TODO: idToken keychain에 저장
+            
+            let user = User(id: "", name: credential.fullName?.givenName ?? "no name")
             continuation?.resume(returning: user)
         } else {
             continuation?.resume(throwing: AuthError.appleLoginFailed)

@@ -15,6 +15,7 @@ public struct AuthFeature {
         public init() { }
         var isLoggingIn: Bool = false
         var errorMessage: String?
+        var user: User?
     }
     
     public enum Action {
@@ -39,6 +40,7 @@ public struct AuthFeature {
                 
             case let .loginResponse(.success(user)):
                 state.isLoggingIn = false
+                state.user = user
                 return .none
 
             case let .loginResponse(.failure(error)):
