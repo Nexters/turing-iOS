@@ -7,14 +7,14 @@
 
 import Foundation
 
-public enum AuthError: Error {
+public enum SignInError: Error {
     case canceled
     case serverError(String)
     case appleLoginFailed
 }
 
-extension AuthError {
+extension SignInError {
     init(_ error: Error) {
-        self = (error as? AuthError) ?? .serverError(error.localizedDescription)
+        self = (error as? SignInError) ?? .serverError(error.localizedDescription)
     }
 }

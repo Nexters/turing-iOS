@@ -8,8 +8,8 @@
 import ComposableArchitecture
 
 @Reducer
-public struct AuthFeature {
-    
+public struct SignInFeature {
+
     @ObservableState
     public struct State {
         public init() { }
@@ -19,22 +19,22 @@ public struct AuthFeature {
     }
     
     public enum Action {
-        case loginButtonTapped(LoginType)
-        case loginResponse(Result<User, AuthError>)
+        case signInButtonTapped(SignInType)
+        case signInResponse(Result<User, SignInError>)
     }
     
     public init() { }
     
-    @Dependency(\.authClient) var authClient
-    
+    @Dependency(\.signInClient) var signInClient
+
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case let .loginButtonTapped(type):
                 state.isLoggingIn = true
                 return .run { send in
-                    let result = await Result { try await authClient.login(type) }
-                        .mapError(AuthError.init)
+                    let result = await Result { try await signInClient.login(type) }
+                        .mapError(SignInError.init)
                     await send(.loginResponse(result))
                 }
                 

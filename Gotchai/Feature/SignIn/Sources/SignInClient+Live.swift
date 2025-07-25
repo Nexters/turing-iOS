@@ -8,10 +8,10 @@
 import AuthenticationServices
 import ComposableArchitecture
 
-extension AuthClient: DependencyKey {
-    public static let liveValue = AuthClient { type in
-        let clientLive = AuthClientLive()
-        
+extension SignInClient: DependencyKey {
+    public static let liveValue = SignInClient { type in
+        let clientLive = SignInClientLive()
+
         switch type {
         case .apple:
             return try await clientLive.loginWithApple()
@@ -21,7 +21,7 @@ extension AuthClient: DependencyKey {
     }
 }
 
-public final class AuthClientLive {
+public final class SignInClientLive {
     private let appleSignInDelegate = AppleSignInDelegate()
     
     func loginWithApple() async throws -> User {

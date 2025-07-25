@@ -7,7 +7,7 @@
 
 import ComposableArchitecture
 
-public enum LoginType {
+public enum SignInType {
     case apple, kakao
 }
 
@@ -16,13 +16,13 @@ public struct User {
     let name: String
 }
 
-public struct AuthClient {
-    var login: (LoginType) async throws -> User
+public struct SignInClient {
+    var signIn: (SignInType) async throws -> User
 }
 
 extension DependencyValues {
-    var authClient: AuthClient {
-        get { self[AuthClient.self] }
-        set { self[AuthClient.self] = newValue }
+    var signInClient: SignInClient {
+        get { self[SignInClient.self] }
+        set { self[SignInClient.self] = newValue }
     }
 }
