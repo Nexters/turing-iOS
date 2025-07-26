@@ -17,7 +17,7 @@ final class AppleAuthProvider: NSObject, AuthProvider {
         self.signInSubject = subject
 
         let request = ASAuthorizationAppleIDProvider().createRequest()
-        request.requestedScopes = [.fullName, .email]
+        request.requestedScopes = []
 
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self

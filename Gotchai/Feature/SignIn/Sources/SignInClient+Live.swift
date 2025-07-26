@@ -59,7 +59,7 @@ private class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate {
             let user = User(id: "", name: credential.fullName?.givenName ?? "no name")
             continuation?.resume(returning: user)
         } else {
-            continuation?.resume(throwing: AuthError.appleLoginFailed)
+            continuation?.resume(throwing: SignInError.appleLoginFailed)
         }
     }
     
