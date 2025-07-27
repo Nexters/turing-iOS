@@ -10,12 +10,11 @@ import ComposableArchitecture
 import SwiftUI
 
 struct ContentView: View {
-    let store: StoreOf<AuthFeature>
-    
     var body: some View {
-        Button("애플 로그인") {
-            store.send(.loginButtonTapped(.apple))
-        }
+        Text("hello world")
     }
 }
 
+#Preview {
+    ContentView()
+}

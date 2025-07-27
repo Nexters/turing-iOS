@@ -163,6 +163,15 @@
       }
     },
     {
+      "identity" : "swiftrichstring",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/malcommac/SwiftRichString.git",
+      "state" : {
+        "revision" : "9bf4b5af6bb4386865636fc504d6c588c2b65040",
+        "version" : "3.7.2"
+      }
+    },
+    {
       "identity" : "xctest-dynamic-overlay",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",

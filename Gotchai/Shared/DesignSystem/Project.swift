@@ -9,7 +9,10 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.design-system",
             sources: ["Sources/**"],
-            dependencies: []
+            resources: ["Resources/**"],
+            dependencies: [
+              .external(name: "SwiftRichString"),
+            ]
         )
     ]
 )
