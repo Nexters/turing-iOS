@@ -10,7 +10,10 @@ let project = Project(
             bundleId: "com.gotchai.onboarding",
             sources: ["Sources/**"],
             resources: [],
-            dependencies: []
+            dependencies: [
+              .project(target: "DesignSystem", path: .relativeToRoot("Gotchai/Shared/DesignSystem")),
+              .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA"))
+            ]
         )
     ]
 )
