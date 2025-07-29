@@ -9,10 +9,10 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.main",
             sources: ["Sources/**"],
-            resources: [],
+            resources: ["Resources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture"),
-                .external(name: "CasePaths")
+                .project(target: "DesignSystem", path: "../../Shared/DesignSystem")
             ],
             settings: .settings(
                 base: [

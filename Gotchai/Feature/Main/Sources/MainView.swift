@@ -6,13 +6,25 @@
 //
 
 import ComposableArchitecture
+import DesignSystem
 import SwiftUI
 
 struct MainView: View {
     let store: StoreOf<MainFeature>
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            DesignSystemAsset.gray950.swiftUIColor.ignoresSafeArea()
+            VStack {
+                HStack {
+                    Image("logo_mini", bundle: .module)
+                    Spacer()
+                    Image("icon_setting", bundle: .module)
+                }
+                .padding(EdgeInsets(top: 9, leading: 22, bottom: 9, trailing: 24))
+                
+            }
+        }
     }
 }
 

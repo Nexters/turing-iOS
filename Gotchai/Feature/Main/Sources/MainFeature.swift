@@ -24,7 +24,9 @@ public struct MainFeature {
         Reduce { state, action in
             switch action {
             case let .selectedTabChanged(tab):
+                return .none
             case .settingButtonTapped:
+                return .none
             }
         }
     }
