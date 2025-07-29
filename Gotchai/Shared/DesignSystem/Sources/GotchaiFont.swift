@@ -1,5 +1,17 @@
 import SwiftUI
 
+/// - title_1: Pretendard SemiBold, size: 36
+/// - title_2: Pretendard Bold, size: 30
+/// - title_3: Pretendard Bold, size: 26
+/// - title_4: Pretendard SemiBold, size: 24
+/// - subtitle_1: Pretendard SemiBold, size: 22
+/// - subtitle_2: Pretendard SemiBold, size: 20
+/// - body_1: Pretendard Medium, size: 18
+/// - body_2: Pretendard SemiBold, size: 18
+/// - body_3: Pretendard SemiBold, size: 16
+/// - body_4: Pretendard Medium, size: 16
+/// - body_5: Pretendard Medium, size: 15
+/// - body_6: Pretendard Medium, size: 14
 public enum FontStyle {
   case title_1, title_2, title_3, title_4
   case subtitle_1, subtitle_2
