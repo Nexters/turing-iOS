@@ -9,9 +9,11 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.signin",
             sources: ["Sources/**"],
-            resources: [],
+            resources: ["Resources/**"],
             dependencies: [
-              .external(name: "ComposableArchitecture")
+              .project(target: "DesignSystem", path: .relativeToRoot("Gotchai/Shared/DesignSystem")),
+              .project(target: "Auth", path: .relativeToRoot("Gotchai/Core/Auth")),
+              .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA"))
             ]
         )
     ]
