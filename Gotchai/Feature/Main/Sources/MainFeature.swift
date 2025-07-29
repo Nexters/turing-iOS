@@ -24,6 +24,7 @@ public struct MainFeature {
         Reduce { state, action in
             switch action {
             case let .selectedTabChanged(tab):
+                state.selectedTab = tab
                 return .none
             case .settingButtonTapped:
                 return .none
@@ -32,7 +33,7 @@ public struct MainFeature {
     }
 }
 
-public enum Tab {
-    case turingTest
-    case achievement
+public enum Tab: String, CaseIterable {
+    case turingTest = "테스트"
+    case achievement = "내 업적"
 }

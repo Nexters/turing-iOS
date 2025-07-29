@@ -23,6 +23,15 @@ struct MainView: View {
                 }
                 .padding(EdgeInsets(top: 9, leading: 22, bottom: 9, trailing: 24))
                 
+                WithViewStore(store, observe: \.selectedTab) { viewStore in
+                    SegmentedPicker(selectedTab: viewStore.binding(
+                        get: { $0 },
+                        send: MainFeature.Action.selectedTabChanged
+                    ))
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 12)
+                
             }
         }
     }

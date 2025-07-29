@@ -25,7 +25,7 @@ public enum FontStyle {
   }
 }
 
-extension Font {
+public extension Font {
   static var title_1: Font { FontStyle.title_1.font }
   static var title_2: Font { FontStyle.title_2.font }
   static var title_3: Font { FontStyle.title_3.font }
