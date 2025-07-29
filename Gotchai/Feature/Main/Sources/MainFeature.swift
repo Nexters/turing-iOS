@@ -12,7 +12,7 @@ public struct MainFeature {
     
     @ObservableState
     public struct State {
-        var selectedTab: Tab
+        var selectedTab: Tab = .turingTest
     }
     
     public enum Action {
@@ -32,5 +32,5 @@ public struct MainFeature {
 
 public enum Tab {
     case turingTest
-    case setting
+    case achievement
 }
