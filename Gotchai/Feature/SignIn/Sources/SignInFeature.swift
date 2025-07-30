@@ -11,7 +11,7 @@ import ComposableArchitecture
 public struct SignInFeature {
 
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         public init() { }
         var isLoggingIn: Bool = false
         var errorMessage: String?

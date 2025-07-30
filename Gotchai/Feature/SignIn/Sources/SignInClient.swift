@@ -11,7 +11,7 @@ public enum SignInType {
     case apple, kakao
 }
 
-public struct User {
+public struct User: Equatable {
     let id: String
     let name: String
 }
