@@ -47,6 +47,7 @@ struct TuringTestIntroView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Image("icon_arrow_back", bundle: .module)
+                    .padding(12)
             }
         }
     }
