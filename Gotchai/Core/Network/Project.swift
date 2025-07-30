@@ -1,7 +1,9 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "Network",
+    settings: .projectSettings,
     targets: [
         .target(
             name: "Network",
