@@ -11,7 +11,7 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.turingtest",
             sources: ["Sources/**"],
-            resources: [],
+            resources: ["Resources/**"],
             dependencies: []
         )
     ]
