@@ -1,7 +1,9 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "Main",
+    settings: .projectSettings,
     targets: [
         .target(
             name: "Main",
@@ -13,16 +15,7 @@ let project = Project(
             dependencies: [
                 .external(name: "ComposableArchitecture"),
                 .project(target: "DesignSystem", path: "../../Shared/DesignSystem")
-            ],
-            settings: .settings(
-                base: [
-                    "IPHONEOS_DEPLOYMENT_TARGET": "17.0",
-                    "DEVELOPMENT_TEAM": "$(DEVELOPMENT_TEAM)"
-                ],
-                configurations: [
-                    .debug(name: "Debug", xcconfig: "../../../Tuist/Configurations/Config.xcconfig"),
-                    .release(name: "Release", xcconfig: "../../../Tuist/Configurations/Config.xcconfig")
-            ])
+            ]
         )
     ]
 )

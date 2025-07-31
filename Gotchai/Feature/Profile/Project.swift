@@ -1,7 +1,9 @@
 import ProjectDescription
+import ProjectDescriptionHelpers
 
 let project = Project(
     name: "Profile",
+    settings: .projectSettings,
     targets: [
         .target(
             name: "Profile",
