@@ -19,7 +19,11 @@ struct MainView: View {
                 HStack {
                     Image("logo_mini", bundle: .module)
                     Spacer()
-                    Image("icon_setting", bundle: .module)
+                    Button {
+                        store.send(.settingButtonTapped)
+                    } label: {
+                        Image("icon_setting", bundle: .module)
+                    }
                 }
                 .padding(EdgeInsets(top: 9, leading: 22, bottom: 9, trailing: 24))
                 
