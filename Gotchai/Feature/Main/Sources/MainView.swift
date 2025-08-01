@@ -13,46 +13,43 @@ struct MainView: View {
     let store: StoreOf<MainFeature>
     
     var body: some View {
-        ZStack {
-            DesignSystemAsset.gray950.swiftUIColor.ignoresSafeArea()
-            VStack(spacing: 0) {
-                HStack {
-                    Image("logo_mini", bundle: .module)
-                    Spacer()
-                    Button {
-                        store.send(.settingButtonTapped)
-                    } label: {
-                        Image("icon_setting", bundle: .module)
-                    }
-                }
-                .padding(EdgeInsets(top: 9, leading: 22, bottom: 9, trailing: 24))
-                
-                WithViewStore(store, observe: \.selectedTab) { viewStore in
-                    let tab = viewStore.state
-                    VStack(spacing: 0) {
-                        SegmentedPicker(selectedTab: viewStore.binding(
-                            get: { $0 },
-                            send: MainFeature.Action.selectedTabChanged
-                        ))
-                        
-                        Group {
-                            switch tab {
-                            case .turingTest:
-                                ScrollView {
-                                    TestCardList()
-                                }
-                            case .achievement:
-                                // TODO: 업적(Profile) 연결
-                                EmptyView()
-                            }
-                        }
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 12)
+        VStack(spacing: 0) {
+            HStack {
+                Image("logo_mini", bundle: .module)
                 Spacer()
+                Button {
+                    store.send(.settingButtonTapped)
+                } label: {
+                    Image("icon_setting", bundle: .module)
+                }
             }
+            .padding(EdgeInsets(top: 9, leading: 22, bottom: 9, trailing: 24))
+            
+            WithViewStore(store, observe: \.selectedTab) { viewStore in
+                let tab = viewStore.state
+                VStack(spacing: 0) {
+                    SegmentedPicker(selectedTab: viewStore.binding(
+                        get: { $0 },
+                        send: MainFeature.Action.selectedTabChanged
+                    ))
+                    
+                    switch tab {
+                    case .turingTest:
+                        ScrollView {
+                            TestCardList()
+                        }
+                    case .achievement:
+                        // TODO: 업적(Profile) 연결
+                        EmptyView()
+                    }
+                }
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 12)
+            Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(DesignSystemAsset.gray950.swiftUIColor)
     }
     
     @ViewBuilder
@@ -70,7 +67,7 @@ struct MainView: View {
             
             ForEach(store.turingTestItems, id: \.id) { item in
                 Button {
-                    
+                    store.send(.testCardTapped(item.id))
                 } label: {
                     TestCardItem(item: item)
                 }

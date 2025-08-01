@@ -22,6 +22,7 @@ public struct MainFeature {
     
     public enum Action {
         case selectedTabChanged(Tab)
+        case testCardTapped(Int)
         case settingButtonTapped
     }
     
@@ -30,6 +31,8 @@ public struct MainFeature {
             switch action {
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
+                return .none
+            case let .testCardTapped(id):
                 return .none
             case .settingButtonTapped:
                 return .none
