@@ -18,20 +18,20 @@ struct TuringTestIntroView: View {
                 .background(.yellow)    // 임시
             Text("Ai와 크리스마스 파티")
                 .font(.title_2)
-                .foregroundStyle(DesignSystemAsset.primary400.swiftUIColor)
+                .foregroundStyle(Color(.primary400))
                 .padding(.top, 12)
             Text("산타는 누구야?")
                 .font(.title_4)
-                .foregroundStyle(DesignSystemAsset.grayWhite.swiftUIColor)
+                .foregroundStyle(Color(.gray_white))
                 .padding(.top, 2)
             Text("Ai가 한 말은 무엇일까요?")
                 .font(.body_3)
-                .foregroundStyle(DesignSystemAsset.gray300.swiftUIColor)
+                .foregroundStyle(Color(.gray300))
                 .padding(.top, 24)
             Image("")
                 .frame(width: 305, height: 305)
                 .background(
-                    Circle().fill(DesignSystemAsset.gray800.swiftUIColor)
+                    Circle().fill(Color(.gray800))
                 )
                 .padding(.top, 44)
             
@@ -43,7 +43,7 @@ struct TuringTestIntroView: View {
             .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(DesignSystemAsset.gray950.swiftUIColor)
+        .background(Color(.gray950))
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Image("icon_arrow_back", bundle: .module)
@@ -59,13 +59,13 @@ struct TuringTestIntroView: View {
         } label: {
             Text("시작하기")
                 .font(.body_2)
-                .foregroundStyle(DesignSystemAsset.grayBlack.swiftUIColor)
+                .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
         }
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(DesignSystemAsset.primary400.swiftUIColor)
+                .fill(Color(.primary400))
         )
 
     }
@@ -77,7 +77,7 @@ struct TuringTestIntroView: View {
         } label: {
             Text("테스트 공유하기")
                 .font(.body_3)
-                .foregroundStyle(DesignSystemAsset.gray200.swiftUIColor)
+                .foregroundStyle(Color(.gray200))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
         }

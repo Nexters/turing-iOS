@@ -22,7 +22,7 @@ struct SegmentedPicker: View {
                     } label: {
                         Text(tab.rawValue)
                             .font(selectedTab == tab ? .body_2 : .body_1)
-                            .foregroundStyle(selectedTab == tab ? DesignSystemAsset.primary400.swiftUIColor : DesignSystemAsset.gray600.swiftUIColor)
+                            .foregroundStyle(selectedTab == tab ? Color(.primary400) : Color(.gray600))
                             .frame(width: width)
                     }
                     .buttonStyle(.plain)
@@ -30,13 +30,13 @@ struct SegmentedPicker: View {
             }
             
             RoundedRectangle(cornerRadius: 3)
-                .fill(DesignSystemAsset.primary400.swiftUIColor)
+                .fill(Color(.primary400))
                 .frame(width: width, height: 2)
                 .offset(x: CGFloat(Tab.allCases.firstIndex(of: selectedTab) ?? 0) * (width + itemSpacing))
                 .animation(.easeOut, value: selectedTab)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(DesignSystemAsset.gray950.swiftUIColor)
+        .background(Color(.gray950))
     }
 }
 

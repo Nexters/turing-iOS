@@ -17,17 +17,17 @@ struct QuizView: View {
             
             Text("1/7")
                 .font(.body_5)
-                .foregroundStyle(DesignSystemAsset.primary400.swiftUIColor)
+                .foregroundStyle(Color(.primary400))
                 .padding(.vertical, 3)
                 .padding(.horizontal, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(DesignSystemAsset.primary400.swiftUIColor.opacity(0.1))
+                        .fill(Color(.primary400).opacity(0.1))
                 )
             
             Text("크리스마스 트리 꾸미기  중...\n“트리에 뭔가 허전한데, 뭘 더 달까?”")
                 .font(.subtitle_2)
-                .foregroundStyle(DesignSystemAsset.grayWhite.swiftUIColor)
+                .foregroundStyle(Color(.gray_white))
                 .padding(.top, 16)
             
             VStack(spacing: 16) {
@@ -38,7 +38,7 @@ struct QuizView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 24)
-        .background(DesignSystemAsset.gray950.swiftUIColor)
+        .background(Color(.gray950))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Image("icon_xmark", bundle: .module)
@@ -51,11 +51,11 @@ struct QuizView: View {
     private func timerBar(seconds: Int) -> some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 3)
-                .fill(DesignSystemAsset.grayWhite.swiftUIColor.opacity(0.2))
+                .fill(Color(.gray_white).opacity(0.2))
                 .frame(maxWidth: .infinity)
             GeometryReader { geometry in
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(DesignSystemAsset.primary400.swiftUIColor)
+                    .fill(Color(.primary400))
                     .frame(width: geometry.size.width * CGFloat(seconds/10))
             }
         }
@@ -68,23 +68,23 @@ struct QuizView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(idx == 0 ? "A" : "B")
                 .font(.body_3)
-                .foregroundStyle(DesignSystemAsset.grayBlack.swiftUIColor)
+                .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 4)
                 .padding(.horizontal, 10)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(DesignSystemAsset.primary400.swiftUIColor)
+                        .fill(Color(.primary400))
                 )
             Text(text)
                 .font(.body_4)
-                .foregroundStyle(DesignSystemAsset.grayWhite.swiftUIColor)
+                .foregroundStyle(Color(.gray_white))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(DesignSystemAsset.grayWhite.swiftUIColor.opacity(0.15))
+                .fill(Color(.gray_white).opacity(0.15))
         )
     }
 }

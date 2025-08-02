@@ -18,7 +18,7 @@ struct TuringTestConceptView: View {
                 구분할 수 있을까요?
                 """)
             .font(.body_1)
-            .foregroundStyle(DesignSystemAsset.grayWhite.swiftUIColor)
+            .foregroundStyle(Color(.grayWhite))
             .multilineTextAlignment(.center)
             .padding(.top, 32)
             
@@ -28,7 +28,7 @@ struct TuringTestConceptView: View {
                 .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(DesignSystemAsset.gray950.swiftUIColor)
+        .background(Color(.gray950))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Image("icon_xmark", bundle: .module)
@@ -44,13 +44,13 @@ struct TuringTestConceptView: View {
         } label: {
             Text("다음")
                 .font(.body_2)
-                .foregroundStyle(DesignSystemAsset.grayBlack.swiftUIColor)
+                .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
         }
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(DesignSystemAsset.primary400.swiftUIColor)
+                .fill(Color(.primary400))
         )
 
     }
