@@ -8,77 +8,85 @@
 import Combine
 import KakaoSDKUser
 import KakaoSDKAuth
+import KakaoSDKCommon
 import Foundation
 
-final class KakaoAuthProvider: AuthProvider {
-    func signIn() -> AnyPublisher<UserSession, any Error> {
-        Future { promise in
-            // 로그인
-            let loginHandler: ((OAuthToken?, Error?) -> Void) = { token, error in
-                if let error = error {
-                    promise(.failure(error))
-                    return
-                }
+public final class KakaoAuthProvider: AuthProvider {
+  private let appKey: String
 
-                guard let token = token else {
-                    promise(.failure(NSError(domain: "KakaoAuth", code: -1, userInfo: [NSLocalizedDescriptionKey: "No token received"])))
-                    return
-                }
+  public init(appKey: String) {
+    self.appKey = appKey
+    KakaoSDK.initSDK(appKey: appKey)
+  }
 
-                // 사용자 정보 요청
-                UserApi.shared.me { user, error in
-                    if let error = error {
-                        promise(.failure(error))
-                        return
-                    }
-
-                    guard let user = user else {
-                        promise(.failure(NSError(domain: "KakaoAuth", code: -2, userInfo: [NSLocalizedDescriptionKey: "No user data received"])))
-                        return
-                    }
-
-                    let session = UserSession(
-                        id: String(user.id ?? 0),
-                        name: user.kakaoAccount?.profile?.nickname ?? "Unknown",
-                        token: token.accessToken
-                    )
-
-                    promise(.success(session))
-                }
-            }
-
-            if UserApi.isKakaoTalkLoginAvailable() {
-                UserApi.shared.loginWithKakaoTalk(completion: loginHandler)
-            } else {
-                UserApi.shared.loginWithKakaoAccount(completion: loginHandler)
-            }
+  public func signIn() -> AnyPublisher<UserSession, any Error> {
+    Future { promise in
+      // 로그인
+      let loginHandler: ((OAuthToken?, Error?) -> Void) = { token, error in
+        if let error = error {
+          promise(.failure(error))
+          return
         }
-        .eraseToAnyPublisher()
-    }
 
-    func signOut() -> AnyPublisher<Void, any Error> {
-        Future { promise in
-            UserApi.shared.logout { error in
-                if let error = error {
-                    promise(.failure(error))
-                } else {
-                    promise(.success(()))
-                }
-            }
+        guard let token = token else {
+          promise(.failure(NSError(domain: "KakaoAuth", code: -1, userInfo: [NSLocalizedDescriptionKey: "No token received"])))
+          return
         }
-        .eraseToAnyPublisher()
-    }
 
-    func deleteUser() -> AnyPublisher<Void, any Error> {
-        Future { promise in
-            UserApi.shared.unlink { error in
-                if let error = error {
-                    promise(.failure(error))
-                } else {
-                    promise(.success(()))
-                }
-            }
+        // 사용자 정보 요청
+        UserApi.shared.me { user, error in
+          if let error = error {
+              promise(.failure(error))
+              return
+          }
+
+          guard let user = user else {
+              promise(.failure(NSError(domain: "KakaoAuth", code: -2, userInfo: [NSLocalizedDescriptionKey: "No user data received"])))
+              return
+          }
+
+          let session = UserSession(
+              id: String(user.id ?? 0),
+              name: user.kakaoAccount?.profile?.nickname ?? "Unknown",
+              token: token.accessToken
+          )
+
+          promise(.success(session))
         }
-        .eraseToAnyPublisher()
+      }
+
+      if UserApi.isKakaoTalkLoginAvailable() {
+        UserApi.shared.loginWithKakaoTalk(completion: loginHandler)
+      } else {
+        UserApi.shared.loginWithKakaoAccount(completion: loginHandler)
+      }
     }
+    .eraseToAnyPublisher()
+  }
+
+  public func signOut() -> AnyPublisher<Void, any Error> {
+    Future { promise in
+      UserApi.shared.logout { error in
+        if let error = error {
+          promise(.failure(error))
+        } else {
+          promise(.success(()))
+        }
+      }
+    }
+    .eraseToAnyPublisher()
+  }
+
+  public func deleteUser() -> AnyPublisher<Void, any Error> {
+    Future { promise in
+      UserApi.shared.unlink { error in
+        if let error = error {
+          promise(.failure(error))
+        } else {
+          promise(.success(()))
+        }
+      }
+    }
+    .eraseToAnyPublisher()
+  }
 }

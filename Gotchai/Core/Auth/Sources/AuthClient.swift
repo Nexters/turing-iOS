@@ -7,22 +7,22 @@
 
 import Combine
 
-final class AuthClient {
+public final class AuthManager {
   private let provider: AuthProvider
 
-  init(provider: AuthProvider) {
+  public init(provider: AuthProvider) {
     self.provider = provider
   }
 
-  func signIn() -> AnyPublisher<UserSession, Error> {
+  public func signIn() -> AnyPublisher<UserSession, Error> {
     provider.signIn()
   }
 
-  func signOut() -> AnyPublisher<Void, Error>  {
+  public func signOut() -> AnyPublisher<Void, Error>  {
     provider.signOut()
   }
 
-  func deleteUser()-> AnyPublisher<Void, Error>  {
+  public func deleteUser()-> AnyPublisher<Void, Error>  {
     provider.deleteUser()
   }
 }

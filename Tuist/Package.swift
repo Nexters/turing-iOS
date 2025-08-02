@@ -6,8 +6,7 @@ import ProjectDescription
 
 let packageSettings = PackageSettings(
   productTypes: [
-    "swift-composable-architecture": .staticFramework,
-    "kakao-ios-sdk": .staticFramework
+    "ComposableArchitecture": .framework
   ]
 )
 #endif
@@ -22,6 +21,12 @@ let package = Package(
     targets: [
         .target(
             name: "CombineMoya",
-            dependencies: ["CombineMoya"])
+            dependencies: ["CombineMoya"]),
+        .target(name: "ComposableArchitecture",
+                dependencies: [
+                  .product(
+                  name: "ComposableArchitecture",
+                  package: "swift-composable-architecture")
+                ])
     ]
 )

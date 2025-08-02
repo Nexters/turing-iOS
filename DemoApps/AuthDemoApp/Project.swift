@@ -12,8 +12,7 @@ let project = Project(
 //            infoPlist: .file(path: .relativeToRoot("Gotchai/Core/Auth/Info.plist")),
             sources: ["Sources/**"],
             dependencies: [
-                .project(target: "Auth", path: .relativeToRoot("Gotchai/Core/Auth")),
-                .project(target: "DesignSystem", path: .relativeToRoot("Gotchai/Shared/DesignSystem"))
+                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn")),
             ],
             settings: .settings(
                 configurations: [
