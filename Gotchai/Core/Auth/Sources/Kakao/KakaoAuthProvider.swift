@@ -48,6 +48,7 @@ public final class KakaoAuthProvider: AuthProvider {
           let session = UserSession(
               id: String(user.id ?? 0),
               name: user.kakaoAccount?.profile?.nickname ?? "Unknown",
+              email: user.kakaoAccount?.email ?? "Unknown",
               token: token.accessToken
           )
 
