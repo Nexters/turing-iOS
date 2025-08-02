@@ -32,7 +32,7 @@ public struct SignInView: View {
 
         VStack(spacing: 16) {
           Button {
-            viewStore.send(.signInButtonTapped(.kakao))
+            viewStore.send(.tappedKakaoLogin)
           } label: {
             HStack {
               Image(systemName: "message.fill")
@@ -47,7 +47,7 @@ public struct SignInView: View {
           }
 
           Button {
-            viewStore.send(.signInButtonTapped(.apple))
+            viewStore.send(.tappedAppleLogin)
           } label: {
             HStack {
               Image(systemName: "apple.logo")
@@ -68,14 +68,3 @@ public struct SignInView: View {
   }
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-  static var previews: some View {
-    SignInView(
-      store: StoreOf<SignInFeature>(
-          initialState: SignInFeature.State()
-      ) {
-        SignInFeature()
-      }
-    )
-  }
-}

@@ -6,49 +6,67 @@
 //
 
 import ComposableArchitecture
+import Auth
 
 @Reducer
 public struct SignInFeature {
 
-    @ObservableState
-    public struct State: Equatable {
-        public init() { }
-        var isLoggingIn: Bool = false
-        var errorMessage: String?
-        var user: User?
-    }
-    
-    public enum Action {
-        case signInButtonTapped(SignInType)
-        case signInResponse(Result<User, SignInError>)
-    }
-    
+  @ObservableState
+  public struct State: Equatable {
     public init() { }
-    
-    @Dependency(\.signInClient) var signInClient
+    var isLoading: Bool = false
+    var user: UserSession?
+  }
 
-    public var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case let .signInButtonTapped(type):
-                state.isLoggingIn = true
-                return .run { send in
-                    let result = await Result { try await signInClient.signIn(type) }
-                        .mapError(SignInError.init)
-                    await send(.signInResponse(result))
-                }
-                
-            case let .signInResponse(.success(user)):
-                state.isLoggingIn = false
-                state.user = user
-                return .none
+  public enum Action {
+    case tappedKakaoLogin
+    case tappedAppleLogin
+    case signInResponse(Result<UserSession, Error>)
+  }
 
-            case let .signInResponse(.failure(error)):
-                state.isLoggingIn = false
-                state.errorMessage = error.localizedDescription
-                return .none
-            }
+  @Dependency(\.signInClient) var signInClient
+  let kakaoAuthProvider: KakaoAuthProvider
+  let appleAuthProvider: AppleAuthProvider
+
+  public init(kakaoAuthProvider: KakaoAuthProvider, appleAuthProvider: AppleAuthProvider) {
+    self.kakaoAuthProvider = kakaoAuthProvider
+    self.appleAuthProvider = appleAuthProvider
+  }
+
+  public var body: some ReducerOf<Self> {
+    Reduce { state, action in
+      switch action {
+      case .tappedKakaoLogin:
+        state.isLoading = true
+        
+        return .run { send in
+          let session = try await signInClient.signInWithKakao(kakaoAuthProvider)
+          await send(.signInResponse(.success(session)))
+        } catch: { error, send in
+          await send(.signInResponse(.failure(error)))
         }
+        
+      case .tappedAppleLogin:
+        state.isLoading = true
+        return .run { send in
+          let session = try await signInClient.signInWithApple(appleAuthProvider)
+          await send(.signInResponse(.success(session)))
+        } catch: { error, send in
+          await send(.signInResponse(.failure(error)))
+        }
+        
+      case let .signInResponse(.success(session)):
+        state.isLoading = false
+        print("로그인 성공: \(session)")
+        return .none
+        
+      case let .signInResponse(.failure(error)):
+        state.isLoading = false
+        print(error)
+        return .none
+      }
     }
+  }
 }
+
 
