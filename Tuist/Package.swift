@@ -15,7 +15,7 @@ let package = Package(
     name: "Gotchai",
     dependencies: [
       .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.24.5"),
-      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.0.0"),
+      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.0"),
       .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
     ],
     targets: [
