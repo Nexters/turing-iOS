@@ -6,23 +6,20 @@
 //
 
 import ComposableArchitecture
-
-public enum SignInType {
-    case apple, kakao
-}
-
-public struct User {
-    let id: String
-    let name: String
-}
+import Auth
 
 public struct SignInClient {
-    var signIn: (SignInType) async throws -> User
+  public var signInWithKakao: @Sendable (
+    KakaoAuthProvider
+  ) async throws -> UserSession
+  public var signInWithApple: @Sendable (
+    AppleAuthProvider
+  ) async throws -> UserSession
 }
 
 extension DependencyValues {
-    var signInClient: SignInClient {
-        get { self[SignInClient.self] }
-        set { self[SignInClient.self] = newValue }
-    }
+  var signInClient: SignInClient {
+    get { self[SignInClient.self] }
+    set { self[SignInClient.self] = newValue }
+  }
 }

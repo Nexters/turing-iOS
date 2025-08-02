@@ -7,8 +7,8 @@
 
 import Combine
 
-protocol AuthProvider {
-  func signIn() -> AnyPublisher<UserSession, Error>
-  func signOut() -> AnyPublisher<Void, Error>
-  func deleteUser() -> AnyPublisher<Void, Error>
+public protocol AuthProvider {
+  func signIn() -> AnyPublisher<UserSession, any Error>
+  func signOut() -> AnyPublisher<Void, any Error>
+  func deleteUser() -> AnyPublisher<Void, any Error>
 }
