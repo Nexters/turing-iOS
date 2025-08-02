@@ -49,7 +49,7 @@ struct MainView: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.gray950))
+        .background(Color(.gray_950))
     }
     
     @ViewBuilder
@@ -62,7 +62,7 @@ struct MainView: View {
                 .padding(.top, 12)
             Text("\(store.turingTestItems.count)개의 새로운 테스트가 있어요")
                 .font(.body_4)
-                .foregroundStyle(Color(.gray400))
+                .foregroundStyle(Color(.gray_400))
                 .padding(.top, 2)
             
             ForEach(store.turingTestItems, id: \.id) { item in
@@ -79,7 +79,7 @@ struct MainView: View {
         .padding(.horizontal, 16)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color(.gray900))
+                .fill(Color(.gray_900))
         )
         .padding(.top, 16)
     }
@@ -94,7 +94,7 @@ struct MainView: View {
             }
             .frame(width: 80, height: 80)
             .background(
-                Circle().fill(Color(.gray900))
+                Circle().fill(Color(.gray_900))
             )
 
             VStack(alignment: .leading, spacing: 2) {
@@ -103,14 +103,14 @@ struct MainView: View {
                     .foregroundStyle(Color(.gray_white))
                 Text(item.subtitle)
                     .font(.body_4)
-                    .foregroundStyle(Color(.gray400))
+                    .foregroundStyle(Color(.gray_400))
             }
             Spacer()
         }
         .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color(.gray800))
+                .fill(Color(.gray_800))
         )
     }
 }

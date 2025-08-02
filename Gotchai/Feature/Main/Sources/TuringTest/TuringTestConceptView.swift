@@ -18,7 +18,7 @@ struct TuringTestConceptView: View {
                 구분할 수 있을까요?
                 """)
             .font(.body_1)
-            .foregroundStyle(Color(.grayWhite))
+            .foregroundStyle(Color(.gray_white))
             .multilineTextAlignment(.center)
             .padding(.top, 32)
             
@@ -28,7 +28,7 @@ struct TuringTestConceptView: View {
                 .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.gray950))
+        .background(Color(.gray_950))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Image("icon_xmark", bundle: .module)
@@ -50,7 +50,7 @@ struct TuringTestConceptView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.primary400))
+                .fill(Color(.primary_400))
         )
 
     }

@@ -17,12 +17,12 @@ struct QuizView: View {
             
             Text("1/7")
                 .font(.body_5)
-                .foregroundStyle(Color(.primary400))
+                .foregroundStyle(Color(.primary_400))
                 .padding(.vertical, 3)
                 .padding(.horizontal, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(.primary400).opacity(0.1))
+                        .fill(Color(.primary_400).opacity(0.1))
                 )
             
             Text("크리스마스 트리 꾸미기  중...\n“트리에 뭔가 허전한데, 뭘 더 달까?”")
@@ -38,7 +38,7 @@ struct QuizView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 24)
-        .background(Color(.gray950))
+        .background(Color(.gray_950))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Image("icon_xmark", bundle: .module)
@@ -55,7 +55,7 @@ struct QuizView: View {
                 .frame(maxWidth: .infinity)
             GeometryReader { geometry in
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(Color(.primary400))
+                    .fill(Color(.primary_400))
                     .frame(width: geometry.size.width * CGFloat(seconds/10))
             }
         }
@@ -73,7 +73,7 @@ struct QuizView: View {
                 .padding(.horizontal, 10)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(.primary400))
+                        .fill(Color(.primary_400))
                 )
             Text(text)
                 .font(.body_4)

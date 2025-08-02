@@ -18,7 +18,7 @@ struct TuringTestIntroView: View {
                 .background(.yellow)    // 임시
             Text("Ai와 크리스마스 파티")
                 .font(.title_2)
-                .foregroundStyle(Color(.primary400))
+                .foregroundStyle(Color(.primary_400))
                 .padding(.top, 12)
             Text("산타는 누구야?")
                 .font(.title_4)
@@ -26,12 +26,12 @@ struct TuringTestIntroView: View {
                 .padding(.top, 2)
             Text("Ai가 한 말은 무엇일까요?")
                 .font(.body_3)
-                .foregroundStyle(Color(.gray300))
+                .foregroundStyle(Color(.gray_300))
                 .padding(.top, 24)
             Image("")
                 .frame(width: 305, height: 305)
                 .background(
-                    Circle().fill(Color(.gray800))
+                    Circle().fill(Color(.gray_800))
                 )
                 .padding(.top, 44)
             
@@ -43,7 +43,7 @@ struct TuringTestIntroView: View {
             .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.gray950))
+        .background(Color(.gray_950))
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Image("icon_arrow_back", bundle: .module)
@@ -65,7 +65,7 @@ struct TuringTestIntroView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.primary400))
+                .fill(Color(.primary_400))
         )
 
     }
@@ -77,7 +77,7 @@ struct TuringTestIntroView: View {
         } label: {
             Text("테스트 공유하기")
                 .font(.body_3)
-                .foregroundStyle(Color(.gray200))
+                .foregroundStyle(Color(.gray_200))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
         }
