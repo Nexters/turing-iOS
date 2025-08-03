@@ -5,14 +5,17 @@
 //  Created by 가은 on 8/2/25.
 //
 
+import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 
 struct QuizView: View {
+    let store: StoreOf<QuizFeature>
     
     var body: some View {
         VStack(alignment: .leading) {
             timerBar(seconds: 2)
+                .padding(.top, 4)
                 .padding(.bottom, 28)
             
             Text("1/7")
@@ -25,16 +28,24 @@ struct QuizView: View {
                         .fill(Color(.primary_400).opacity(0.1))
                 )
             
-            Text("크리스마스 트리 꾸미기  중...\n“트리에 뭔가 허전한데, 뭘 더 달까?”")
+            Text(store.quiz.contents)
                 .font(.subtitle_2)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.top, 16)
             
             VStack(spacing: 16) {
-                answerCard(idx: 0, text: "별이 없네.\n트리는 역시 별을 달아야 완성이지!")
-                answerCard(idx: 1, text: "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?")
+                ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
+                    Button {
+                        // TODO: index를 id로 변경
+                        store.send(.selectAnswer(index))
+                    } label: {
+                        AnswerCard(idx: index, text: item)
+                    }
+                }
             }
             .padding(.top, 76)
+            
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 24)
@@ -64,7 +75,7 @@ struct QuizView: View {
     }
     
     @ViewBuilder
-    private func answerCard(idx: Int, text: String) -> some View {
+    private func AnswerCard(idx: Int, text: String) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(idx == 0 ? "A" : "B")
                 .font(.body_3)
@@ -78,6 +89,7 @@ struct QuizView: View {
             Text(text)
                 .font(.body_4)
                 .foregroundStyle(Color(.gray_white))
+                .multilineTextAlignment(.leading)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 20)
@@ -90,5 +102,7 @@ struct QuizView: View {
 }
 
 #Preview {
-    QuizView()
+    QuizView(store: Store(initialState: QuizFeature.State(), reducer: {
+        QuizFeature()
+    }))
 }
