@@ -37,8 +37,10 @@ struct QuizAnswerPopUp: View {
             )
             .padding(.top, 16)
             
-            NextButton()
-                .padding(.top, 32)
+            CTAButton(text: "다음") {
+                
+            }
+            .padding(.top, 32)
 
         }
         .padding(EdgeInsets(top: 40, leading: 24, bottom: 24, trailing: 24))
@@ -51,24 +53,6 @@ struct QuizAnswerPopUp: View {
         .background(
             Color.clear.blur(radius: 4)
         )
-    }
-    
-    @ViewBuilder
-    private func NextButton() -> some View {
-        Button {
-            
-        } label: {
-            Text("다음")
-                .fontStyle(.body_2)
-                .foregroundStyle(Color(.gray_black))
-                .padding(.vertical, 15)
-                .frame(maxWidth: .infinity)
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.primary_400))
-        )
-
     }
 }
 

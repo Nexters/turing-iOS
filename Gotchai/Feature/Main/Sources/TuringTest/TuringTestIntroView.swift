@@ -36,7 +36,9 @@ struct TuringTestIntroView: View {
                 .padding(.top, 44)
             
             VStack(spacing: 12) {
-                StartButton()
+                CTAButton(text: "시작하기") {
+                    
+                }
                 ShareButton()
             }
             .padding(.top, 52)
@@ -50,24 +52,6 @@ struct TuringTestIntroView: View {
                     .padding(12)
             }
         }
-    }
-    
-    @ViewBuilder
-    private func StartButton() -> some View {
-        Button {
-            
-        } label: {
-            Text("시작하기")
-                .fontStyle(.body_2)
-                .foregroundStyle(Color(.gray_black))
-                .padding(.vertical, 15)
-                .frame(maxWidth: .infinity)
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.primary_400))
-        )
-
     }
     
     @ViewBuilder

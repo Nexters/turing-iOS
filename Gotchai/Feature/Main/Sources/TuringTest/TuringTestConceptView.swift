@@ -24,8 +24,10 @@ struct TuringTestConceptView: View {
             
             Spacer()
             
-            NextButton()
-                .padding(.horizontal, 24)
+            CTAButton(text: "다음") {
+
+            }
+            .padding(.horizontal, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
@@ -35,24 +37,6 @@ struct TuringTestConceptView: View {
                     .padding(12)
             }
         }
-    }
-    
-    @ViewBuilder
-    private func NextButton() -> some View {
-        Button {
-            
-        } label: {
-            Text("다음")
-                .fontStyle(.body_2)
-                .foregroundStyle(Color(.gray_black))
-                .padding(.vertical, 15)
-                .frame(maxWidth: .infinity)
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.primary_400))
-        )
-
     }
 }
 
