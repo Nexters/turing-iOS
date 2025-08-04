@@ -15,18 +15,18 @@ struct QuizAnswerPopUp: View {
             Image("")
                 .frame(height: 120)
             Text("AI를 찾아냈어요!")
-                .font(.subtitle_1)
+                .fontStyle(.subtitle_1)
                 .foregroundStyle(Color(.gray_50))
                 .padding(.top, 36)
             VStack(spacing: 8) {
                 Text("정답 공개")
-                    .font(.body_4)
+                    .fontStyle(.body_4)
                     .foregroundStyle(Color(.gray_200))
                 Rectangle()
                     .fill(Color(.gray_600))
                     .frame(height: 0.6)
                 Text("음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?")
-                    .font(.body_1)
+                    .fontStyle(.body_1)
                     .foregroundStyle(Color(.gray_100))
             }
             .padding(.horizontal, 16)
@@ -59,7 +59,7 @@ struct QuizAnswerPopUp: View {
             
         } label: {
             Text("다음")
-                .font(.body_2)
+                .fontStyle(.body_2)
                 .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)

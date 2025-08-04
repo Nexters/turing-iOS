@@ -57,11 +57,11 @@ struct MainView: View {
         VStack(alignment: .leading, spacing: 0) {
             Image("icon_ab", bundle: .module)
             Text("테스트")
-                .font(.body_2)
+                .fontStyle(.body_2)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.top, 12)
             Text("\(store.turingTestItems.count)개의 새로운 테스트가 있어요")
-                .font(.body_4)
+                .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_400))
                 .padding(.top, 2)
             
@@ -99,10 +99,10 @@ struct MainView: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.title)
-                    .font(.body_2)
+                    .fontStyle(.body_2)
                     .foregroundStyle(Color(.gray_white))
                 Text(item.subtitle)
-                    .font(.body_4)
+                    .fontStyle(.body_4)
                     .foregroundStyle(Color(.gray_400))
             }
             Spacer()

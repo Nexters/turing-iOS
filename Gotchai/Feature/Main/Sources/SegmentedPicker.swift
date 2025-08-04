@@ -21,7 +21,7 @@ struct SegmentedPicker: View {
                         selectedTab = tab
                     } label: {
                         Text(tab.rawValue)
-                            .font(selectedTab == tab ? .body_2 : .body_1)
+                            .fontStyle(selectedTab == tab ? .body_2 : .body_1)
                             .foregroundStyle(selectedTab == tab ? Color(.primary_400) : Color(.gray_600))
                             .frame(width: width)
                     }

@@ -17,15 +17,15 @@ struct TuringTestIntroView: View {
                 .frame(width: 40, height: 40)
                 .background(.yellow)    // 임시
             Text("Ai와 크리스마스 파티")
-                .font(.title_2)
+                .fontStyle(.title_2)
                 .foregroundStyle(Color(.primary_400))
                 .padding(.top, 12)
             Text("산타는 누구야?")
-                .font(.title_4)
+                .fontStyle(.title_4)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.top, 2)
             Text("Ai가 한 말은 무엇일까요?")
-                .font(.body_3)
+                .fontStyle(.body_3)
                 .foregroundStyle(Color(.gray_300))
                 .padding(.top, 24)
             Image("")
@@ -58,7 +58,7 @@ struct TuringTestIntroView: View {
             
         } label: {
             Text("시작하기")
-                .font(.body_2)
+                .fontStyle(.body_2)
                 .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)
@@ -76,7 +76,7 @@ struct TuringTestIntroView: View {
             
         } label: {
             Text("테스트 공유하기")
-                .font(.body_3)
+                .fontStyle(.body_3)
                 .foregroundStyle(Color(.gray_200))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)

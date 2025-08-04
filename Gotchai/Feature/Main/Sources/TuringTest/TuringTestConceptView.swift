@@ -17,7 +17,7 @@ struct TuringTestConceptView: View {
                 이제 당신의 임무는  대화 속에서 AI의 말투를 간파하는 것!  과연 진짜 친구와 AI 산타,
                 구분할 수 있을까요?
                 """)
-            .font(.body_1)
+            .fontStyle(.body_1)
             .foregroundStyle(Color(.gray_white))
             .multilineTextAlignment(.center)
             .padding(.top, 32)
@@ -43,7 +43,7 @@ struct TuringTestConceptView: View {
             
         } label: {
             Text("다음")
-                .font(.body_2)
+                .fontStyle(.body_2)
                 .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 15)
                 .frame(maxWidth: .infinity)

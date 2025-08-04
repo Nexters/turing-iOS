@@ -19,7 +19,7 @@ struct QuizView: View {
                 .padding(.bottom, 28)
             
             Text("1/7")
-                .font(.body_5)
+                .fontStyle(.body_5)
                 .foregroundStyle(Color(.primary_400))
                 .padding(.vertical, 3)
                 .padding(.horizontal, 12)
@@ -29,7 +29,7 @@ struct QuizView: View {
                 )
             
             Text(store.quiz.contents)
-                .font(.subtitle_2)
+                .fontStyle(.subtitle_2)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.top, 16)
             
@@ -78,7 +78,7 @@ struct QuizView: View {
     private func AnswerCard(idx: Int, text: String) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(idx == 0 ? "A" : "B")
-                .font(.body_3)
+                .fontStyle(.body_3)
                 .foregroundStyle(Color(.gray_black))
                 .padding(.vertical, 4)
                 .padding(.horizontal, 10)
@@ -87,7 +87,7 @@ struct QuizView: View {
                         .fill(Color(.primary_400))
                 )
             Text(text)
-                .font(.body_4)
+                .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white))
                 .multilineTextAlignment(.leading)
         }
