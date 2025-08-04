@@ -38,9 +38,9 @@ struct QuizView: View {
                     ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
                         Button {
                             // TODO: index를 id로 변경
-                            store.send(.selectAnswer(index))
+                            viewStore.send(.selectAnswer(index, index))
                         } label: {
-                            AnswerCard(idx: index, text: item)
+                            AnswerCard(idx: index, text: item, state: viewStore.answerCardState[index])
                         }
                     }
                 }
@@ -90,7 +90,7 @@ struct QuizView: View {
     }
     
     @ViewBuilder
-    private func AnswerCard(idx: Int, text: String) -> some View {
+    private func AnswerCard(idx: Int, text: String, state: AnswerCardState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(idx == 0 ? "A" : "B")
                 .fontStyle(.body_3)
@@ -99,7 +99,7 @@ struct QuizView: View {
                 .padding(.horizontal, 10)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(.primary_400))
+                        .fill(state == .unselected ? Color(.gray_white).opacity(0.3) : Color(.primary_400))
                 )
             Text(text)
                 .fontStyle(.body_4)
@@ -110,9 +110,24 @@ struct QuizView: View {
         .padding(.vertical, 20)
         .padding(.horizontal, 16)
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.gray_white).opacity(0.15))
+            RoundedRectangle(cornerRadius: 16)
+                .fill(backgroundColor(state))
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(state == .selected ? Color(.primary_400).opacity(0.15) : .clear, lineWidth: 0.5)
+        )
+    }
+    
+    private func backgroundColor(_ state: AnswerCardState) -> Color {
+        switch state {
+        case .idle:
+            return Color(.gray_white).opacity(0.15)
+        case .selected:
+            return Color(.primary_400).opacity(0.15)
+        case .unselected:
+            return Color(.gray_white).opacity(0.05)
+        }
     }
 }
 
