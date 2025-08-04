@@ -5,7 +5,9 @@
 //  Created by 가은 on 8/3/25.
 //
 
+import Combine
 import ComposableArchitecture
+import SwiftUI
 
 @Reducer
 struct QuizFeature {
@@ -59,7 +61,11 @@ struct QuizFeature {
                 state.answer = "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"
                 state.progress = .correct
                 
-                return .send(.setAnswerPopUpPresented(true))
+                return .publisher {
+                    Just(.setAnswerPopUpPresented(true))
+                        .delay(for: .seconds(1), scheduler: RunLoop.main)   // 임시 1초
+                        .eraseToAnyPublisher()
+                }
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
                 return .none
