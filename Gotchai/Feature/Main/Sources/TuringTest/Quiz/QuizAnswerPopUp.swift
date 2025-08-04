@@ -11,6 +11,7 @@ import SwiftUI
 struct QuizAnswerPopUp: ViewModifier {
     @Binding var isPresented: Bool
     let state: QuizProgress
+    let answerText: String
     let action: () -> Void
     
     func body(content: Content) -> some View {
@@ -27,9 +28,9 @@ struct QuizAnswerPopUp: ViewModifier {
     @ViewBuilder
     private func PopUpView() -> some View {
         VStack {
-            Image("")
+            Image(image, bundle: .module)
                 .frame(height: 120)
-            Text("AI를 찾아냈어요!")
+            Text(title)
                 .fontStyle(.subtitle_1)
                 .foregroundStyle(Color(.gray_50))
                 .padding(.top, 36)
@@ -53,7 +54,7 @@ struct QuizAnswerPopUp: ViewModifier {
             )
             .padding(.top, 16)
             
-            CTAButton(text: "다음") {
+            CTAButton(text: state == .timeout ? "다음 문제로 넘어가기" : "다음") {
                 isPresented = false
                 action()
             }
@@ -67,10 +68,36 @@ struct QuizAnswerPopUp: ViewModifier {
         )
         .padding(.horizontal, 37)
     }
+    
+    private var image: String {
+        switch state {
+        case .correct:  
+            return "quiz_correct"
+        case .incorrect: 
+            return "quiz_incorrect"
+        case .timeout:  
+            return "quiz_timeout"
+        default: 
+            return ""
+        }
+    }
+    
+    private var title: String {
+        switch state {
+        case .correct:
+            return "AI를 찾아냈어요!"
+        case .incorrect:
+            return "사람이 작성한 대답이에요"
+        case .timeout:
+            return "시간이 초과됐어요!"
+        default: 
+            return ""
+        }
+    }
 }
 
 extension View {
-    func answerPopUp(isPresented: Binding<Bool>, quizProgress: QuizProgress, action: @escaping () -> Void) -> some View {
-        self.modifier(QuizAnswerPopUp(isPresented: isPresented, state: quizProgress, action: action))
+    func answerPopUp(isPresented: Binding<Bool>, quizProgress: QuizProgress, answerText: String, action: @escaping () -> Void) -> some View {
+        self.modifier(QuizAnswerPopUp(isPresented: isPresented, state: quizProgress, answerText: answerText, action: action))
     }
 }

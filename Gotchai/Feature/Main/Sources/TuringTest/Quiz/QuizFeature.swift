@@ -13,6 +13,7 @@ struct QuizFeature {
     struct State: Equatable {
         var quiz: Quiz = .init(id: 1, contents: "크리스마스 트리 꾸미기  중...\n“트리에 뭔가 허전한데, 뭘 더 달까?”", answers: ["별이 없네.\n트리는 역시 별을 달아야 완성이지!","음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"])
         var progress: QuizProgress = .notAnswered
+        var answer: String = ""
         var isAnswerPopUpPresented: Bool = false
     }
     
@@ -26,6 +27,11 @@ struct QuizFeature {
         Reduce { state, action in
             switch action {
             case let .selectAnswer(id):
+                
+                // dummy
+                state.answer = "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"
+                state.progress = .correct
+                
                 return .send(.setAnswerPopUpPresented(true))
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
@@ -47,5 +53,5 @@ public enum QuizProgress: Equatable {
     case notAnswered
     case correct
     case incorrect
-    case timeOut
+    case timeout
 }

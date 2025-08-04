@@ -62,8 +62,9 @@ struct QuizView: View {
                     get: \.isAnswerPopUpPresented,
                     send: QuizFeature.Action.setAnswerPopUpPresented),
                 quizProgress: viewStore.progress,
+                answerText: viewStore.answer,
                 action: {
-                    store.send(.initQuiz)
+                    viewStore.send(.initQuiz)
                 }
             )
         }
