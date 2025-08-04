@@ -15,7 +15,7 @@ public struct CTAButton: View {
         Button(action: action) {
             Text(text)
                 .frame(maxWidth: .infinity)
-                .font(.body_2)
+                .fontStyle(.body_2)
                 .foregroundStyle(.grayBlack)
                 .padding(.vertical, 15)
         }
