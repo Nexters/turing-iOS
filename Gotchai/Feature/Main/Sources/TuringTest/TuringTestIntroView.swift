@@ -5,39 +5,52 @@
 //  Created by 가은 on 7/30/25.
 //
 
+import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 
 struct TuringTestIntroView: View {
+    let store: StoreOf<TuringTestFeature>
     
     var body: some View {
         VStack(spacing: 0) {
-            Image("")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .background(.yellow)    // 임시
-            Text("Ai와 크리스마스 파티")
+            AsyncImage(url: URL(string: store.turingTest.iconURL)) { image in
+                image.resizable()
+            } placeholder: {
+//                ProgressView()
+            }
+            .frame(width: 40, height: 40)
+            .background(.yellow)    // 임시
+            
+            Text(store.turingTest.title)
                 .fontStyle(.title_2)
                 .foregroundStyle(Color(.primary_400))
                 .padding(.top, 12)
-            Text("산타는 누구야?")
+            
+            Text(store.turingTest.subtitle)
                 .fontStyle(.title_4)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.top, 2)
+            
             Text("Ai가 한 말은 무엇일까요?")
                 .fontStyle(.body_3)
                 .foregroundStyle(Color(.gray_300))
                 .padding(.top, 24)
-            Image("")
-                .frame(width: 305, height: 305)
-                .background(
-                    Circle().fill(Color(.gray_800))
-                )
-                .padding(.top, 44)
+            
+            AsyncImage(url: URL(string: store.turingTest.imageURL)) { image in
+                image.resizable()
+            } placeholder: {
+//                ProgressView()
+            }
+            .frame(width: 305, height: 305)
+            .background(
+                Circle().fill(Color(.gray_800))
+            )
+            .padding(.top, 44)
             
             VStack(spacing: 12) {
                 CTAButton(text: "시작하기") {
-                    
+                    // TODO: 화면 전환 
                 }
                 ShareButton()
             }
@@ -69,5 +82,7 @@ struct TuringTestIntroView: View {
 }
 
 #Preview {
-    TuringTestIntroView()
+    TuringTestIntroView(store: Store(initialState: TuringTestFeature.State(), reducer: {
+        TuringTestFeature()
+    }))
 }

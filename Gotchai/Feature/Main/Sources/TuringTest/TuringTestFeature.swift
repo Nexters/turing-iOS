@@ -12,7 +12,11 @@ public struct TuringTestFeature {
     
     @ObservableState
     public struct State {
+        var turingTest: TuringTest
         
+        init(turingTest: TuringTest = TuringTest.dummy) {
+            self.turingTest = turingTest
+        }
     }
     
     public enum Action {
