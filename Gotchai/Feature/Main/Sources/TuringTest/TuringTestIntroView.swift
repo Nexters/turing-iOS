@@ -50,7 +50,7 @@ struct TuringTestIntroView: View {
             
             VStack(spacing: 12) {
                 CTAButton(text: "시작하기") {
-                    // TODO: 화면 전환 
+                    store.send(.moveToConceptView)
                 }
                 ShareButton()
             }
@@ -65,12 +65,15 @@ struct TuringTestIntroView: View {
                     .padding(12)
             }
         }
+        .onAppear {
+            store.send(.onAppearIntroView)
+        }
     }
     
     @ViewBuilder
     private func ShareButton() -> some View {
         Button {
-            
+            store.send(.tappedTestShareButton)
         } label: {
             Text("테스트 공유하기")
                 .fontStyle(.body_3)

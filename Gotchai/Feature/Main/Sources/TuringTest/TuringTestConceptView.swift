@@ -25,7 +25,7 @@ struct TuringTestConceptView: View {
             Spacer()
             
             CTAButton(text: "다음") {
-                // TODO: 화면 전환
+                store.send(.moveToQuizView)
             }
             .padding(.horizontal, 24)
         }

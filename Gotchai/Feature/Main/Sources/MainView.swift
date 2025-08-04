@@ -18,7 +18,7 @@ struct MainView: View {
                 Image("logo_mini", bundle: .module)
                 Spacer()
                 Button {
-                    store.send(.settingButtonTapped)
+                    store.send(.tappedSettingButton)
                 } label: {
                     Image("icon_setting", bundle: .module)
                 }
@@ -67,7 +67,7 @@ struct MainView: View {
             
             ForEach(store.turingTestItems, id: \.id) { item in
                 Button {
-                    store.send(.testCardTapped(item.id))
+                    store.send(.tappedTestCard(item.id))
                 } label: {
                     TestCardItem(item: item)
                 }

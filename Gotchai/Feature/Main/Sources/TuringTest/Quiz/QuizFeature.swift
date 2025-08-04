@@ -18,6 +18,7 @@ struct QuizFeature {
     }
     
     enum Action {
+        case onAppear
         case initQuiz
         case selectAnswer(Int)
         case setAnswerPopUpPresented(Bool)
@@ -26,6 +27,9 @@ struct QuizFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                // TODO: 타이머 관리 + 데이터 setting
+                return .none
             case let .selectAnswer(id):
                 
                 // dummy

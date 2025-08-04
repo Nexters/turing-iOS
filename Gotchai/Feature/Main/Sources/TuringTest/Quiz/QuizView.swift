@@ -67,6 +67,9 @@ struct QuizView: View {
                     viewStore.send(.initQuiz)
                 }
             )
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
         }
     }
     

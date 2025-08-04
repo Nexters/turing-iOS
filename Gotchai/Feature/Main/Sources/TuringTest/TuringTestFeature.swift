@@ -20,11 +20,25 @@ public struct TuringTestFeature {
     }
     
     public enum Action {
+        case onAppearIntroView
+        case tappedTestShareButton
+        case moveToConceptView
+        case moveToQuizView
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppearIntroView:
+                // TODO: 데이터 fetch
+                
+                return .none
+            case .tappedTestShareButton:
+                return .none
+            case .moveToConceptView:
+                return .none
+            case .moveToQuizView:
+                return .none
             }
         }
     }

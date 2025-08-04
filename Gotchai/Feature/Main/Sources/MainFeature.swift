@@ -14,10 +14,10 @@ public struct MainFeature {
     
     @ObservableState
     public struct State {
-        var selectedTab: Tab = .turingTest
+        var selectedTab: Tab
         var turingTestItems: [TuringTestCard]
         
-        public init(selectedTab: Tab, turingTestItems: [TuringTestCard] = TuringTestCard.dummyList) {
+        public init(selectedTab: Tab = .turingTest, turingTestItems: [TuringTestCard] = TuringTestCard.dummyList) {
             self.selectedTab = selectedTab
             self.turingTestItems = turingTestItems
         }
@@ -25,8 +25,8 @@ public struct MainFeature {
     
     public enum Action {
         case selectedTabChanged(Tab)
-        case testCardTapped(Int)
-        case settingButtonTapped
+        case tappedTestCard(Int)
+        case tappedSettingButton
     }
     
     public var body: some ReducerOf<Self> {
@@ -35,9 +35,9 @@ public struct MainFeature {
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
-            case let .testCardTapped(id):
+            case let .tappedTestCard(id):
                 return .none
-            case .settingButtonTapped:
+            case .tappedSettingButton:
                 return .none
             }
         }
