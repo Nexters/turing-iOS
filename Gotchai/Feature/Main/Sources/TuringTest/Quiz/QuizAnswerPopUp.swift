@@ -8,9 +8,24 @@
 import DesignSystem
 import SwiftUI
 
-struct QuizAnswerPopUp: View {
+struct QuizAnswerPopUp: ViewModifier {
+    @Binding var isPresented: Bool
+    let state: QuizProgress
+    let action: () -> Void
     
-    var body: some View {
+    func body(content: Content) -> some View {
+        ZStack {
+            content
+                .blur(radius: isPresented ? 4 : 0)
+            
+            PopUpView()
+                .opacity(isPresented ? 1 : 0)
+                .allowsHitTesting(isPresented)
+        }
+    }
+    
+    @ViewBuilder
+    private func PopUpView() -> some View {
         VStack {
             Image("")
                 .frame(height: 120)
@@ -28,6 +43,7 @@ struct QuizAnswerPopUp: View {
                 Text("음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?")
                     .fontStyle(.body_1)
                     .foregroundStyle(Color(.gray_100))
+                    .multilineTextAlignment(.center)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
@@ -38,7 +54,8 @@ struct QuizAnswerPopUp: View {
             .padding(.top, 16)
             
             CTAButton(text: "다음") {
-                
+                isPresented = false
+                action()
             }
             .padding(.top, 32)
 
@@ -49,13 +66,11 @@ struct QuizAnswerPopUp: View {
                 .fill(Color(.gray_900))
         )
         .padding(.horizontal, 37)
-        .frame(maxHeight: .infinity)
-        .background(
-            Color.clear.blur(radius: 4)
-        )
     }
 }
 
-#Preview {
-    QuizAnswerPopUp()
+extension View {
+    func answerPopUp(isPresented: Binding<Bool>, quizProgress: QuizProgress, action: @escaping () -> Void) -> some View {
+        self.modifier(QuizAnswerPopUp(isPresented: isPresented, state: quizProgress, action: action))
+    }
 }

@@ -13,48 +13,59 @@ struct QuizView: View {
     let store: StoreOf<QuizFeature>
     
     var body: some View {
-        VStack(alignment: .leading) {
-            timerBar(seconds: 2)
-                .padding(.top, 4)
-                .padding(.bottom, 28)
-            
-            Text("1/7")
-                .fontStyle(.body_5)
-                .foregroundStyle(Color(.primary_400))
-                .padding(.vertical, 3)
-                .padding(.horizontal, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color(.primary_400).opacity(0.1))
-                )
-            
-            Text(store.quiz.contents)
-                .fontStyle(.subtitle_2)
-                .foregroundStyle(Color(.gray_white))
-                .padding(.top, 16)
-            
-            VStack(spacing: 16) {
-                ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
-                    Button {
-                        // TODO: index를 id로 변경
-                        store.send(.selectAnswer(index))
-                    } label: {
-                        AnswerCard(idx: index, text: item)
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            VStack(alignment: .leading) {
+                timerBar(seconds: 2)
+                    .padding(.top, 4)
+                    .padding(.bottom, 28)
+                
+                Text("1/7")
+                    .fontStyle(.body_5)
+                    .foregroundStyle(Color(.primary_400))
+                    .padding(.vertical, 3)
+                    .padding(.horizontal, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(.primary_400).opacity(0.1))
+                    )
+                
+                Text(store.quiz.contents)
+                    .fontStyle(.subtitle_2)
+                    .foregroundStyle(Color(.gray_white))
+                    .padding(.top, 16)
+                
+                VStack(spacing: 16) {
+                    ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
+                        Button {
+                            // TODO: index를 id로 변경
+                            store.send(.selectAnswer(index))
+                        } label: {
+                            AnswerCard(idx: index, text: item)
+                        }
                     }
                 }
+                .padding(.top, 76)
+                
+                Spacer()
             }
-            .padding(.top, 76)
-            
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.horizontal, 24)
-        .background(Color(.gray_950))
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Image("icon_xmark", bundle: .module)
-                    .padding(12)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 24)
+            .background(Color(.gray_950))
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Image("icon_xmark", bundle: .module)
+                        .padding(12)
+                }
             }
+            .answerPopUp(
+                isPresented: viewStore.binding(
+                    get: \.isAnswerPopUpPresented,
+                    send: QuizFeature.Action.setAnswerPopUpPresented),
+                quizProgress: viewStore.progress,
+                action: {
+                    store.send(.initQuiz)
+                }
+            )
         }
     }
     
