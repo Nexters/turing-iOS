@@ -10,17 +10,33 @@ import ComposableArchitecture
 import SwiftUI
 import SignIn
 import Auth
+import Navigation
+import Onboarding
 
 struct ContentView: View {
-  let kakaoAuthProvider: KakaoAuthProvider = .init(appKey: "")
-  let appleAuthProvider: AppleAuthProvider = .init()
+    let store: StoreOf<AppFeature>
 
-    var body: some View {
-      SignInView(store: StoreOf<SignInFeature>(
-        initialState: SignInFeature.State(),
-        reducer: {
-          SignInFeature(kakaoAuthProvider: kakaoAuthProvider, appleAuthProvider: appleAuthProvider)
-        })
-      )
+    public init(store: StoreOf<AppFeature>) { self.store = store }
+
+    public var body: some View {
+        NavigationStackStore(self.store.scope(state: \.path, action: AppFeature.Action.path)) {
+            OnboardingView(
+              store: store.scope(
+                state: \.rootOnboarding,
+                action: \.onboarding
+              )
+            )
+        } destination: { state in
+            switch state {
+            case .onboarding:
+                CaseLet(/AppDestination.State.onboarding,
+                         action: AppDestination.Action.onboarding,
+                         then: OnboardingView.init(store:))
+            case .signIn:
+                CaseLet(/AppDestination.State.signIn,
+                         action: AppDestination.Action.signIn,
+                         then: SignInView.init(store:))
+            }
+        }
     }
 }
