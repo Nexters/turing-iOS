@@ -56,16 +56,14 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
     let userId = appleIDCredential.user
     let name = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName]
       .compactMap { $0 }.joined(separator: " ")
-    let email = [appleIDCredential.email]
-      .compactMap { $0 }.joined(separator: " ")
-    print(email)
+    let email = appleIDCredential.email
     let idTokenData = appleIDCredential.identityToken ?? Data()
     let token = String(data: idTokenData, encoding: .utf8) ?? ""
 
     let session = UserSession(
         id: userId,
         name: name.isEmpty ? "Unknown" : name,
-        email: email,
+        email: email ?? "Unknown",
         token: token
     )
 

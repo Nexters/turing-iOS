@@ -17,6 +17,10 @@ public struct SignInView: View {
         self.store = store
     }
 
+    var kakaoButtonColor: Color =
+            Color(red: 254.0 / 255.0, green: 229.0 / 255.0, blue: 0.0 / 255.0)
+    var kakaoButtonTextColor: Color =
+            Color(red: 25.0 / 255.0, green: 22.0 / 255.0, blue: 0.0 / 255.0)
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             VStack {
@@ -24,6 +28,7 @@ public struct SignInView: View {
                 VStack(spacing: 4) {
                     Image("logo", bundle: .module)
                     Text("인간 사이 숨은 AI 찾기")
+                        .fontStyle(FontStyle.body_2)
                         .foregroundColor(Color(.gray_200))
                 }
                 Spacer(minLength: 300)
@@ -33,32 +38,32 @@ public struct SignInView: View {
                     } label: {
                         HStack {
                             Image(systemName: "message.fill")
-              Text("카카오로 시작하기")
-                .bold()
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color(UIColor(red: 254, green: 229, blue: 0, alpha: 1)))
-            .foregroundColor(.black)
-            .cornerRadius(40)
-            }
+                            Text("카카오로 시작하기")
+                                .fontStyle(FontStyle.body_2)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(kakaoButtonColor)
+                        .foregroundColor(kakaoButtonTextColor)
+                        .cornerRadius(50)
+                    }
 
-            Button {
-                viewStore.send(.tappedAppleLogin)
-            } label: {
-                HStack {
-                    Image(systemName: "apple.logo")
-                    Text("Apple로 시작하기")
+                    Button {
+                        viewStore.send(.tappedAppleLogin)
+                    } label: {
+                        HStack {
+                            Image(systemName: "apple.logo")
+                            Text("Apple로 시작하기")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.gray_800))
+                        .foregroundColor(Color(.gray_white))
+                        .cornerRadius(50)
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color(.gray_800))
-                .foregroundColor(Color(.gray_white))
-                .cornerRadius(50)
-            }
-        }
-        .padding(.horizontal, 24)
-        .padding(.bottom, 40)
+                .padding(.horizontal, 33)
+                .padding(.bottom, 125)
             }
             .background(Color(.gray_950))
         }
