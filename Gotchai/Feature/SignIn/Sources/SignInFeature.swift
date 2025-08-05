@@ -7,9 +7,14 @@
 
 import ComposableArchitecture
 import Auth
+import Navigation
 
 @Reducer
 public struct SignInFeature {
+    @Dependency(\.kakaoAuthProvider) var kakaoAuthProvider
+    @Dependency(\.appleAuthProvider) var appleAuthProvider
+    @Dependency(\.appRouter) var appRouter
+    @Dependency(\.signInClient) var signInClient
 
   @ObservableState
   public struct State: Equatable {
@@ -24,14 +29,7 @@ public struct SignInFeature {
     case signInResponse(Result<UserSession, Error>)
   }
 
-  @Dependency(\.signInClient) var signInClient
-  let kakaoAuthProvider: KakaoAuthProvider
-  let appleAuthProvider: AppleAuthProvider
-
-  public init(kakaoAuthProvider: KakaoAuthProvider, appleAuthProvider: AppleAuthProvider) {
-    self.kakaoAuthProvider = kakaoAuthProvider
-    self.appleAuthProvider = appleAuthProvider
-  }
+  public init() {}
 
   public var body: some ReducerOf<Self> {
     Reduce { state, action in
