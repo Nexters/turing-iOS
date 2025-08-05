@@ -11,7 +11,9 @@ let project = Project(
             product: .framework,
             bundleId: "com.gotchai.navigation",
             sources: ["Sources/**"],
-            dependencies: []
+            dependencies: [
+                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
+            ]
         )
     ]
 )
