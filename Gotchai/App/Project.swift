@@ -23,7 +23,7 @@ let project = Project(
             dependencies: [
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
-                .project(target: "Home", path: .relativeToRoot("Gotchai/Feature/Home")),
+                .project(target: "Main", path: .relativeToRoot("Gotchai/Feature/Main")),
                 .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn"))
             ]
         )

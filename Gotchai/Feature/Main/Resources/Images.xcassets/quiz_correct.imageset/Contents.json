@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "quiz_correct.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
