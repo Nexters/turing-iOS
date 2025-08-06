@@ -19,7 +19,7 @@ public final class AppleAuthProvider: NSObject, AuthProvider {
     self.signInSubject = subject
 
     let request = ASAuthorizationAppleIDProvider().createRequest()
-    request.requestedScopes = []
+    request.requestedScopes = [.fullName, .email]
 
     let controller = ASAuthorizationController(authorizationRequests: [request])
     controller.delegate = self
@@ -54,13 +54,16 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
     }
 
     let userId = appleIDCredential.user
-    let name = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName].compactMap { $0 }.joined(separator: " ")
+    let name = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName]
+      .compactMap { $0 }.joined(separator: " ")
+    let email = appleIDCredential.email
     let idTokenData = appleIDCredential.identityToken ?? Data()
     let token = String(data: idTokenData, encoding: .utf8) ?? ""
 
     let session = UserSession(
         id: userId,
         name: name.isEmpty ? "Unknown" : name,
+        email: email ?? "Unknown",
         token: token
     )
 
