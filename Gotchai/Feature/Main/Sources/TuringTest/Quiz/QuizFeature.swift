@@ -15,6 +15,12 @@ struct QuizFeature {
     
     @ObservableState
     struct State: Equatable {
+        // Timer
+        var secondsElapsed: Int = 0
+        let totalSeconds: Int = 10
+        var isRunningTimer = false
+        
+        // Quiz
         var quiz: Quiz
         var progress: QuizProgress
         var answerCardState: [AnswerCardState]
@@ -36,18 +42,54 @@ struct QuizFeature {
     }
     
     enum Action: Equatable {
+        // Life Cycle
         case onAppear
+        
+        // Timer
+        case startTimer
+        case stopTimer
+        case tick
+        
+        // Quiz
         case initQuiz
         case selectAnswer(Int, Int)
         case setAnswerPopUpPresented(Bool)
     }
     
+    enum CancelID { case timer }
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                // TODO: 타이머 관리 + 데이터 setting
-                return .none
+                
+                // TODO: 데이터 setting
+                return .send(.startTimer)
+            case .startTimer:
+                state.secondsElapsed = 0
+                state.isRunningTimer = true
+                
+                return .run { send in
+                    for _ in 1... {
+                        try await Task.sleep(nanoseconds: 1_000_000_000)
+                        await send(.tick)
+                    }
+                }
+                .cancellable(id: CancelID.timer)
+            case .stopTimer:
+                state.isRunningTimer = false
+                return .cancel(id: CancelID.timer)
+            case .tick:
+                if state.secondsElapsed < state.totalSeconds {
+                    state.secondsElapsed += 1
+                    return .none
+                } else {
+                    state.isRunningTimer = false
+                    return .concatenate(
+                        .cancel(id: CancelID.timer),
+                        .send(.selectAnswer(-1, 0)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
+                    )
+                }
             case let .selectAnswer(index, id):
                 for i in 0..<state.answerCardState.count {
                     if i == index {
