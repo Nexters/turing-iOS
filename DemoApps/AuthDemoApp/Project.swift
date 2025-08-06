@@ -13,6 +13,7 @@ let project = Project(
             ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: .file(path: .relativeToRoot("DemoApps/AuthDemoApp/AuthDemoApp.entitlements")),
             dependencies: [
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
