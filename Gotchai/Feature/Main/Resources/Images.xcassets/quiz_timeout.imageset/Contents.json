@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "quiz_timeout.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
