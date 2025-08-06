@@ -70,12 +70,4 @@ public struct SignInView: View {
     }
 }
 
-#Preview {
-    SignInView(store: StoreOf<SignInFeature>(
-        initialState: SignInFeature.State(),
-        reducer: {
-            SignInFeature(kakaoAuthProvider: KakaoAuthProvider(appKey: ""), appleAuthProvider: AppleAuthProvider())
-        })
-    )
-}
 
