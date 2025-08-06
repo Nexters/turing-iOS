@@ -17,10 +17,11 @@ public struct SignInView: View {
         self.store = store
     }
 
-    var kakaoButtonColor: Color =
+    let kakaoButtonColor: Color =
             Color(red: 254.0 / 255.0, green: 229.0 / 255.0, blue: 0.0 / 255.0)
-    var kakaoButtonTextColor: Color =
+    let kakaoButtonTextColor: Color =
             Color(red: 25.0 / 255.0, green: 22.0 / 255.0, blue: 0.0 / 255.0)
+    
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             VStack {
@@ -39,10 +40,10 @@ public struct SignInView: View {
                         HStack {
                             Image(systemName: "message.fill")
                             Text("카카오로 시작하기")
-                                .fontStyle(FontStyle.body_2)
+                                .fontStyle(.body_2)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding()
+                        .padding(.vertical, 15)
                         .background(kakaoButtonColor)
                         .foregroundColor(kakaoButtonTextColor)
                         .cornerRadius(50)
@@ -54,9 +55,10 @@ public struct SignInView: View {
                         HStack {
                             Image(systemName: "apple.logo")
                             Text("Apple로 시작하기")
+                                .fontStyle(.body_2)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding()
+                        .padding(.vertical, 15)
                         .background(Color(.gray_800))
                         .foregroundColor(Color(.gray_white))
                         .cornerRadius(50)
