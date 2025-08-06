@@ -45,6 +45,7 @@ public struct MainView: View {
                     case .achievement:
                         // TODO: 업적(Profile) 연결
                         EmptyView()
+                        Spacer()
                     }
                 }
             }
