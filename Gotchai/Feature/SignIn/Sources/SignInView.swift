@@ -17,10 +17,8 @@ public struct SignInView: View {
         self.store = store
     }
 
-    let kakaoButtonColor: Color =
-            Color(red: 254.0 / 255.0, green: 229.0 / 255.0, blue: 0.0 / 255.0)
-    let kakaoButtonTextColor: Color =
-            Color(red: 25.0 / 255.0, green: 22.0 / 255.0, blue: 0.0 / 255.0)
+    let kakaoButtonColor: Color = Color(hex: "FEE500")
+    let kakaoButtonTextColor: Color = Color(hex: "191600")
     
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
