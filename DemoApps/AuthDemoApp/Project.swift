@@ -8,8 +8,9 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "com.gotchai.authdemoapp",
-            infoPlist: .default,
-//            infoPlist: .file(path: .relativeToRoot("Gotchai/Core/Auth/Info.plist")),
+            infoPlist: .extendingDefault(with: [
+                "UILaunchStoryboardName": "Launch Screen"
+            ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
