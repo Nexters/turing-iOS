@@ -44,6 +44,7 @@ struct QuizView: View {
                         } label: {
                             AnswerCard(idx: index, text: item, state: viewStore.answerCardState[index])
                         }
+                        .allowsHitTesting(!viewStore.state.isSelectedAnswer)    // 답 선택하면 터치 막기
                     }
                 }
                 .padding(.top, 76)

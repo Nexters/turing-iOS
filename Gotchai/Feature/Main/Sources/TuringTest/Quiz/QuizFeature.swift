@@ -24,6 +24,7 @@ struct QuizFeature {
         var quiz: Quiz
         var progress: QuizProgress
         var answerCardState: [AnswerCardState]
+        var isSelectedAnswer: Bool = false
         var answer: String
         var isAnswerPopUpPresented: Bool
         
@@ -91,6 +92,11 @@ struct QuizFeature {
                     )
                 }
             case let .selectAnswer(index, id):
+                if state.isSelectedAnswer { return .none }
+                
+                state.isRunningTimer = false
+                state.isSelectedAnswer = true
+                
                 for i in 0..<state.answerCardState.count {
                     if i == index {
                         state.answerCardState[i] = .selected
@@ -101,13 +107,16 @@ struct QuizFeature {
                 
                 // dummy
                 state.answer = "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"
-                state.progress = .correct
+                state.progress = index == -1 ? .timeout : .correct
                 
-                return .publisher {
-                    Just(.setAnswerPopUpPresented(true))
-                        .delay(for: .seconds(1), scheduler: RunLoop.main)   // 임시 1초
-                        .eraseToAnyPublisher()
-                }
+                return .concatenate(
+                    .cancel(id: CancelID.timer),
+                    .publisher {
+                        Just(.setAnswerPopUpPresented(true))
+                            .delay(for: .seconds(1), scheduler: RunLoop.main)   // 임시 1초
+                            .eraseToAnyPublisher()
+                    }
+                )
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
                 return .none
