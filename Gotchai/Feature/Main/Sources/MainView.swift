@@ -9,10 +9,14 @@ import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 
-struct MainView: View {
+public struct MainView: View {
     let store: StoreOf<MainFeature>
     
-    var body: some View {
+    public init(store: StoreOf<MainFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         VStack(spacing: 0) {
             HStack {
                 Image("logo_mini", bundle: .module)
