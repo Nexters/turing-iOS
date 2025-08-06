@@ -46,7 +46,6 @@ struct MainView: View {
             }
             .padding(.horizontal, 24)
             .padding(.top, 12)
-            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
@@ -82,6 +81,7 @@ struct MainView: View {
                 .fill(Color(.gray_900))
         )
         .padding(.top, 16)
+        .padding(.bottom, 40)
     }
     
     @ViewBuilder
