@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TuringTestResultView: View {
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Color(.gray_900).ignoresSafeArea()
             BackgroundGradient()
             
@@ -28,6 +28,8 @@ struct TuringTestResultView: View {
                 TopNaviBar()
                 Spacer()
             }
+            
+            BottomButtons()
         }
     }
     
@@ -141,6 +143,55 @@ struct TuringTestResultView: View {
             ]),
             startPoint: .top,
             endPoint: .bottom
+        )
+        .ignoresSafeArea()
+    }
+    
+    @ViewBuilder
+    private func BottomButtons() -> some View {
+        HStack(alignment: .bottom, spacing: 13) {
+            Button {
+                
+            } label: {
+                HStack(spacing: 4) {
+                    Image("icon_save", bundle: .module)
+                    Text("이미지 저장")
+                        .fontStyle(.body_3)
+                        .foregroundStyle(Color(.gray_black))
+                        .padding(.vertical, 15)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .background(Color(.primary_100))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            
+            Button {
+                
+            } label: {
+                HStack(spacing: 4) {
+                    Image("icon_insta", bundle: .module)
+                    Text("배지 공유")
+                        .fontStyle(.body_3)
+                        .foregroundStyle(Color(.gray_black))
+                        .padding(.vertical, 15)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .background(Color(.primary_400))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+        .padding(.top, 66)
+        .padding(.horizontal, 24)
+        .background(
+            LinearGradient(
+                gradient: Gradient(stops: [
+                    .init(color: Color(.gray_950).opacity(0.0), location: 0.0),
+                    .init(color: Color(.gray_950), location: 0.5),
+                    .init(color: Color(.gray_950), location: 1.0)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
         )
         .ignoresSafeArea()
     }
