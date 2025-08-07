@@ -14,7 +14,8 @@ let project = Project(
             resources: ["Resources/**"],
             dependencies: [
                 .external(name: "ComposableArchitecture"),
-                .project(target: "DesignSystem", path: "../../Shared/DesignSystem")
+                .project(target: "DesignSystem", path: "../../Shared/DesignSystem"),
+                .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile"))
             ]
         )
     ]

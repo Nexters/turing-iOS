@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import Profile
 
 public struct MainView: View {
     let store: StoreOf<MainFeature>
@@ -43,8 +44,7 @@ public struct MainView: View {
                             TestCardList()
                         }
                     case .achievement:
-                        // TODO: 업적(Profile) 연결
-                        EmptyView()
+                        ProfileView()
                         Spacer()
                     }
                 }

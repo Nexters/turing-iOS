@@ -8,8 +8,11 @@
 import DesignSystem
 import SwiftUI
 
-struct ProfileView: View {
-    var body: some View {
+public struct ProfileView: View {
+    
+    public init() { }
+    
+    public var body: some View {
         VStack(spacing: 12) {
             Image("profile_default", bundle: .module)
             Text("닉네임")
@@ -31,7 +34,6 @@ struct ProfileView: View {
             MyBadgeCard()
             MyTestCard()
         }
-        .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
     }
