@@ -10,5 +10,5 @@ import Moya
 import Combine
 
 public protocol NetworkClient {
-  func request<T: Decodable>(_ target: TargetType, type: T.Type) -> AnyPublisher<T, Error>
+    func request<T: Decodable>(_ target: TargetType, type: T.Type) -> AnyPublisher<T, Error>
 }
