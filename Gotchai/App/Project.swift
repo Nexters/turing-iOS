@@ -10,22 +10,25 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "com.gotchai.Gotchai",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchScreen": [
-                        "UIColorName": "",
-                        "UIImageName": "",
-                    ],
-                ]
-            ),
+            infoPlist: .extendingDefault(with: [
+                "UILaunchStoryboardName": "Launch Screen",
+                "KAKAO_NATIVE_APP_KEY": "$(KAKAO_NATIVE_APP_KEY)",
+                "BASE_URL": "$(BASE_URL)"
+            ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: .file(path: .relativeToRoot("Gotchai/App/Gotchai.entitlements")),
             dependencies: [
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
                 .project(target: "Main", path: .relativeToRoot("Gotchai/Feature/Main")),
                 .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn"))
-            ]
+            ],
+            settings: .settings(
+                configurations: [
+                    .debug(name: "Debug", xcconfig: .relativeToRoot("Tuist/Configurations/Config.xcconfig")),
+                    .release(name: "Release", xcconfig: .relativeToRoot("Tuist/Configurations/Config.xcconfig"))
+            ])
         )
     ]
 )
