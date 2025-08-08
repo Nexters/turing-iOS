@@ -10,11 +10,13 @@ import ComposableArchitecture
 @Reducer
 public struct TuringTestFeature {
     
+    public init() { }
+    
     @ObservableState
     public struct State {
         var turingTest: TuringTest
         
-        init(turingTest: TuringTest = TuringTest.dummy) {
+        public init(turingTest: TuringTest = TuringTest.dummy) {
             self.turingTest = turingTest
         }
     }
