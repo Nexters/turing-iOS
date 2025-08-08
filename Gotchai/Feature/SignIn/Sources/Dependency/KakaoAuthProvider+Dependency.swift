@@ -7,10 +7,14 @@
 
 import ComposableArchitecture
 import Auth
+import Foundation
 
 extension KakaoAuthProvider: DependencyKey {
     public static let liveValue: KakaoAuthProvider = {
-        return KakaoAuthProvider(appKey: "")
+        guard let key = Bundle.main.object(forInfoDictionaryKey: "KAKAO_NATIVE_APP_KEY") as? String else {
+            fatalError("❌ KAKAO_NATIVE_APP_KEY is missing in Info.plist")
+        }
+        return KakaoAuthProvider(appKey: key)
     }()
 }
 
