@@ -6,26 +6,36 @@
 //
 
 import ComposableArchitecture
-import Onboarding
 import SwiftUI
+import SignIn
+import Auth
+import Navigation
+import Onboarding
 
 struct AppView: View {
-    @Bindable var store: StoreOf<AppFeature>
-    
-    var body: some View {
-        NavigationStack(
-            path: $store.scope(state: \.path, action: \.path)
-        ) {
-            // TODO: 로딩 화면
-            ProgressView()
-        } destination: { store in
-            switch store.case {
-            case let .onboarding(store):
-                OnboardingView(store: store)
+    let store: StoreOf<AppFeature>
+
+    public init(store: StoreOf<AppFeature>) { self.store = store }
+
+    public var body: some View {
+        NavigationStackStore(self.store.scope(state: \.path, action: AppFeature.Action.path)) {
+            OnboardingView(
+              store: store.scope(
+                state: \.rootOnboarding,
+                action: \.onboarding
+              )
+            )
+        } destination: { state in
+            switch state {
+            case .onboarding:
+                CaseLet(/AppDestination.State.onboarding,
+                         action: AppDestination.Action.onboarding,
+                         then: OnboardingView.init(store:))
+            case .signIn:
+                CaseLet(/AppDestination.State.signIn,
+                         action: AppDestination.Action.signIn,
+                         then: SignInView.init(store:))
             }
-        }
-        .task {
-            store.send(.onLaunch)
         }
     }
 }

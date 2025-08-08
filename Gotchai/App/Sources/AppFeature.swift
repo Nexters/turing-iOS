@@ -6,35 +6,65 @@
 //
 
 import ComposableArchitecture
+import SignIn
 import Onboarding
+import Navigation
+
+@CasePathable
+@Reducer
+public enum AppDestination {
+    case onboarding(OnboardingFeature)
+    case signIn(SignInFeature)
+
+    public init() {
+      self = .onboarding(OnboardingFeature())
+    }
+}
 
 @Reducer
 public struct AppFeature {
-    @Reducer
-    public enum Path {
-        case onboarding(OnboardingFeature)
-    }
-    
-    @ObservableState
-    public struct State {
-        var path = StackState<Path.State>()
-    }
+  @ObservableState
+  public struct State {
+      public var rootOnboarding = OnboardingFeature.State()
+      public var path = StackState<AppDestination.State>()
+      public init() { }
+  }
 
-    public enum Action {
-        case path(StackActionOf<Path>)
-        case onLaunch
-    }
+  @CasePathable
+  public enum Action {
+      case onboarding(OnboardingFeature.Action)
+      case path(StackActionOf<AppDestination>)
+      case routeToSignIn
+  }
 
-    public var body: some Reducer<State, Action> {
+    public init() {}
+
+    public var body: some ReducerOf<Self> {
+        Scope(state: \.rootOnboarding, action: \.onboarding) {
+          OnboardingFeature()
+        }
+
         Reduce { state, action in
             switch action {
-            case .onLaunch:
-                state.path.append(.onboarding(OnboardingFeature.State()))
-                return .none
-            case .path:
-                return .none
+                case .routeToSignIn:
+                    state.path.append(.signIn(.init()))
+                    print("STACK ->", state.path)
+
+
+                    return .none
+                case .onboarding(let childAction):
+                    print("ONBOARDING ACTION ->", childAction)
+                    print("STACK ->", state.path)
+                    return .none
+
+                case .path(let stackAction):
+                    print("PATH ACTION ->", stackAction)
+                    print("STACK ->", state.path)
+                    return .none
             }
         }
-        .forEach(\.path, action: \.path)
+        .forEach(\.path, action: \.path) {
+          AppDestination()
+        }
     }
 }
