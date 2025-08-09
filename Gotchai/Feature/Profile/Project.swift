@@ -13,6 +13,7 @@ let project = Project(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
+                .project(target: "DesignSystem", path: .relativeToRoot("Gotchai/Shared/DesignSystem")),
                 .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA"))
             ]
         )

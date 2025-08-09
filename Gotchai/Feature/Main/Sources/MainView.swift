@@ -42,6 +42,7 @@ public struct MainView: View {
                     case .turingTest:
                         ScrollView {
                             TestCardList()
+                                .padding(.horizontal, 24)
                         }
                     case .achievement:
                         ProfileView()
@@ -49,7 +50,6 @@ public struct MainView: View {
                     }
                 }
             }
-            .padding(.horizontal, 24)
             .padding(.top, 12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

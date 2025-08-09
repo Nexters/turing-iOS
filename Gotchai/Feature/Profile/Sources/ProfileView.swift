@@ -34,6 +34,7 @@ public struct ProfileView: View {
             MyBadgeCard()
             MyTestCard()
         }
+        .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
     }
