@@ -4,7 +4,7 @@
 //
 //  Created by 가은 on 8/2/25.
 //
-import ComposableArchitecture
+import TCA
 import Onboarding
 import SignIn
 import Main // 모듈명이 Swift의 @main 과 헷갈리면 이름 변경 고려

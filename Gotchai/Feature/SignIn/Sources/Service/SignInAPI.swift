@@ -5,7 +5,7 @@
 //  Created by koreamango on 8/9/25.
 //
 
-import Network
+import CustomNetwork
 import Auth
 import Moya
 

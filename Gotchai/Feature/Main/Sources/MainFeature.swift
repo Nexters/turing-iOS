@@ -5,7 +5,7 @@
 //  Created by 가은 on 7/26/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct MainFeature {
