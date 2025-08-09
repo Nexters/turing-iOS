@@ -8,13 +8,14 @@ let project = Project(
         .target(
             name: "Network",
             destinations: .iOS,
-            product: .framework,
+            product: .staticFramework,
             bundleId: "com.gotchai.network",
             sources: ["Sources/**"],
             dependencies: [
                 .external(name: "Moya"),
                 .external(name: "CombineMoya"),
                 .project(target: "Common", path: .relativeToRoot("Gotchai/Core/Common")),
+                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
             ]
         )
     ]
