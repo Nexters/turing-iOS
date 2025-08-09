@@ -21,6 +21,11 @@ public final class MoyaAPIClient: NetworkClient {
   public func request<T>(_ target: any Moya.TargetType, type: T.Type) -> AnyPublisher<T, any Error> where T : Decodable {
     provider
       .requestPublisher(MultiTarget(target))
+      .handleEvents(receiveOutput: { response in
+        #if DEBUG
+        print("🔵 RAW:", String(data: response.data, encoding: .utf8) ?? "nil")
+        #endif
+      })
       .tryMap { response in
         guard (200 ..< 300).contains(response.statusCode) else {
           throw NetworkError.statusCode(response.statusCode)
