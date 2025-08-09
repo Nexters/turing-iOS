@@ -35,7 +35,7 @@ public struct TuringTest {
     let backgroundImageURL: String
 }
 
-extension TuringTest {
+public extension TuringTest {
     static let dummy: TuringTest = .init(
         id: 1,
         iconURL: "",
