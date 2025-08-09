@@ -7,7 +7,6 @@
 
 import ComposableArchitecture
 import Auth
-import Navigation
 import Combine
 import Foundation
 
@@ -15,7 +14,6 @@ import Foundation
 public struct SignInFeature {
     @Dependency(\.kakaoAuthProvider) var kakaoAuthProvider
     @Dependency(\.appleAuthProvider) var appleAuthProvider
-    @Dependency(\.appRouter) var appRouter
     @Dependency(\.signInClient) var signInClient
     @Dependency(\.signInService) var signInService
 

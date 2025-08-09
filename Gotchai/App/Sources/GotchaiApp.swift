@@ -1,6 +1,5 @@
 import ComposableArchitecture
 import SwiftUI
-import Navigation
 
 @main
 struct GotchaiApp: App {

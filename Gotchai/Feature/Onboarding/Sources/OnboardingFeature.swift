@@ -6,12 +6,9 @@
 //
 
 import ComposableArchitecture
-import Navigation
 
 @Reducer
 public struct OnboardingFeature {
-    @Dependency(\.appRouter) var appRouter
-
     @ObservableState
     public struct State: Equatable {
         public init () {}
