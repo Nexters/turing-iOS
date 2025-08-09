@@ -13,7 +13,8 @@ let project = Project(
             infoPlist: .extendingDefault(with: [
                 "UILaunchStoryboardName": "Launch Screen",
                 "KAKAO_NATIVE_APP_KEY": "$(KAKAO_NATIVE_APP_KEY)",
-                "BASE_URL": "$(BASE_URL)"
+                "BASE_SCHEME": "$(BASE_SCHEME)",
+                "BASE_HOST": "$(BASE_HOST)",
             ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
