@@ -2,14 +2,14 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project(
-    name: "Network",
+    name: "CustomNetwork",
     settings: .projectSettings,
     targets: [
         .target(
-            name: "Network",
+            name: "CustomNetwork",
             destinations: .iOS,
-            product: .staticFramework,
-            bundleId: "com.gotchai.network",
+            product: .framework,
+            bundleId: "com.gotchai.customNetwork",
             sources: ["Sources/**"],
             dependencies: [
                 .external(name: "Moya"),
