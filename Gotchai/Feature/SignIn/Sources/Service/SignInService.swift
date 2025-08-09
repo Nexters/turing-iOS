@@ -7,8 +7,8 @@
 
 import Foundation
 import Auth
-import Network
-import ComposableArchitecture
+import CustomNetwork
+import TCA
 import Combine
 
 public struct SignInService {
@@ -20,7 +20,7 @@ public struct SignInService {
 
     public func registerKakaoSession(_ request: KakaoSignInRequestDTO) -> AnyPublisher<Void, Error> {
         let target = SignInAPI.kakao(request)
-
+        
         return networkClient
             .request(target, type: SignInResponseDTO.self)
             .handleEvents(receiveOutput: { response in

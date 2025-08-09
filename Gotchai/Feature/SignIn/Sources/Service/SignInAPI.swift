@@ -5,7 +5,7 @@
 //  Created by koreamango on 8/9/25.
 //
 
-import Network
+import CustomNetwork
 import Auth
 import Moya
 
@@ -18,9 +18,9 @@ extension SignInAPI: BaseTarget {
     var path: String {
         switch self {
         case .kakao:
-            return "/auth/login/kakao"
+            return apiPrefix + "/auth/login/kakao"
         case .apple:
-            return "/auth/login/apple"
+            return apiPrefix + "/auth/login/apple"
         }
     }
 

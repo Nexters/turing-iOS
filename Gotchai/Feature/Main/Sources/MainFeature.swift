@@ -5,7 +5,7 @@
 //  Created by 가은 on 7/26/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct MainFeature {
@@ -22,11 +22,16 @@ public struct MainFeature {
             self.turingTestItems = turingTestItems
         }
     }
-    
+
+    public enum Delegate {
+      case openTuringTest(TuringTestCard)
+    }
+
     public enum Action {
         case selectedTabChanged(Tab)
         case tappedTestCard(Int)
         case tappedSettingButton
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
@@ -36,9 +41,11 @@ public struct MainFeature {
                 state.selectedTab = tab
                 return .none
             case let .tappedTestCard(id):
-                return .none
+                guard let item = state.turingTestItems.first(where: { $0.id == id }) else { return .none }
+                return .send(.delegate(.openTuringTest(item)))
             case .tappedSettingButton:
                 return .none
+            case .delegate: return .none
             }
         }
     }

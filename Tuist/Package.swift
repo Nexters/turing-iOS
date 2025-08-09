@@ -6,7 +6,13 @@ import ProjectDescription
 
 let packageSettings = PackageSettings(
   productTypes: [
-    "ComposableArchitecture": .framework
+    "ComposableArchitecture": .framework,
+    "Alamofire": .framework,
+    "Moya": .framework,
+    "CombineMoya": .framework,
+    "KakaoSDKCommon": .framework,
+    "KakaoSDKAuth": .framework,
+    "KakaoSDKUser": .framework
   ]
 )
 #endif
@@ -18,15 +24,5 @@ let package = Package(
       .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.17.0"),
       .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
     ],
-    targets: [
-        .target(
-            name: "CombineMoya",
-            dependencies: ["CombineMoya"]),
-        .target(name: "ComposableArchitecture",
-                dependencies: [
-                  .product(
-                  name: "ComposableArchitecture",
-                  package: "swift-composable-architecture")
-                ])
-    ]
+    targets: []
 )

@@ -5,7 +5,7 @@
 //  Created by 가은 on 7/20/25.
 //
 
-import ComposableArchitecture
+import TCA
 import Auth
 import Combine
 import Foundation

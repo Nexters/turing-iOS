@@ -1,4 +1,4 @@
-import ComposableArchitecture
+import TCA
 import SwiftUI
 
 public struct OnboardingPage: Equatable {

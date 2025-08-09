@@ -5,7 +5,7 @@
 //  Created by koreamango on 7/28/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct OnboardingFeature {

@@ -6,7 +6,7 @@
 //
 
 import Combine
-import ComposableArchitecture
+import TCA
 import SwiftUI
 
 @Reducer

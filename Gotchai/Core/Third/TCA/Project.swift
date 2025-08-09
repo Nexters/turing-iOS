@@ -10,7 +10,7 @@ let project = Project(
       destinations: .iOS,
       product: .framework,
       bundleId: "com.gotchai.core.tca",
-      sources: [],
+      sources: ["Sources/**"],
       dependencies: [
         .external(name: "ComposableArchitecture")
       ]

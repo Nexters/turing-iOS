@@ -25,7 +25,6 @@ public extension BaseTarget {
         return url
     }
 
-
     var headers: [String: String]? {
         ["Content-Type": "application/json"]
     }
@@ -33,4 +32,8 @@ public extension BaseTarget {
     var sampleData: Data {
         Data()
     }
+}
+
+public extension BaseTarget {
+    var apiPrefix: String { "/api/v1" }
 }
