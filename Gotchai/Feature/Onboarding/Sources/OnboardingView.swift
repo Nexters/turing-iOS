@@ -42,7 +42,7 @@ public struct OnboardingView: View {
  idx,
  page in
               VStack(spacing: 24) {
-                Image(page.imageName)
+                  Image(page.imageName, bundle: .module)
                   .resizable()
                   .scaledToFit()
                   .frame(width: 300, height: 300)
