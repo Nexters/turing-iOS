@@ -18,9 +18,9 @@ extension SignInAPI: BaseTarget {
     var path: String {
         switch self {
         case .kakao:
-            return "/auth/login/kakao"
+            return apiPrefix + "/auth/login/kakao"
         case .apple:
-            return "/auth/login/apple"
+            return apiPrefix + "/auth/login/apple"
         }
     }
 
