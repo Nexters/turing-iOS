@@ -8,7 +8,7 @@ let project = Project(
         .target(
             name: "Network",
             destinations: .iOS,
-            product: .framework,
+            product: .staticFramework,
             bundleId: "com.gotchai.network",
             sources: ["Sources/**"],
             dependencies: [
