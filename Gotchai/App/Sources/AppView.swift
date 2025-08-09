@@ -11,31 +11,31 @@ import SignIn
 import Auth
 import Navigation
 import Onboarding
+import Main
 
 struct AppView: View {
-    let store: StoreOf<AppFeature>
+  let store: StoreOf<AppFeature>
 
-    public init(store: StoreOf<AppFeature>) { self.store = store }
+  var body: some View {
+    WithViewStore(store, observe: \.root) { viewStore in
+      switch viewStore.state {
+      case .onboarding:
+        OnboardingView(
+          store: store.scope(state: \.onboarding, action: AppFeature.Action.onboarding)
+        )
 
-    public var body: some View {
-        NavigationStackStore(self.store.scope(state: \.path, action: AppFeature.Action.path)) {
-            OnboardingView(
-              store: store.scope(
-                state: \.rootOnboarding,
-                action: \.onboarding
-              )
-            )
-        } destination: { state in
-            switch state {
-            case .onboarding:
-                CaseLet(/AppDestination.State.onboarding,
-                         action: AppDestination.Action.onboarding,
-                         then: OnboardingView.init(store:))
-            case .signIn:
-                CaseLet(/AppDestination.State.signIn,
-                         action: AppDestination.Action.signIn,
-                         then: SignInView.init(store:))
-            }
-        }
+      case .signIn:
+        SignInView(
+          store: store.scope(state: \.signIn, action: AppFeature.Action.signIn)
+        )
+
+      case .main:
+        // 필요 시 여기서 NavigationStackStore를 둘러서
+        // 메인 내부 push를 확장 가능
+        MainView(
+          store: store.scope(state: \.main, action: AppFeature.Action.main)
+        )
+      }
     }
+  }
 }

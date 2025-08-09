@@ -23,11 +23,14 @@ public struct OnboardingFeature {
             .init(imageName: "onboarding3", title: "그럼, 사람 사이에 숨은 AI를\n찾으러 가 볼까요?")
         ]
     }
+    
+    public enum Delegate: Equatable { case navigateToSignIn }
 
-    public enum Action {
+    public enum Action: Equatable {
         case pageChanged(Int)
         case nextButtonTapped
         case start
+        case delegate(Delegate)
     }
 
     public init() {}
@@ -48,13 +51,8 @@ public struct OnboardingFeature {
                 }
 
             case .start:
-                return .run { _ in
-                    do {
-                      try await appRouter.navigate(.signIn)
-                    } catch {
-                      // 필요 시 에러 처리
-                    }
-                  }
+                return .send(.delegate(.navigateToSignIn))
+            case .delegate: return .none
       }
     }
   }

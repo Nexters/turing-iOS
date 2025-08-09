@@ -4,67 +4,62 @@
 //
 //  Created by 가은 on 8/2/25.
 //
-
 import ComposableArchitecture
-import SignIn
 import Onboarding
-import Navigation
-
-@CasePathable
-@Reducer
-public enum AppDestination {
-    case onboarding(OnboardingFeature)
-    case signIn(SignInFeature)
-
-    public init() {
-      self = .onboarding(OnboardingFeature())
-    }
-}
+import SignIn
+import Main // 모듈명이 Swift의 @main 과 헷갈리면 이름 변경 고려
 
 @Reducer
-public struct AppFeature {
-  @ObservableState
-  public struct State {
-      public var rootOnboarding = OnboardingFeature.State()
-      public var path = StackState<AppDestination.State>()
-      public init() { }
+struct AppFeature {
+  struct State {
+    enum Root: Equatable { case onboarding, signIn, main }
+    var root: Root = .onboarding
+
+    var onboarding = OnboardingFeature.State()
+    var signIn     = SignInFeature.State()
+    var main       = MainFeature.State()
   }
 
-  @CasePathable
-  public enum Action {
-      case onboarding(OnboardingFeature.Action)
-      case path(StackActionOf<AppDestination>)
-      case routeToSignIn
+  enum Action {
+    case onboarding(OnboardingFeature.Action)
+    case signIn(SignInFeature.Action)
+    case main(MainFeature.Action)
+    case setRoot(State.Root)
   }
 
-    public init() {}
+  // 핵심 리듀서를 분리(타입 추론 안정화)
+  private var core: some ReducerOf<Self> {
+      Reduce { state, action in
+           switch action {
+           // 온보딩 → 로그인으로
+           case .onboarding(.delegate(.navigateToSignIn)):
+             state.root = .signIn
+             return .none
 
-    public var body: some ReducerOf<Self> {
-        Scope(state: \.rootOnboarding, action: \.onboarding) {
-          OnboardingFeature()
-        }
+           // 로그인 성공 → 메인으로
+           case .signIn(.delegate(.didSignIn)):
+             state.root = .main
+             return .none
 
-        Reduce { state, action in
-            switch action {
-                case .routeToSignIn:
-                    state.path.append(.signIn(.init()))
-                    print("STACK ->", state.path)
+           // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
+           case .main:
+             return .none
 
+           case let .setRoot(root):
+             state.root = root
+             return .none
 
-                    return .none
-                case .onboarding(let childAction):
-                    print("ONBOARDING ACTION ->", childAction)
-                    print("STACK ->", state.path)
-                    return .none
+           default:
+             return .none
+           }
+         }
+      
+  }
 
-                case .path(let stackAction):
-                    print("PATH ACTION ->", stackAction)
-                    print("STACK ->", state.path)
-                    return .none
-            }
-        }
-        .forEach(\.path, action: \.path) {
-          AppDestination()
-        }
-    }
+  var body: some ReducerOf<Self> {
+    Scope(state: \.onboarding, action: /Action.onboarding) { OnboardingFeature() }
+    Scope(state: \.signIn,     action: /Action.signIn)     { SignInFeature() }
+    Scope(state: \.main,       action: /Action.main)       { MainFeature() }
+    core
+  }
 }
