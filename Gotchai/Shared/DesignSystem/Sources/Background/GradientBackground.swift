@@ -14,14 +14,13 @@ struct GradientBackground: ViewModifier {
     let cornerRadius: CGFloat
     let strokeColor: Color
     let lineWidth: CGFloat
+    let backgroundOpacity: Double
 
     func body(content: Content) -> some View {
         content
             .background(
                 LinearGradient(stops: stops, startPoint: startPoint, endPoint: endPoint)
-            )
-            .clipShape(
-                RoundedRectangle(cornerRadius: cornerRadius)
+                    .opacity(backgroundOpacity)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: cornerRadius)
@@ -37,7 +36,8 @@ public extension View {
         endPoint: UnitPoint,
         cornerRadius: CGFloat = 0,
         strokeColor: Color = .clear,
-        lineWidth: CGFloat = 1
+        lineWidth: CGFloat = 1,
+        backgroundOpacity: Double = 1
     ) -> some View {
         self.modifier(GradientBackground(
             stops: stops,
@@ -45,7 +45,8 @@ public extension View {
             endPoint: endPoint,
             cornerRadius: cornerRadius,
             strokeColor: strokeColor,
-            lineWidth: lineWidth
+            lineWidth: lineWidth,
+            backgroundOpacity: backgroundOpacity
         ))
     }
 }

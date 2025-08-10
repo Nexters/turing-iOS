@@ -31,6 +31,7 @@ struct TuringTestResultView: View {
             
             BottomButtons()
         }
+        
     }
     
     @ViewBuilder
@@ -76,10 +77,18 @@ struct TuringTestResultView: View {
         .padding([.horizontal, .top], 34)
         .padding(.bottom, 27)
         .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(Color(.gray_white).opacity(0.2), lineWidth: 1)
+        .gradientBackground(
+            stops: [
+                .init(color: Color(hex: "DEDFD0"), location: 0.0),
+                .init(color: Color(hex: "9EA481"), location: 1.0)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing,
+            cornerRadius: 24,
+            strokeColor: Color(.gray_white).opacity(0.2),
+            backgroundOpacity: 0.2
         )
+        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
     
     @ViewBuilder
@@ -133,18 +142,19 @@ struct TuringTestResultView: View {
     
     @ViewBuilder
     private func BackgroundGradient() -> some View {
-        LinearGradient(
-            gradient: Gradient(stops: [
-                .init(color: Color(hex: "615920"), location: 0.0),
-                .init(color: Color(hex: "433F21"), location: 0.1),
-                .init(color: Color(hex: "373521"), location: 0.16),
-                .init(color: Color(hex: "2B2A22"), location: 0.33),
-                .init(color: Color(hex: "1D1E22"), location: 0.62)
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
+        Color.clear
+            .ignoresSafeArea()
+            .gradientBackground(
+                stops: [
+                    .init(color: Color(hex: "615920"), location: 0.0),
+                    .init(color: Color(hex: "433F21"), location: 0.1),
+                    .init(color: Color(hex: "373521"), location: 0.16),
+                    .init(color: Color(hex: "2B2A22"), location: 0.33),
+                    .init(color: Color(hex: "1D1E22"), location: 0.62)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
     }
     
     @ViewBuilder
@@ -182,18 +192,15 @@ struct TuringTestResultView: View {
         }
         .padding(.top, 66)
         .padding(.horizontal, 24)
-        .background(
-            LinearGradient(
-                gradient: Gradient(stops: [
-                    .init(color: Color(.gray_950).opacity(0.0), location: 0.0),
-                    .init(color: Color(.gray_950), location: 0.5),
-                    .init(color: Color(.gray_950), location: 1.0)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+        .gradientBackground(
+            stops: [
+                .init(color: Color(.gray_950).opacity(0.0), location: 0.0),
+                .init(color: Color(.gray_950), location: 0.5),
+                .init(color: Color(.gray_950), location: 1.0)
+            ],
+            startPoint: .top,
+            endPoint: .bottom
         )
-        .ignoresSafeArea()
     }
 }
 

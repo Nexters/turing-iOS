@@ -49,22 +49,27 @@ struct TuringTestConceptView: View {
     @ViewBuilder
     private func BackgroundGradient() -> some View {
         VStack(spacing: 108) {
-            LinearGradient(
-                gradient: Gradient(stops: [
-                    .init(color: Color(.gray_950), location: 0.0),
-                    .init(color: Color(.gray_950).opacity(0.7), location: 0.7),
-                    .init(color: Color(.gray_950).opacity(0.0), location: 1.0)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            Color.clear
+                .gradientBackground(
+                    stops: [
+                        .init(color: Color(.gray_950), location: 0.0),
+                        .init(color: Color(.gray_950).opacity(0.7), location: 0.7),
+                        .init(color: Color(.gray_950).opacity(0.0), location: 1.0)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
             
-            LinearGradient(
-                colors: [Color(.gray_950), Color(.gray_950).opacity(0.0)],
-                startPoint: .bottom,
-                endPoint: .top
-            )
-            .frame(height: 160)
+            Color.clear
+                .frame(height: 160)
+                .gradientBackground(
+                    stops: [
+                        .init(color: Color(.gray_950), location: 0.0),
+                        .init(color: Color(.gray_950).opacity(0.0), location: 1.0)
+                    ],
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
         }
     }
 }
