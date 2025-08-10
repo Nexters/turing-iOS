@@ -20,12 +20,12 @@ struct AppView: View {
             switch viewStore.state {
             case .onboarding:
                 OnboardingView(
-                    store: store.scope(state: \.onboarding, action: AppFeature.Action.onboarding)
+                    store: store.scope(state: \.onboarding, action: \.onboarding)
                 )
 
             case .signIn:
                 SignInView(
-                    store: store.scope(state: \.signIn, action: AppFeature.Action.signIn)
+                    store: store.scope(state: \.signIn, action: \.signIn)
                 )
 
             case .main:
@@ -33,11 +33,11 @@ struct AppView: View {
                 // 메인 내부 push를 확장 가능
                 NavigationStackStore(
                     // ✅ path에 바인딩
-                    store.scope(state: \.path, action: AppFeature.Action.path)
+                    store.scope(state: \.path, action: \.path)
                 ) {
                     // ✅ root(첫 화면)
                     MainView(
-                        store: store.scope(state: \.main, action: AppFeature.Action.main)
+                        store: store.scope(state: \.main, action: \.main)
                     )
                 } destination: { state in
                     // ✅ 목적지 매핑
