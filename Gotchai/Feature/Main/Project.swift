@@ -13,7 +13,7 @@ let project = Project(
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             dependencies: [
-                .external(name: "ComposableArchitecture"),
+                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
                 .project(target: "DesignSystem", path: "../../Shared/DesignSystem"),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile"))
             ]

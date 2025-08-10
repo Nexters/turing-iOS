@@ -6,9 +6,6 @@
 //
 
 enum NetworkError: Error {
-  case statusCode(Int)
-  case decoding(Error)
-  case noInternet
-  case unauthorized
-  case timeout
+    case statusCode(Int)
+    case api(APIError)
 }

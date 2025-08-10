@@ -5,14 +5,18 @@
 //  Created by 가은 on 7/30/25.
 //
 
-import ComposableArchitecture
+import TCA
 import DesignSystem
 import SwiftUI
 
-struct TuringTestIntroView: View {
+public struct TuringTestIntroView: View {
     let store: StoreOf<TuringTestFeature>
     
-    var body: some View {
+    public init(store: StoreOf<TuringTestFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         VStack(spacing: 0) {
             AsyncImage(url: URL(string: store.turingTest.iconURL)) { image in
                 image.resizable()
