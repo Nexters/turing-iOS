@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
+import TCA
 import DesignSystem
 
 public struct OnboardingView: View {

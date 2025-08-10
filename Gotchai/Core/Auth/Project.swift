@@ -8,7 +8,7 @@ let project = Project(
         .target(
             name: "Auth",
             destinations: .iOS,
-            product: .staticFramework,
+            product: .framework,
             bundleId: "com.gotchai.auth",
             infoPlist: "Info.plist",
             sources: ["Sources/**"],
