@@ -8,6 +8,7 @@
 import TCA
 import DesignSystem
 import SwiftUI
+import Profile
 
 public struct MainView: View {
     let store: StoreOf<MainFeature>
@@ -41,15 +42,14 @@ public struct MainView: View {
                     case .turingTest:
                         ScrollView {
                             TestCardList()
+                                .padding(.horizontal, 24)
                         }
                     case .achievement:
-                        // TODO: 업적(Profile) 연결
-                        EmptyView()
+                        ProfileView()
                         Spacer()
                     }
                 }
             }
-            .padding(.horizontal, 24)
             .padding(.top, 12)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
