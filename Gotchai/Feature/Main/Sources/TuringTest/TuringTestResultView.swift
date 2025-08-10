@@ -88,6 +88,18 @@ struct TuringTestResultView: View {
             strokeColor: Color(.gray_white).opacity(0.2),
             backgroundOpacity: 0.2
         )
+        .background(
+            RadialGradient(
+                gradient: Gradient(stops: [
+                        .init(color: Color(hex: "FAE34F").opacity(0.7), location: 0.0),
+                        .init(color: Color(hex: "FAE34F").opacity(0.2), location: 0.3),
+                        .init(color: Color(hex: "FAE34F").opacity(0.0), location: 0.5)
+                    ]),
+                center: .bottom,
+                startRadius: 0,
+                endRadius: 400
+            ).opacity(0.2)
+        )
         .clipShape(RoundedRectangle(cornerRadius: 24))
     }
     
