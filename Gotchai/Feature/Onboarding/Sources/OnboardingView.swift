@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-import ComposableArchitecture
+import TCA
 import DesignSystem
 
 public struct OnboardingView: View {
-  public let store: StoreOf<OnboardingFeature> 
+  @Bindable var store: StoreOf<OnboardingFeature> 
 
   public init(store: StoreOf<OnboardingFeature>) {
     self.store = store
@@ -89,6 +89,7 @@ public struct OnboardingView: View {
           .padding(.bottom, 40)
         }
       }
+      .navigationBarBackButtonHidden()
     }
   }
 }

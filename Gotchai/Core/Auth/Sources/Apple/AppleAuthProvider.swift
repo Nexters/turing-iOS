@@ -7,6 +7,7 @@
 
 import Combine
 import AuthenticationServices
+import UIKit
 
 public final class AppleAuthProvider: NSObject, AuthProvider {
   private var signInSubject: PassthroughSubject<UserSession, Error>?
@@ -25,50 +26,70 @@ public final class AppleAuthProvider: NSObject, AuthProvider {
     controller.delegate = self
     controller.presentationContextProvider = self
     self.authorizationController = controller
-    controller.performRequests()
+
+    // ✅ UI API는 반드시 메인에서
+    if Thread.isMainThread {
+      controller.performRequests()
+    } else {
+      DispatchQueue.main.async { controller.performRequests() }
+    }
 
     return subject.eraseToAnyPublisher()
   }
 
   public func signOut() -> AnyPublisher<Void, any Error> {
-    // 애플 로그인은 세션이 없기 때문에 일반적으로 클라이언트에서 signOut 처리가 필요 없음
-    return Just(())
-        .setFailureType(to: Error.self)
-        .eraseToAnyPublisher()
+    Just(())
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
   }
 
   public func deleteUser() -> AnyPublisher<Void, any Error> {
-    // Apple에서는 유저 삭제 API는 없음. 서버 측 처리 필요
-    return Just(())
-        .setFailureType(to: Error.self)
-        .eraseToAnyPublisher()
+    Just(())
+      .setFailureType(to: Error.self)
+      .eraseToAnyPublisher()
   }
 }
 
 // MARK: - ASAuthorizationControllerDelegate
 extension AppleAuthProvider: ASAuthorizationControllerDelegate {
-  public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+  public func authorizationController(
+    controller: ASAuthorizationController,
+    didCompleteWithAuthorization authorization: ASAuthorization
+  ) {
     guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-        signInSubject?.send(completion: .failure(NSError(domain: "AppleAuth", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid credential"])))
-        return
+      signInSubject?.send(completion: .failure(NSError(
+        domain: "AppleAuth", code: -1,
+        userInfo: [NSLocalizedDescriptionKey: "Invalid credential"]
+      )))
+      authorizationController = nil
+      signInSubject = nil
+      return
     }
 
     let userId = appleIDCredential.user
     let name = [appleIDCredential.fullName?.givenName, appleIDCredential.fullName?.familyName]
       .compactMap { $0 }.joined(separator: " ")
     let email = appleIDCredential.email
-    let idTokenData = appleIDCredential.identityToken ?? Data()
-    let token = String(data: idTokenData, encoding: .utf8) ?? ""
+    let token = String(data: appleIDCredential.identityToken ?? Data(), encoding: .utf8) ?? ""
 
     let session = UserSession(
-        id: userId,
-        name: name.isEmpty ? "Unknown" : name,
-        email: email ?? "Unknown",
-        token: token
+      id: userId,
+      name: name.isEmpty ? "Unknown" : name,
+      email: email ?? "Unknown",
+      token: token
     )
 
-    signInSubject?.send(session)
-    signInSubject?.send(completion: .finished)
+    // 결과 전달은 메인 보장 (UI 후속 처리 안전)
+    if Thread.isMainThread {
+      signInSubject?.send(session)
+      signInSubject?.send(completion: .finished)
+    } else {
+      DispatchQueue.main.async {
+        self.signInSubject?.send(session)
+        self.signInSubject?.send(completion: .finished)
+      }
+    }
+    authorizationController = nil
     signInSubject = nil
   }
 
@@ -76,7 +97,14 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    signInSubject?.send(completion: .failure(error))
+    if Thread.isMainThread {
+      signInSubject?.send(completion: .failure(error))
+    } else {
+      DispatchQueue.main.async {
+        self.signInSubject?.send(completion: .failure(error))
+      }
+    }
+    authorizationController = nil
     signInSubject = nil
   }
 }
@@ -84,7 +112,28 @@ extension AppleAuthProvider: ASAuthorizationControllerDelegate {
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 extension AppleAuthProvider: ASAuthorizationControllerPresentationContextProviding {
   public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-    // keyWindow가 없어질 수 있으므로 적절한 UIWindow 제공
-    return UIApplication.shared.windows.first { $0.isKeyWindow } ?? ASPresentationAnchor()
+    // ✅ 메인 스레드에서 현재 활성 윈도우 탐색
+    let findAnchor: () -> ASPresentationAnchor = {
+      for scene in UIApplication.shared.connectedScenes {
+        guard scene.activationState == .foregroundActive,
+              let windowScene = scene as? UIWindowScene else { continue }
+        if let key = windowScene.windows.first(where: { $0.isKeyWindow }) {
+          return key
+        }
+        if let first = windowScene.windows.first {
+          return first
+        }
+      }
+      return ASPresentationAnchor()
+    }
+
+    if Thread.isMainThread {
+      return findAnchor()
+    } else {
+      // Main Thread Checker 회피: 동기적으로 메인에서 anchor 얻기
+      var anchor = ASPresentationAnchor()
+      DispatchQueue.main.sync { anchor = findAnchor() }
+      return anchor
+    }
   }
 }

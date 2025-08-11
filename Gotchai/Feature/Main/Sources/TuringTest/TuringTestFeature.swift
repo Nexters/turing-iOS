@@ -5,16 +5,18 @@
 //  Created by 가은 on 8/2/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct TuringTestFeature {
+    
+    public init() { }
     
     @ObservableState
     public struct State {
         var turingTest: TuringTest
         
-        init(turingTest: TuringTest = TuringTest.dummy) {
+        public init(turingTest: TuringTest = TuringTest.dummy) {
             self.turingTest = turingTest
         }
     }

@@ -10,16 +10,15 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "com.gotchai.Gotchai",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchScreen": [
-                        "UIColorName": "",
-                        "UIImageName": "",
-                    ],
-                ]
-            ),
+            infoPlist: .extendingDefault(with: [
+                "UILaunchStoryboardName": "Launch Screen",
+                "KAKAO_NATIVE_APP_KEY": "$(KAKAO_NATIVE_APP_KEY)",
+                "BASE_SCHEME": "$(BASE_SCHEME)",
+                "BASE_HOST": "$(BASE_HOST)",
+            ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: .file(path: .relativeToRoot("Gotchai/App/Gotchai.entitlements")),
             dependencies: [
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
