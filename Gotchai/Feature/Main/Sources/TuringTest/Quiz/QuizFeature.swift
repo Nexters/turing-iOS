@@ -113,7 +113,7 @@ struct QuizFeature {
                     .cancel(id: CancelID.timer),
                     .publisher {
                         Just(.setAnswerPopUpPresented(true))
-                            .delay(for: .seconds(1), scheduler: RunLoop.main)   // 임시 1초
+                            .delay(for: .seconds(0.3), scheduler: RunLoop.main)   
                             .eraseToAnyPublisher()
                     }
                 )
