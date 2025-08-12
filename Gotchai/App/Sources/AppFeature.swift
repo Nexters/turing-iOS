@@ -51,11 +51,27 @@ struct AppFeature {
                 return .none
                 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
-            case .path(.element(id: _, action: .turingTest(.delegate(.moveToConceptView)))):
-                state.path.append(.turingTestConcept(.init()))
+            case .path(.element(id: _, action: .turingTest(.delegate(let turingAction)))):
+                // 테스트 표지 화면에서 받는 Action
+                switch turingAction {
+                case .moveToConceptView:
+                    state.path.append(.turingTestConcept(.init()))
+                case .moveToMainView:
+                    state.path.removeLast()
+                default: break
+                }
+                
                 return .none
-            case .path(.element(id: _, action: .turingTestConcept(.delegate(.moveToQuizView)))):
-                state.path.append(.quiz(.init()))
+            case .path(.element(id: _, action: .turingTestConcept(.delegate(let turingAction)))):
+                // 테스트 상황 세팅 화면에서 받는 Action
+                switch turingAction {
+                case .moveToQuizView:
+                    state.path.append(.quiz(.init()))
+                case .moveToMainView:
+                    state.path.removeLast(2)
+                default: break
+                }
+                
                 return .none
             case let .setRoot(root):
                 state.root = root

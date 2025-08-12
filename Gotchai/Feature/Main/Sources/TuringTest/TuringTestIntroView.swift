@@ -65,13 +65,18 @@ public struct TuringTestIntroView: View {
         .background(Color(.gray_950))
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Image("icon_arrow_back", bundle: .module)
-                    .padding(12)
+                Button {
+                    store.send(.tappedBackButton)
+                } label: {
+                    Image("icon_arrow_back", bundle: .module)
+                        .padding(12)
+                }
             }
         }
         .onAppear {
             store.send(.onAppearIntroView)
         }
+        .navigationBarBackButtonHidden()
     }
     
     @ViewBuilder

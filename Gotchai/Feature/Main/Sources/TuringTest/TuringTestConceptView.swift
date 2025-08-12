@@ -41,10 +41,15 @@ public struct TuringTestConceptView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 10)
             }
+            .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image("icon_xmark", bundle: .module)
-                        .padding(12)
+                    Button {
+                        store.send(.tappedBackButton)
+                    } label: {
+                        Image("icon_xmark", bundle: .module)
+                            .padding(12)
+                    }
                 }
             }
         }
