@@ -1,0 +1,27 @@
+<svg width="345" height="161" viewBox="0 0 345 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_378_7887)">
+<rect width="345" height="161" fill="#2A2B2F" style="fill:#2A2B2F;fill:color(display-p3 0.1647 0.1686 0.1843);fill-opacity:1;"/>
+<g filter="url(#filter0_f_378_7887)">
+<circle cx="213" cy="75" r="98" fill="#2A3900" style="fill:#2A3900;fill:color(display-p3 0.1647 0.2235 0.0000);fill-opacity:1;"/>
+</g>
+<path d="M206.036 37.8656C209.231 33.4832 215.769 33.4833 218.964 37.8656L309.319 161.787C313.173 167.073 309.397 174.5 302.854 174.5H122.146C115.603 174.5 111.827 167.073 115.681 161.787L206.036 37.8656Z" fill="#BFFF00" fill-opacity="0.1" style="fill:#BFFF00;fill:color(display-p3 0.7490 1.0000 0.0000);fill-opacity:0.1;"/>
+<line x1="192" y1="59.5" x2="233" y2="59.5" stroke="#E8FFA2" stroke-opacity="0.3" style="stroke:#E8FFA2;stroke:color(display-p3 0.9080 1.0000 0.6335);stroke-opacity:0.3;" stroke-dasharray="5 5"/>
+<line x1="175" y1="84.5" x2="251" y2="84.5" stroke="#E8FFA2" stroke-opacity="0.3" style="stroke:#E8FFA2;stroke:color(display-p3 0.9080 1.0000 0.6335);stroke-opacity:0.3;" stroke-dasharray="5 5"/>
+<line x1="156" y1="109.5" x2="270" y2="109.5" stroke="#E8FFA2" stroke-opacity="0.3" style="stroke:#E8FFA2;stroke:color(display-p3 0.9080 1.0000 0.6335);stroke-opacity:0.3;" stroke-dasharray="5 5"/>
+<line x1="138" y1="134.5" x2="288" y2="134.5" stroke="#E8FFA2" stroke-opacity="0.3" style="stroke:#E8FFA2;stroke:color(display-p3 0.9080 1.0000 0.6335);stroke-opacity:0.3;" stroke-dasharray="5 5"/>
+<path d="M309.095 161.479L309.319 161.786C313.173 167.072 309.396 174.499 302.854 174.499H122.146C115.603 174.499 111.826 167.072 115.681 161.786L115.904 161.479H309.095ZM206.035 37.8649C209.231 33.4825 215.769 33.4825 218.964 37.8649L226.703 48.4792H198.296L206.035 37.8649Z" fill="#BFFF00" style="fill:#BFFF00;fill:color(display-p3 0.7490 1.0000 0.0000);fill-opacity:1;"/>
+<path d="M254.282 17.7458L254.356 18.9057C254.615 22.9577 257.73 26.2421 261.749 26.699C262.084 26.7374 262.084 27.2235 261.749 27.262C257.73 27.7204 254.616 31.0032 254.356 35.0552L254.282 36.2151C254.259 36.5689 253.741 36.5689 253.718 36.2151L253.644 35.0552C253.386 31.0032 250.27 27.7189 246.251 27.262C245.916 27.2235 245.916 26.7374 246.251 26.699C250.27 26.2405 253.384 22.9577 253.644 18.9057L253.718 17.7458C253.741 17.392 254.259 17.392 254.282 17.7458Z" fill="#475C19" style="fill:#475C19;fill:color(display-p3 0.2768 0.3598 0.0988);fill-opacity:1;"/>
+<path d="M146.282 51.7738L146.356 53.0558C146.615 57.5343 149.73 61.1643 153.749 61.6693C154.084 61.7118 154.084 62.2491 153.749 62.2916C149.73 62.7983 146.616 66.4267 146.356 70.9052L146.282 72.1872C146.259 72.5782 145.741 72.5782 145.718 72.1872L145.644 70.9052C145.386 66.4267 142.27 62.7966 138.251 62.2916C137.916 62.2491 137.916 61.7118 138.251 61.6693C142.27 61.1626 145.384 57.5343 145.644 53.0558L145.718 51.7738C145.741 51.3827 146.259 51.3827 146.282 51.7738Z" fill="#557100" style="fill:#557100;fill:color(display-p3 0.3333 0.4431 0.0000);fill-opacity:1;"/>
+<path d="M269.659 36.6201L269.7 37.2306C269.846 39.3632 271.598 41.0918 273.859 41.3323C274.047 41.3525 274.047 41.6084 273.859 41.6286C271.598 41.8699 269.847 43.5977 269.7 45.7303L269.659 46.3408C269.646 46.527 269.354 46.527 269.341 46.3408L269.3 45.7303C269.154 43.5977 267.402 41.8691 265.141 41.6286C264.953 41.6084 264.953 41.3525 265.141 41.3323C267.402 41.091 269.153 39.3632 269.3 37.2306L269.341 36.6201C269.354 36.4339 269.646 36.4339 269.659 36.6201Z" fill="#6E7F49" style="fill:#6E7F49;fill:color(display-p3 0.4329 0.4978 0.2847);fill-opacity:1;"/>
+</g>
+<defs>
+<filter id="filter0_f_378_7887" x="-81" y="-219" width="588" height="588" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="98" result="effect1_foregroundBlur_378_7887"/>
+</filter>
+<clipPath id="clip0_378_7887">
+<rect width="345" height="161" fill="white" style="fill:white;fill-opacity:1;"/>
+</clipPath>
+</defs>
+</svg>

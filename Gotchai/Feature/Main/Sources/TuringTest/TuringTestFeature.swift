@@ -5,7 +5,7 @@
 //  Created by 가은 on 8/2/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct TuringTestFeature {
@@ -21,11 +21,19 @@ public struct TuringTestFeature {
         }
     }
     
+    public enum Delegate {
+        case moveToConceptView
+        case moveToQuizView
+        case moveToMainView
+    }
+    
     public enum Action {
         case onAppearIntroView
         case tappedTestShareButton
-        case moveToConceptView
-        case moveToQuizView
+        case tappedStartButton
+        case tappedNextButton
+        case tappedBackButton
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
@@ -37,9 +45,13 @@ public struct TuringTestFeature {
                 return .none
             case .tappedTestShareButton:
                 return .none
-            case .moveToConceptView:
-                return .none
-            case .moveToQuizView:
+            case .tappedStartButton:
+                return .send(.delegate(.moveToConceptView))
+            case .tappedNextButton:
+                return .send(.delegate(.moveToQuizView))
+            case .tappedBackButton:
+                return .send(.delegate(.moveToMainView))
+            case .delegate:
                 return .none
             }
         }

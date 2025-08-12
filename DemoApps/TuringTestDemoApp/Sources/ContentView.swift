@@ -5,7 +5,7 @@
 //  Created by 가은 on 8/7/25.
 //
 
-import ComposableArchitecture
+import TCA
 import SwiftUI
 import Main
 

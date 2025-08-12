@@ -5,10 +5,11 @@
 //  Created by koreamango on 7/28/25.
 //
 
-import ComposableArchitecture
+import TCA
 
 @Reducer
 public struct OnboardingFeature {
+
   @ObservableState
   public struct State: Equatable, Sendable {
     public init () {}
@@ -20,32 +21,35 @@ public struct OnboardingFeature {
       .init(imageName: "onboarding4", title: "그럼, 사람 사이에 숨은 Ai를\n찾으러 가 볼까요?")
     ]
   }
+    public enum Delegate: Equatable { case navigateToSignIn }
 
-  public enum Action: Sendable {
-    case pageChanged(Int)
-    case nextButtonTapped
-    case start
-  }
+    public enum Action: Equatable {
+        case pageChanged(Int)
+        case nextButtonTapped
+        case start
+        case delegate(Delegate)
+    }
 
-  public init() {}
+    public init() {}
 
-  public var body: some Reducer<State, Action> {
-    Reduce { state, action in
-      switch action {
-      case let .pageChanged(index):
-        state.currentPage = index
-        return .none
+    public var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            case let .pageChanged(index):
+                state.currentPage = index
+                return .none
 
-      case .nextButtonTapped:
-        if state.currentPage < state.pages.count - 1 {
-          state.currentPage += 1
-          return .none
-        } else {
-          return .send(.start)
-        }
+            case .nextButtonTapped:
+                if state.currentPage < state.pages.count - 1 {
+                    state.currentPage += 1
+                    return .none
+                } else {
+                    return .send(.start)
+                }
 
-      case .start:
-        return .none
+            case .start:
+                return .send(.delegate(.navigateToSignIn))
+            case .delegate: return .none
       }
     }
   }

@@ -5,7 +5,7 @@
 //  Created by 가은 on 7/30/25.
 //
 
-import ComposableArchitecture
+import TCA
 import DesignSystem
 import SwiftUI
 
@@ -54,7 +54,7 @@ public struct TuringTestIntroView: View {
             
             VStack(spacing: 12) {
                 CTAButton(text: "시작하기") {
-                    store.send(.moveToConceptView)
+                    store.send(.tappedStartButton)
                 }
                 ShareButton()
             }
@@ -65,13 +65,18 @@ public struct TuringTestIntroView: View {
         .background(Color(.gray_950))
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Image("icon_arrow_back", bundle: .module)
-                    .padding(12)
+                Button {
+                    store.send(.tappedBackButton)
+                } label: {
+                    Image("icon_arrow_back", bundle: .module)
+                        .padding(12)
+                }
             }
         }
         .onAppear {
             store.send(.onAppearIntroView)
         }
+        .navigationBarBackButtonHidden()
     }
     
     @ViewBuilder

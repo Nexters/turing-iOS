@@ -5,9 +5,10 @@
 //  Created by 가은 on 7/27/25.
 //
 
-import ComposableArchitecture
+import TCA
 import DesignSystem
 import SwiftUI
+import Profile
 
 public struct MainView: View {
     let store: StoreOf<MainFeature>
@@ -36,22 +37,23 @@ public struct MainView: View {
                         get: { $0 },
                         send: MainFeature.Action.selectedTabChanged
                     ))
+                    .padding(.horizontal, 24)
                     
                     switch tab {
                     case .turingTest:
                         ScrollView {
                             TestCardList()
+                                .padding(.horizontal, 24)
                         }
                     case .achievement:
-                        // TODO: 업적(Profile) 연결
-                        EmptyView()
+                        ProfileView()
                         Spacer()
                     }
                 }
             }
-            .padding(.horizontal, 24)
             .padding(.top, 12)
         }
+        .navigationBarBackButtonHidden()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
     }
