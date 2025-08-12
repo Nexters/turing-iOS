@@ -9,6 +9,9 @@ import DesignSystem
 import SwiftUI
 
 struct TuringTestResultView: View {
+    let gradientStops = GradientHelper.getGradientStops(for: .bronze)
+    let badgeCardColor = GradientHelper.getBadgeColors(for: .bronze)
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Color(.gray_900).ignoresSafeArea()
@@ -47,41 +50,38 @@ struct TuringTestResultView: View {
             .padding(.trailing, 12)
             .padding(.bottom, 20)
         }
-        .background(
-            LinearGradient(
-                colors: [Color(hex: "625921"), Color(hex: "4F4A21").opacity(0.0)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        )
+        .gradientBackground(
+            stops: gradientStops.naviBackground,
+            startPoint: .top,
+            endPoint: .bottom)
     }
     
     @ViewBuilder
     private func BadgeCard() -> some View {
-        VStack {
+        VStack(spacing: 0) {
             AsyncImage(url: URL(string: ""))
                 .frame(width: 213, height: 213)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
             Text("모두 맞춘 당신은")
                 .fontStyle(.body_1)
-                .foregroundStyle(Color(hex: "FFEC87"))
+                .foregroundStyle(Color(hex: badgeCardColor.subColor))
+                .padding(.top, 26)
             Text("Ai 산타 감별사")
                 .fontStyle(.title_3)
-                .foregroundStyle(Color(hex: "FFEC87"))
+                .foregroundStyle(Color(hex: badgeCardColor.titleColor))
             Text("크리스마스엔 선물보다\n눈치가 중요하다는 걸 증명했어요!")
                 .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white).opacity(0.7))
                 .multilineTextAlignment(.center)
-            Image("logo_gold", bundle: .module)
+                .padding(.top, 16)
+            Image(badgeCardColor.image, bundle: .module)
+                .padding(.top, 36)
         }
         .padding([.horizontal, .top], 34)
         .padding(.bottom, 27)
         .frame(maxWidth: .infinity)
         .gradientBackground(
-            stops: [
-                .init(color: Color(hex: "DEDFD0"), location: 0.0),
-                .init(color: Color(hex: "9EA481"), location: 1.0)
-            ],
+            stops: gradientStops.badgeLinearBackground,
             startPoint: .topLeading,
             endPoint: .bottomTrailing,
             cornerRadius: 24,
@@ -90,11 +90,7 @@ struct TuringTestResultView: View {
         )
         .background(
             RadialGradient(
-                gradient: Gradient(stops: [
-                        .init(color: Color(hex: "FAE34F").opacity(0.7), location: 0.0),
-                        .init(color: Color(hex: "FAE34F").opacity(0.2), location: 0.3),
-                        .init(color: Color(hex: "FAE34F").opacity(0.0), location: 0.5)
-                    ]),
+                gradient: Gradient(stops: gradientStops.badgeRadialBackground),
                 center: .bottom,
                 startRadius: 0,
                 endRadius: 400
@@ -157,13 +153,7 @@ struct TuringTestResultView: View {
         Color.clear
             .ignoresSafeArea()
             .gradientBackground(
-                stops: [
-                    .init(color: Color(hex: "615920"), location: 0.0),
-                    .init(color: Color(hex: "433F21"), location: 0.1),
-                    .init(color: Color(hex: "373521"), location: 0.16),
-                    .init(color: Color(hex: "2B2A22"), location: 0.33),
-                    .init(color: Color(hex: "1D1E22"), location: 0.62)
-                ],
+                stops: gradientStops.mainBackground,
                 startPoint: .top,
                 endPoint: .bottom
             )
