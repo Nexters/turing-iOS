@@ -51,9 +51,9 @@ struct AppFeature {
                 return .none
 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
-            case .path:
+            case .path(.element(id: _, action: .turingTest(.delegate(.moveToConceptView)))):
+                state.path.append(.turingTestConcept(.init()))
                 return .none
-
             case let .setRoot(root):
                 state.root = root
                 return .none

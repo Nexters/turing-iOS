@@ -21,11 +21,16 @@ public struct TuringTestFeature {
         }
     }
     
+    public enum Delegate {
+        case moveToConceptView
+    }
+    
     public enum Action {
         case onAppearIntroView
         case tappedTestShareButton
-        case moveToConceptView
+        case tappedTestStartButton
         case moveToQuizView
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
@@ -37,9 +42,11 @@ public struct TuringTestFeature {
                 return .none
             case .tappedTestShareButton:
                 return .none
-            case .moveToConceptView:
-                return .none
+            case .tappedTestStartButton:
+                return .send(.delegate(.moveToConceptView))
             case .moveToQuizView:
+                return .none
+            case .delegate:
                 return .none
             }
         }

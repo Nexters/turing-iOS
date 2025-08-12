@@ -39,15 +39,17 @@ struct AppView: View {
                     MainView(
                         store: store.scope(state: \.main, action: \.main)
                     )
-                } destination: { state in
+                } destination: { store in
                     // ✅ 목적지 매핑
-                    switch state {
+                    switch store.state {
                     case .turingTest:
-                        CaseLet(
-                            \AppPath.State.turingTest,
-                            action: AppPath.Action.turingTest,
-                            then: TuringTestIntroView.init(store:)
-                        )
+                        if let turingStore = store.scope(state: \.turingTest, action: \.turingTest) {
+                            TuringTestIntroView(store: turingStore)
+                        }
+                    case .turingTestConcept:
+                        if let turingStore = store.scope(state: \.turingTestConcept, action: \.turingTestConcept) {
+                            TuringTestConceptView(store: turingStore)
+                        }
                     }
                 }
             }

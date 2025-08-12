@@ -13,15 +13,18 @@ struct AppPath {
   @ObservableState
   @CasePathable
   enum State {
-    case turingTest(TuringTestFeature.State)
+      case turingTest(TuringTestFeature.State)
+      case turingTestConcept(TuringTestFeature.State)
   }
 
   @CasePathable
   enum Action {
-    case turingTest(TuringTestFeature.Action)
+      case turingTest(TuringTestFeature.Action)
+      case turingTestConcept(TuringTestFeature.Action)
   }
 
   var body: some ReducerOf<Self> {
-    Scope(state: \.turingTest, action: \.turingTest) { TuringTestFeature() }
+      Scope(state: \.turingTest, action: \.turingTest) { TuringTestFeature() }
+      Scope(state: \.turingTestConcept, action: \.turingTestConcept) { TuringTestFeature() }
   }
 }

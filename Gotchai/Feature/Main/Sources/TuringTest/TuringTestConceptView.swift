@@ -9,10 +9,14 @@ import TCA
 import DesignSystem
 import SwiftUI
 
-struct TuringTestConceptView: View {
+public struct TuringTestConceptView: View {
     let store: StoreOf<TuringTestFeature>
     
-    var body: some View {
+    public init(store: StoreOf<TuringTestFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         ZStack {
             // TODO: 배경 이미지 추가 
             
