@@ -37,6 +37,7 @@ public struct MainView: View {
                         get: { $0 },
                         send: MainFeature.Action.selectedTabChanged
                     ))
+                    .padding(.horizontal, 24)
                     
                     switch tab {
                     case .turingTest:
@@ -52,6 +53,7 @@ public struct MainView: View {
             }
             .padding(.top, 12)
         }
+        .navigationBarBackButtonHidden()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
     }

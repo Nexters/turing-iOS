@@ -9,10 +9,14 @@ import TCA
 import DesignSystem
 import SwiftUI
 
-struct QuizView: View {
+public struct QuizView: View {
     let store: StoreOf<QuizFeature>
     
-    var body: some View {
+    public init(store: StoreOf<QuizFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .leading) {
                 
@@ -54,10 +58,15 @@ struct QuizView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, 24)
             .background(Color(.gray_950))
+            .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image("icon_xmark", bundle: .module)
-                        .padding(12)
+                    Button {
+                        viewStore.send(.tappedXButton)
+                    } label: {
+                        Image("icon_xmark", bundle: .module)
+                            .padding(12)
+                    }
                 }
             }
             .answerPopUp(

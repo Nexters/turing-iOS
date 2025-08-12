@@ -43,7 +43,7 @@ struct QuizAnswerPopUp: ViewModifier {
                 Rectangle()
                     .fill(Color(.gray_600))
                     .frame(height: 0.6)
-                Text("음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?")
+                Text(answerText)
                     .fontStyle(.body_1)
                     .foregroundStyle(Color(.gray_100))
                     .multilineTextAlignment(.center)

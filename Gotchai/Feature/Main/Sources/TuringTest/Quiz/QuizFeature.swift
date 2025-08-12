@@ -10,11 +10,11 @@ import TCA
 import SwiftUI
 
 @Reducer
-struct QuizFeature {
-    init() { }
+public struct QuizFeature {
+    public init() { }
     
     @ObservableState
-    struct State: Equatable {
+    public struct State: Equatable {
         // Timer
         var secondsElapsed: Int = 0
         let totalSeconds: Int = 10
@@ -28,7 +28,7 @@ struct QuizFeature {
         var answer: String
         var isAnswerPopUpPresented: Bool
         
-        init(
+        public init(
             quiz: Quiz = Quiz.dummy,
             progress: QuizProgress = .notAnswered,
             answer: String = "",
@@ -42,7 +42,12 @@ struct QuizFeature {
         }
     }
     
-    enum Action: Equatable {
+    public enum Delegate {
+        case moveToMainView
+        case moveToResultView
+    }
+    
+    public enum Action: Equatable {
         // Life Cycle
         case onAppear
         
@@ -55,11 +60,14 @@ struct QuizFeature {
         case initQuiz
         case selectAnswer(Int, Int)
         case setAnswerPopUpPresented(Bool)
+        case tappedXButton
+        case tappedTestEndButton
+        case delegate(Delegate)
     }
     
     enum CancelID { case timer }
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
@@ -124,6 +132,12 @@ struct QuizFeature {
                 state.isAnswerPopUpPresented = isPresented
                 return .none
             case .initQuiz:
+                return .none
+            case .tappedXButton:
+                return .send(.delegate(.moveToMainView))
+            case .tappedTestEndButton:
+                return .send(.delegate(.moveToResultView))
+            default:
                 return .none
             }
         }
