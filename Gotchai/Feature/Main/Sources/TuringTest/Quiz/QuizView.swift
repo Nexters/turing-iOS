@@ -15,7 +15,9 @@ struct QuizView: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .leading) {
-                timerBar(seconds: 2)
+                
+                let progress = CGFloat(viewStore.secondsElapsed) / CGFloat(viewStore.totalSeconds)
+                TimerBar(progress: progress)
                     .padding(.top, 4)
                     .padding(.bottom, 28)
                 
@@ -42,6 +44,7 @@ struct QuizView: View {
                         } label: {
                             AnswerCard(idx: index, text: item, state: viewStore.answerCardState[index])
                         }
+                        .allowsHitTesting(!viewStore.state.isSelectedAnswer)    // 답 선택하면 터치 막기
                     }
                 }
                 .padding(.top, 76)
@@ -74,15 +77,17 @@ struct QuizView: View {
     }
     
     @ViewBuilder
-    private func timerBar(seconds: Int) -> some View {
-        ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 3)
-                .fill(Color(.gray_white).opacity(0.2))
-                .frame(maxWidth: .infinity)
-            GeometryReader { geometry in
+    private func TimerBar(progress: CGFloat) -> some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(Color(.gray_white).opacity(0.2))
+                    .frame(maxWidth: .infinity)
+            
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(.primary_400))
-                    .frame(width: geometry.size.width * CGFloat(seconds/10))
+                    .frame(width: geometry.size.width * progress)
+                    .animation(.linear(duration: 1), value: progress)
             }
         }
         .frame(height: 5)
