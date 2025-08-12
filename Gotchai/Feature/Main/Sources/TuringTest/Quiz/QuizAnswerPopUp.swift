@@ -20,7 +20,7 @@ struct QuizAnswerPopUp: ViewModifier {
                 .blur(radius: isPresented ? 4 : 0)
             
             if isPresented {
-                Color(.gray_black).opacity(0.6)
+                Color(.gray_black).opacity(0.6).ignoresSafeArea()
                 
                 PopUpView()
             }
