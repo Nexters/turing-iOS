@@ -23,13 +23,14 @@ public struct TuringTestFeature {
     
     public enum Delegate {
         case moveToConceptView
+        case moveToQuizView
     }
     
     public enum Action {
         case onAppearIntroView
         case tappedTestShareButton
-        case tappedTestStartButton
-        case moveToQuizView
+        case tappedStartButton
+        case tappedNextButton
         case delegate(Delegate)
     }
     
@@ -42,10 +43,10 @@ public struct TuringTestFeature {
                 return .none
             case .tappedTestShareButton:
                 return .none
-            case .tappedTestStartButton:
+            case .tappedStartButton:
                 return .send(.delegate(.moveToConceptView))
-            case .moveToQuizView:
-                return .none
+            case .tappedNextButton:
+                return .send(.delegate(.moveToQuizView))
             case .delegate:
                 return .none
             }

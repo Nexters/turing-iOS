@@ -54,7 +54,7 @@ public struct TuringTestIntroView: View {
             
             VStack(spacing: 12) {
                 CTAButton(text: "시작하기") {
-                    store.send(.tappedTestStartButton)
+                    store.send(.tappedStartButton)
                 }
                 ShareButton()
             }

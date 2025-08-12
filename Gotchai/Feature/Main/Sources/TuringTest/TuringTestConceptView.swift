@@ -36,7 +36,7 @@ public struct TuringTestConceptView: View {
                 Spacer()
                 
                 CTAButton(text: "다음") {
-                    store.send(.moveToQuizView)
+                    store.send(.tappedNextButton)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 10)

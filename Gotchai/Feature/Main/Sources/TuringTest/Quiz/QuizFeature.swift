@@ -10,18 +10,18 @@ import TCA
 import SwiftUI
 
 @Reducer
-struct QuizFeature {
-    init() { }
+public struct QuizFeature {
+    public init() { }
     
     @ObservableState
-    struct State: Equatable {
+    public struct State: Equatable {
         var quiz: Quiz
         var progress: QuizProgress
         var answerCardState: [AnswerCardState]
         var answer: String
         var isAnswerPopUpPresented: Bool
         
-        init(
+        public init(
             quiz: Quiz = Quiz.dummy,
             progress: QuizProgress = .notAnswered,
             answer: String = "",
@@ -35,14 +35,14 @@ struct QuizFeature {
         }
     }
     
-    enum Action: Equatable {
+    public enum Action: Equatable {
         case onAppear
         case initQuiz
         case selectAnswer(Int, Int)
         case setAnswerPopUpPresented(Bool)
     }
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:

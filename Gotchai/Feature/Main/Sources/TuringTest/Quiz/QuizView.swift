@@ -9,10 +9,14 @@ import TCA
 import DesignSystem
 import SwiftUI
 
-struct QuizView: View {
+public struct QuizView: View {
     let store: StoreOf<QuizFeature>
     
-    var body: some View {
+    public init(store: StoreOf<QuizFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .leading) {
                 timerBar(seconds: 2)

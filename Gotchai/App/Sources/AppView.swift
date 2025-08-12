@@ -50,6 +50,10 @@ struct AppView: View {
                         if let turingStore = store.scope(state: \.turingTestConcept, action: \.turingTestConcept) {
                             TuringTestConceptView(store: turingStore)
                         }
+                    case .quiz:
+                        if let quizStore = store.scope(state: \.quiz, action: \.quiz) {
+                            QuizView(store: quizStore)
+                        }
                     }
                 }
             }
