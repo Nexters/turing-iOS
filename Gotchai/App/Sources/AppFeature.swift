@@ -66,9 +66,12 @@ struct AppFeature {
     }
 
     var body: some ReducerOf<Self> {
-        Scope(state: \.onboarding, action: /Action.onboarding) { OnboardingFeature() }
-        Scope(state: \.signIn,     action: /Action.signIn)     { SignInFeature() }
-        Scope(state: \.main,       action: /Action.main)       { MainFeature() }
+        Scope(state: \.onboarding, action: \.onboarding) { OnboardingFeature() }
+        Scope(state: \.signIn,     action: \.signIn)     { SignInFeature() }
+        Scope(state: \.main,       action: \.main)       { MainFeature() }
         core
+            .forEach(\.path, action: \.path) {
+                AppPath()
+            }
     }
 }
