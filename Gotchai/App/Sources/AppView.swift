@@ -11,6 +11,7 @@ import SignIn
 import Auth
 import Onboarding
 import Main
+import Setting
 
 struct AppView: View {
     let store: StoreOf<AppFeature>
@@ -57,6 +58,10 @@ struct AppView: View {
                     case .turingTestResult:
                         if let turingStore = store.scope(state: \.turingTestResult, action: \.turingTestResult) {
                             TuringTestResultView(store: turingStore)
+                        }
+                    case .setting:
+                        if let settingStore = store.scope(state: \.setting, action: \.setting) {
+                            SettingView(store: settingStore)
                         }
                     }
                 }

@@ -14,8 +14,13 @@ public struct SettingFeature {
     
     @ObservableState
     public struct State: Equatable {
-        var isPresentedPopUp: Bool = false
+        var isPresentedPopUp: Bool
         var popUpType: SettingPopUpType?
+        
+        public init(isPresentedPopUp: Bool = false, popUpType: SettingPopUpType? = nil) {
+            self.isPresentedPopUp = isPresentedPopUp
+            self.popUpType = popUpType
+        }
     }
     
     public enum Action: Equatable {

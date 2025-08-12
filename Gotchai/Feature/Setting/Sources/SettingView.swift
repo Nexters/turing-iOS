@@ -9,10 +9,14 @@ import DesignSystem
 import SwiftUI
 import TCA
 
-struct SettingView: View {
+public struct SettingView: View {
     let store: StoreOf<SettingFeature>
     
-    var body: some View {
+    public init(store: StoreOf<SettingFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(spacing: 16) {
                 HStack {
@@ -62,6 +66,7 @@ struct SettingView: View {
                 .fontStyle(.body_4)
                 .padding(.horizontal, 24)
             }
+            .navigationBarBackButtonHidden()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.gray_950))
             .settingPopUp(
