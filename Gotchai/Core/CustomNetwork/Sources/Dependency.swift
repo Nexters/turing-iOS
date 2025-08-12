@@ -11,7 +11,7 @@ import Moya
 
 extension MoyaAPIClient: DependencyKey {
     public static let liveValue: NetworkClient = {
-        let provider = MoyaProvider<MultiTarget>()
+        let provider = MoyaProvider<MultiTarget>(plugins: [AuthPlugin()])
         return MoyaAPIClient(provider: provider)
     }()
 }
