@@ -71,8 +71,11 @@ struct QuizFeature {
                 state.isRunningTimer = true
                 
                 return .run { send in
-                    for _ in 1... {
-                        try await Task.sleep(nanoseconds: 1_000_000_000)
+                    let timerSequence = Timer.publish(every: 1.0, on: .main, in: .common)
+                        .autoconnect()
+                        .values
+                    
+                    for await _ in timerSequence {
                         await send(.tick)
                     }
                 }
