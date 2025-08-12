@@ -13,56 +13,72 @@ struct SettingView: View {
     let store: StoreOf<SettingFeature>
     
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Button {
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            VStack(spacing: 16) {
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        Image("arrow_back", bundle: .module)
+                            .padding(12)
+                    }
+                    .padding(.leading, 8)
                     
-                } label: {
-                    Image("arrow_back", bundle: .module)
-                        .padding(12)
+                    Spacer()
                 }
-                .padding(.leading, 8)
-                
-                Spacer()
-            }
-            .overlay (
-                Text("설정")
-                    .fontStyle(.body_1)
-                    .foregroundStyle(Color(.gray_white))
-            )
-            
-            VStack(spacing: 8) {
-                ItemCard(image: "icon_feedback", text: "문의하기", action: .tappedGetFeedbackButton)
-                ItemCard(image: "icon_notes", text: "이용약관", action: .tappedTermsButton)
-                ItemCard(image: "icon_safe", text: "개인정보 처리방침", action: .tappedPolicyButton)
-                
-                Spacer()
-                
-                Button {
-                    store.send(.tappedLogoutButton)
-                } label: {
-                    Text("로그아웃")
+                .overlay (
+                    Text("설정")
+                        .fontStyle(.body_1)
                         .foregroundStyle(Color(.gray_white))
-                        .padding(.vertical, 15)
-                        .frame(maxWidth: .infinity)
-                }
-                .background(Color(.gray_900))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                )
                 
-                Button {
-                    store.send(.tappedWithdrawButton)
-                } label: {
-                    Text("회원탈퇴")
-                        .foregroundStyle(Color(.gray_500))
-                        .padding(.vertical, 15)
-                        .frame(maxWidth: .infinity)
+                VStack(spacing: 8) {
+                    ItemCard(image: "icon_feedback", text: "문의하기", action: .tappedGetFeedbackButton)
+                    ItemCard(image: "icon_notes", text: "이용약관", action: .tappedTermsButton)
+                    ItemCard(image: "icon_safe", text: "개인정보 처리방침", action: .tappedPolicyButton)
+                    
+                    Spacer()
+                    
+                    Button {
+                        viewStore.send(.showPopUp(.logout))
+                    } label: {
+                        Text("로그아웃")
+                            .foregroundStyle(Color(.gray_white))
+                            .padding(.vertical, 15)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .background(Color(.gray_900))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    
+                    Button {
+                        viewStore.send(.showPopUp(.withdraw))
+                    } label: {
+                        Text("회원탈퇴")
+                            .foregroundStyle(Color(.gray_500))
+                            .padding(.vertical, 15)
+                            .frame(maxWidth: .infinity)
+                    }
                 }
+                .fontStyle(.body_4)
+                .padding(.horizontal, 24)
             }
-            .fontStyle(.body_4)
-            .padding(.horizontal, 24)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(.gray_950))
+            .settingPopUp(
+                isPresented: viewStore.binding(
+                    get: \.isPresentedPopUp,
+                    send: SettingFeature.Action.setIsPresentedPopUp
+                ),
+                type: viewStore.popUpType ?? .logout) {
+                    if viewStore.popUpType == .logout {
+                        viewStore.send(.logout)
+                    } else {
+                        viewStore.send(.withdraw)
+                    }
+                }
+            
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.gray_950))
+        
     }
     
     @ViewBuilder

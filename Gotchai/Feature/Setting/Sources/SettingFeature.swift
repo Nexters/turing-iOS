@@ -13,23 +13,38 @@ public struct SettingFeature {
     public init() { }
     
     @ObservableState
-    public struct State {
-        
+    public struct State: Equatable {
+        var isPresentedPopUp: Bool = false
+        var popUpType: SettingPopUpType?
     }
     
-    public enum Action {
+    public enum Action: Equatable {
         case tappedGetFeedbackButton
         case tappedTermsButton
         case tappedPolicyButton
-        case tappedLogoutButton
-        case tappedWithdrawButton
+        case logout
+        case withdraw
+        case showPopUp(SettingPopUpType)
+        case setIsPresentedPopUp(Bool)  // 바인딩용
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case let .showPopUp(type):
+                state.isPresentedPopUp = true
+                state.popUpType = type
+                return .none
+            case let .setIsPresentedPopUp(flag):
+                state.isPresentedPopUp = flag
+                return .none
+                
             default: return .none
             }
         }
     }
+}
+
+public enum SettingPopUpType: Equatable {
+    case logout, withdraw
 }
