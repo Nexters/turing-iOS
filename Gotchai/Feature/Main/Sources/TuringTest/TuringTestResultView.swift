@@ -11,8 +11,8 @@ import TCA
 
 public struct TuringTestResultView: View {
     let store: StoreOf<TuringTestFeature>
-    let gradientStops = GradientHelper.getGradientStops(for: .bronze)
-    let badgeCardColor = GradientHelper.getBadgeColors(for: .bronze)
+    let gradientStops = GradientHelper.getGradientStops(for: .gold)
+    let badgeCardColor = GradientHelper.getBadgeColors(for: .gold)
     
     public init(store: StoreOf<TuringTestFeature>) {
         self.store = store

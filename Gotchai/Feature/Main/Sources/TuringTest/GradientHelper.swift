@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum GradientTheme {
-    case gold, sliver, bronze
+    case gold, silver, bronze
 }
 
 struct ColorPalette {
@@ -76,7 +76,7 @@ struct GradientHelper {
                 naviBackground: ["625921", "4F4A21"],
                 badgeLinearBackground: ["DEDFD0", "9EA481"],
                 badgeRadialBackground: ["FAE34F", "FAE34F", "FAE34F"])
-        case .sliver:
+        case .silver:
             return ColorPalette(
                 mainBackground: ["37424E", "2F3741", "2B313A", "25282F", "1D1E22"],
                 naviBackground: ["36424E", "2F3740"],
@@ -102,11 +102,11 @@ extension GradientHelper {
                 subColor: "BDAB47",
                 image: "logo_gold"
             )
-        case .sliver:
+        case .silver:
             return (
                 titleColor: "6D8DC4",
                 subColor: "BED6FF",
-                image: "logo_sliver"
+                image: "logo_silver"
             )
         case .bronze:
             return (
