@@ -37,6 +37,7 @@ public struct QuizFeature {
     
     public enum Delegate {
         case moveToMainView
+        case moveToResultView
     }
     
     public enum Action: Equatable {
@@ -45,6 +46,7 @@ public struct QuizFeature {
         case selectAnswer(Int, Int)
         case setAnswerPopUpPresented(Bool)
         case tappedXButton
+        case tappedTestEndButton
         case delegate(Delegate)
     }
     
@@ -79,6 +81,8 @@ public struct QuizFeature {
                 return .none
             case .tappedXButton:
                 return .send(.delegate(.moveToMainView))
+            case .tappedTestEndButton:
+                return .send(.delegate(.moveToResultView))
             default:
                 return .none
             }

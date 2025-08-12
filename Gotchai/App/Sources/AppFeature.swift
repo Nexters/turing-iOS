@@ -73,8 +73,13 @@ struct AppFeature {
                 }
                 
                 return .none
-            case .path(.element(id: _, action: .quiz(.delegate(.moveToMainView)))):
-                state.path.removeAll()
+            case .path(.element(id: _, action: .quiz(.delegate(let quizAction)))):
+                switch quizAction {
+                case .moveToMainView:
+                    state.path.removeAll()
+                case .moveToResultView:
+                    state.path.append(.turingTestResult(.init()))
+                }
                 return .none
             case let .setRoot(root):
                 state.root = root
