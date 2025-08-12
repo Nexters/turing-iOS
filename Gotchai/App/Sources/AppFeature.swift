@@ -57,7 +57,7 @@ struct AppFeature {
                 case .moveToConceptView:
                     state.path.append(.turingTestConcept(.init()))
                 case .moveToMainView:
-                    state.path.removeLast()
+                    state.path.removeAll()
                 default: break
                 }
                 
@@ -68,10 +68,13 @@ struct AppFeature {
                 case .moveToQuizView:
                     state.path.append(.quiz(.init()))
                 case .moveToMainView:
-                    state.path.removeLast(2)
+                    state.path.removeAll()
                 default: break
                 }
                 
+                return .none
+            case .path(.element(id: _, action: .quiz(.delegate(.moveToMainView)))):
+                state.path.removeAll()
                 return .none
             case let .setRoot(root):
                 state.root = root

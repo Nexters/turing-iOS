@@ -37,6 +37,7 @@ public struct MainView: View {
                         get: { $0 },
                         send: MainFeature.Action.selectedTabChanged
                     ))
+                    .padding(.horizontal, 24)
                     
                     switch tab {
                     case .turingTest:

@@ -35,11 +35,17 @@ public struct QuizFeature {
         }
     }
     
+    public enum Delegate {
+        case moveToMainView
+    }
+    
     public enum Action: Equatable {
         case onAppear
         case initQuiz
         case selectAnswer(Int, Int)
         case setAnswerPopUpPresented(Bool)
+        case tappedXButton
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
@@ -70,6 +76,10 @@ public struct QuizFeature {
                 state.isAnswerPopUpPresented = isPresented
                 return .none
             case .initQuiz:
+                return .none
+            case .tappedXButton:
+                return .send(.delegate(.moveToMainView))
+            default:
                 return .none
             }
         }

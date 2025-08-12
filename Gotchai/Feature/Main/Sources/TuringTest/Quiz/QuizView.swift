@@ -55,10 +55,15 @@ public struct QuizView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, 24)
             .background(Color(.gray_950))
+            .navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image("icon_xmark", bundle: .module)
-                        .padding(12)
+                    Button {
+                        viewStore.send(.tappedXButton)
+                    } label: {
+                        Image("icon_xmark", bundle: .module)
+                            .padding(12)
+                    }
                 }
             }
             .answerPopUp(
