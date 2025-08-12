@@ -19,9 +19,11 @@ struct QuizAnswerPopUp: ViewModifier {
             content
                 .blur(radius: isPresented ? 4 : 0)
             
-            PopUpView()
-                .opacity(isPresented ? 1 : 0)
-                .allowsHitTesting(isPresented)
+            if isPresented {
+                Color(.gray_black).opacity(0.6)
+                
+                PopUpView()
+            }
         }
     }
     
