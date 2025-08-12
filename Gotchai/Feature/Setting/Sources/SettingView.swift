@@ -7,8 +7,11 @@
 
 import DesignSystem
 import SwiftUI
+import TCA
 
 struct SettingView: View {
+    let store: StoreOf<SettingFeature>
+    
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -29,14 +32,14 @@ struct SettingView: View {
             )
             
             VStack(spacing: 8) {
-                ItemCard(image: "icon_feedback", text: "문의하기")
-                ItemCard(image: "icon_notes", text: "이용약관")
-                ItemCard(image: "icon_safe", text: "개인정보 처리방침")
+                ItemCard(image: "icon_feedback", text: "문의하기", action: .tappedGetFeedbackButton)
+                ItemCard(image: "icon_notes", text: "이용약관", action: .tappedTermsButton)
+                ItemCard(image: "icon_safe", text: "개인정보 처리방침", action: .tappedPolicyButton)
                 
                 Spacer()
                 
                 Button {
-                    
+                    store.send(.tappedLogoutButton)
                 } label: {
                     Text("로그아웃")
                         .foregroundStyle(Color(.gray_white))
@@ -47,7 +50,7 @@ struct SettingView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 
                 Button {
-                    
+                    store.send(.tappedWithdrawButton)
                 } label: {
                     Text("회원탈퇴")
                         .foregroundStyle(Color(.gray_500))
@@ -63,14 +66,16 @@ struct SettingView: View {
     }
     
     @ViewBuilder
-    private func ItemCard(image: String, text: String, ) -> some View {
+    private func ItemCard(image: String, text: String, action: SettingFeature.Action) -> some View {
         HStack(spacing: 12) {
             Image(image, bundle: .module)
             Text(text)
                 .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white))
             Spacer()
-            Button { } label: {
+            Button {
+                store.send(action)
+            } label: {
                 Image("arrow_right", bundle: .module)
                     .padding(.vertical, 8)
                     .padding(.leading, 14)
@@ -85,5 +90,7 @@ struct SettingView: View {
 }
 
 #Preview {
-    SettingView()
+    SettingView(store: .init(initialState: SettingFeature.State(), reducer: {
+        SettingFeature()
+    }))
 }
