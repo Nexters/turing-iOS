@@ -7,12 +7,18 @@
 
 import DesignSystem
 import SwiftUI
+import TCA
 
-struct TuringTestResultView: View {
+public struct TuringTestResultView: View {
+    let store: StoreOf<TuringTestFeature>
     let gradientStops = GradientHelper.getGradientStops(for: .bronze)
     let badgeCardColor = GradientHelper.getBadgeColors(for: .bronze)
     
-    var body: some View {
+    public init(store: StoreOf<TuringTestFeature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         ZStack(alignment: .bottom) {
             Color(.gray_900).ignoresSafeArea()
             BackgroundGradient()
@@ -207,5 +213,7 @@ struct TuringTestResultView: View {
 }
 
 #Preview {
-    TuringTestResultView()
+    TuringTestResultView(store: Store(initialState: TuringTestFeature.State(), reducer: {
+        TuringTestFeature()
+    }))
 }
