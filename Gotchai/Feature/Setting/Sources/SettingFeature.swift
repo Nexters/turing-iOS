@@ -23,7 +23,12 @@ public struct SettingFeature {
         }
     }
     
+    public enum Delegate {
+        case moveToMainView
+    }
+    
     public enum Action: Equatable {
+        case tappedBackButton
         case tappedGetFeedbackButton
         case tappedTermsButton
         case tappedPolicyButton
@@ -31,11 +36,14 @@ public struct SettingFeature {
         case withdraw
         case showPopUp(SettingPopUpType)
         case setIsPresentedPopUp(Bool)  // 바인딩용
+        case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .tappedBackButton:
+                return .send(.delegate(.moveToMainView))
             case let .showPopUp(type):
                 state.isPresentedPopUp = true
                 state.popUpType = type

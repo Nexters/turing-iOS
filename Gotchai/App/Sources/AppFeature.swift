@@ -81,12 +81,17 @@ struct AppFeature {
                 
                 return .none
             case .path(.element(id: _, action: .quiz(.delegate(let quizAction)))):
+                // 퀴즈 화면에서 받는 Action
                 switch quizAction {
                 case .moveToMainView:
                     state.path.removeAll()
                 case .moveToResultView:
                     state.path.append(.turingTestResult(.init()))
                 }
+                return .none
+            case .path(.element(id: _, action: .setting(.delegate(.moveToMainView)))):
+                // 세팅 화면에서 받는 Action
+                state.path.removeAll()
                 return .none
             case let .setRoot(root):
                 state.root = root

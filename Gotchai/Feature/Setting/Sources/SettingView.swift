@@ -21,7 +21,7 @@ public struct SettingView: View {
             VStack(spacing: 16) {
                 HStack {
                     Button {
-                        
+                        viewStore.send(.tappedBackButton)
                     } label: {
                         Image("arrow_back", bundle: .module)
                             .padding(12)
