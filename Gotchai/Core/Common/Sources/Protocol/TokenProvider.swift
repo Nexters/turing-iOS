@@ -5,6 +5,6 @@
 //  Created by koreamango on 7/20/25.
 //
 
-public protocol TokenProvider {
-    var accessToken: String? { get }
+public protocol TokenProvider: AnyObject {
+    var accessToken: String? { get set }
 }
