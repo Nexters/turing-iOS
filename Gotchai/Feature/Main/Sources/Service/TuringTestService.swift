@@ -35,4 +35,20 @@ struct TuringTestService {
             }
             .eraseToAnyPublisher()
     }
+    
+    func getTuringTest(_ target: TuringTestAPI) -> AnyPublisher<TuringTest, Error> {
+        networkClient
+            .request(target, type: TuringTestItemDTO.self)
+            .map { dto in
+                TuringTest(
+                    id: dto.id,
+                    iconURL: dto.iconImage,
+                    imageURL: dto.coverImage,
+                    title: dto.title,
+                    subtitle: dto.subTitle,
+                    explanation: dto.description,
+                    backgroundImageURL: dto.backgroundImage)
+            }
+            .eraseToAnyPublisher()
+    }
 }

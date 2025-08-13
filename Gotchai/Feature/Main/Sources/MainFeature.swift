@@ -29,7 +29,7 @@ public struct MainFeature {
     }
 
     public enum Delegate {
-        case openTuringTest(TuringTestCard)
+        case openTuringTest(Int)
         case moveToSetting
     }
 
@@ -62,8 +62,7 @@ public struct MainFeature {
                 state.selectedTab = tab
                 return .none
             case let .tappedTestCard(id):
-                guard let item = state.turingTestItems.first(where: { $0.id == id }) else { return .none }
-                return .send(.delegate(.openTuringTest(item)))
+                return .send(.delegate(.openTuringTest(id)))
             case .tappedSettingButton:
                 return .send(.delegate(.moveToSetting))
             case .delegate: return .none

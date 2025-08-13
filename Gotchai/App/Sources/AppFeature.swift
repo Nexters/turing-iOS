@@ -47,14 +47,11 @@ struct AppFeature {
                 
             case let .main(.delegate(mainAction)):
                 switch mainAction {
-                case .openTuringTest(let item):
-                    state.path.append(.turingTest(
-                        .init() //TODO: 여기서 Item 넣어줘야함
-                    ))
+                case .openTuringTest(let id):
+                    state.path.append(.turingTest(.init(turingTestID: id)))
                 case .moveToSetting:
                     state.path.append(.setting(.init()))
                 }
-                
                 return .none
                 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
