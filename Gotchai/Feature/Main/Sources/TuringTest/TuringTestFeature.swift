@@ -35,7 +35,7 @@ public struct TuringTestFeature {
     
     public enum Delegate {
         case moveToConceptView(Int, TuringTest)
-        case moveToQuizView
+        case moveToQuizView(Int)
         case moveToMainView
     }
     
@@ -96,7 +96,7 @@ public struct TuringTestFeature {
                 switch result {
                 case let .success(quizIds):
                     state.quizIds = quizIds
-                    return .send(.delegate(.moveToQuizView))
+                    return .send(.delegate(.moveToQuizView(quizIds.first ?? -1)))
                 case let .failure(error):
                     print("테스트 시작 실패:", error)
                     return .none

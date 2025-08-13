@@ -12,6 +12,7 @@ enum TuringTestAPI {
     case getTestList
     case getTestDetail(Int)
     case postTestStart(Int)
+    case getQuiz(Int)
 }
 
 extension TuringTestAPI: BaseTarget {
@@ -23,6 +24,8 @@ extension TuringTestAPI: BaseTarget {
             return apiPrefix + "/exams/\(id)"
         case let .postTestStart(testID):
             return apiPrefix + "/exams/\(testID)/start"
+        case let .getQuiz(quizID):
+            return apiPrefix + "/quizzes/\(quizID)"
         }
     }
     
@@ -31,6 +34,7 @@ extension TuringTestAPI: BaseTarget {
         case .getTestList: return .get
         case .getTestDetail: return .get
         case .postTestStart: return .post
+        case .getQuiz: return .get
         }
     }
     
@@ -41,6 +45,8 @@ extension TuringTestAPI: BaseTarget {
         case .getTestDetail:
             return .requestPlain
         case .postTestStart:
+            return .requestPlain
+        case .getQuiz:
             return .requestPlain
         }
     }

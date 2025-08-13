@@ -35,18 +35,18 @@ public struct QuizView: View {
                             .fill(Color(.primary_400).opacity(0.1))
                     )
                 
-                Text(store.quiz.contents)
+                Text(viewStore.quiz.contents)
                     .fontStyle(.subtitle_2)
                     .foregroundStyle(Color(.gray_white))
                     .padding(.top, 16)
                 
                 VStack(spacing: 16) {
-                    ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
+                    ForEach(Array(viewStore.quiz.answers.enumerated()), id: \.offset) { index, item in
                         Button {
                             // TODO: index를 id로 변경
                             viewStore.send(.selectAnswer(index, index))
                         } label: {
-                            AnswerCard(idx: index, text: item, state: viewStore.answerCardState[index])
+                            AnswerCard(idx: index, text: item.contents, state: viewStore.answerCardState[index])
                         }
                         .allowsHitTesting(!viewStore.state.isSelectedAnswer)    // 답 선택하면 터치 막기
                     }

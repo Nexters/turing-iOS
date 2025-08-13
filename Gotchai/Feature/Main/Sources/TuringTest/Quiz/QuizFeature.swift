@@ -6,11 +6,19 @@
 //
 
 import Combine
+import CustomNetwork
 import TCA
 import SwiftUI
 
 @Reducer
 public struct QuizFeature {
+    @Dependency(\.turingTestService) var turingTestService
+    
+    public enum CancelID {
+        case getQuiz
+        case timer
+    }
+    
     public init() { }
     
     @ObservableState
@@ -21,6 +29,7 @@ public struct QuizFeature {
         var isRunningTimer = false
         
         // Quiz
+        var quizID: Int
         var quiz: Quiz
         var progress: QuizProgress
         var answerCardState: [AnswerCardState]
@@ -29,11 +38,13 @@ public struct QuizFeature {
         var isAnswerPopUpPresented: Bool
         
         public init(
+            quizID: Int = -1,
             quiz: Quiz = Quiz.dummy,
             progress: QuizProgress = .notAnswered,
             answer: String = "",
             isAnswerPopUpPresented: Bool = false
         ) {
+            self.quizID = quizID
             self.quiz = quiz
             self.progress = progress
             self.answerCardState = Array(repeating: .idle, count: quiz.answers.count)
@@ -47,7 +58,7 @@ public struct QuizFeature {
         case moveToResultView
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         // Life Cycle
         case onAppear
         
@@ -63,17 +74,22 @@ public struct QuizFeature {
         case tappedXButton
         case tappedTestEndButton
         case delegate(Delegate)
+        
+        // Data
+        case getQuizResponse(Result<Quiz, Error>)
     }
-    
-    enum CancelID { case timer }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                
-                // TODO: 데이터 setting
-                return .send(.startTimer)
+                return .publisher {
+                    turingTestService.getQuiz(.getQuiz(state.quizID))
+                        .map { .getQuizResponse(.success($0)) }
+                        .catch{ Just(.getQuizResponse(.failure($0))) }
+                        .receive(on: RunLoop.main)
+                }
+                .cancellable(id: CancelID.getQuiz)
             case .startTimer:
                 state.secondsElapsed = 0
                 state.isRunningTimer = true
@@ -137,6 +153,15 @@ public struct QuizFeature {
                 return .send(.delegate(.moveToMainView))
             case .tappedTestEndButton:
                 return .send(.delegate(.moveToResultView))
+            case let .getQuizResponse(result):
+                switch result {
+                case let .success(quiz):
+                    state.quiz = quiz
+                    return .send(.startTimer)
+                case let .failure(error):
+                    print("퀴즈 fetch 실패: \(error)")
+                    return .none
+                }
             default:
                 return .none
             }

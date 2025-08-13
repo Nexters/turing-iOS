@@ -26,3 +26,16 @@ public struct TuringTestItemDTO: Decodable {
 public struct TuringTestStartResponseDTO: Decodable {
     let quizIds: [Int]
 }
+
+// 퀴즈 GET
+public struct GetQuizDTO: Decodable {
+    let id: Int
+    let contents: String
+    let quizPicks: [AnswerCardDTO]
+    let createdAt: String
+}
+
+public struct AnswerCardDTO: Decodable {
+    let id: Int
+    let contents: String
+}
