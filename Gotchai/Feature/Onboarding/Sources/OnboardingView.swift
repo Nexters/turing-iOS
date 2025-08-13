@@ -25,11 +25,13 @@ public struct OnboardingView: View {
         VStack {
           HStack {
             Spacer()
-            Button("건너뛰기") {
-              viewStore.send(.start)
-            }
-            .foregroundColor(DesignSystemAsset.gray400.swiftUIColor)
-            .padding()
+              if (viewStore.currentPage < viewStore.pages.count - 1) {
+                  Button("건너뛰기") {
+                    viewStore.send(.start)
+                  }
+                  .foregroundColor(DesignSystemAsset.gray400.swiftUIColor)
+                  .padding()
+              }
           }
 
           Spacer()
