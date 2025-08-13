@@ -44,7 +44,7 @@ public struct MainFeature {
         case delegate(Delegate)
         
         // data
-        case turingTestListResponse(Result<TuringTestListResponseDTO, Error>)
+        case turingTestListResponse(Result<[TuringTestCard], Error>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -67,7 +67,12 @@ public struct MainFeature {
             case .tappedSettingButton:
                 return .send(.delegate(.moveToSetting))
             case .delegate: return .none
-            case .turingTestListResponse(_):
+            case let .turingTestListResponse(.success(items)):
+                // 리스트 데이터 저장
+                state.turingTestItems = items
+                return .none
+            case let .turingTestListResponse(.failure(error)):
+                print("테스트 리스트 fetch 실패:", error)
                 return .none
             }
         }

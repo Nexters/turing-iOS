@@ -15,12 +15,23 @@ struct TuringTestService {
         self.networkClient = networkClient
     }
     
-    func getTestList(_ target: TuringTestAPI) -> AnyPublisher<TuringTestListResponseDTO, Error> {
+    func getTestList(_ target: TuringTestAPI) -> AnyPublisher<[TuringTestCard], Error> {
         networkClient
             .request(target, type: TuringTestListResponseDTO.self)
             .handleEvents(receiveOutput: { response in
                 print("✅ 테스트 리스트 응답: \(response)")
             })
+            .map { dto in
+                let convertedData = dto.list.map { itemDto in
+                    TuringTestCard(
+                        id: itemDto.id,
+                        imageURL: itemDto.iconImage,
+                        title: itemDto.title,
+                        subtitle: itemDto.subTitle
+                    )
+                }
+                return convertedData
+            }
             .eraseToAnyPublisher()
     }
 }

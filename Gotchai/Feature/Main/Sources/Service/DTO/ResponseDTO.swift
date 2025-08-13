@@ -6,10 +6,10 @@
 //
 
 public struct TuringTestListResponseDTO: Decodable {
-    let list: [TuringTestItem]
+    let list: [TuringTestItemDTO]
 }
 
-public struct TuringTestItem: Decodable {
+public struct TuringTestItemDTO: Decodable {
     let id: Int
     let title: String
     let subTitle: String

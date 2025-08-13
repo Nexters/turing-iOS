@@ -97,12 +97,14 @@ public struct MainView: View {
     @ViewBuilder
     private func TestCardItem(item: TuringTestCard) -> some View {
         HStack(spacing: 16) {
+            // TODO: 이미지 캐시
             AsyncImage(url: URL(string: item.imageURL)) { image in
                 image.resizable()
             } placeholder: {
-//                ProgressView()
+                ProgressView()
             }
-            .frame(width: 80, height: 80)
+            .frame(width: 56, height: 56)
+            .padding(12)
             .background(
                 Circle().fill(Color(.gray_900))
             )
