@@ -9,6 +9,7 @@ import TCA
 import Auth
 import Combine
 import Foundation
+import Key
 
 @Reducer
 public struct SignInFeature {
@@ -35,9 +36,11 @@ public struct SignInFeature {
         case tappedAppleLogin
 
         case signInResponse(Result<UserSession, Error>)
-        case registerSessionResponse(Result<Void, Error>)
+        case registerSessionResponse(Result<AuthTokens, Error>)
         case delegate(Delegate)
     }
+
+    @Dependency(\.tokenProvider) var tokenProvider
 
     public init() {}
 
@@ -77,7 +80,7 @@ public struct SignInFeature {
                       let req = KakaoSignInRequestDTO(accessToken: session.token)
                       return .publisher {
                         signInService.registerKakaoSession(req)
-                          .map { SignInFeature.Action.registerSessionResponse(.success(())) }
+                          .map { SignInFeature.Action.registerSessionResponse(.success(($0))) }
                           .catch { Just(.registerSessionResponse(.failure($0))) }
                           .receive(on: RunLoop.main)
                       }
@@ -87,7 +90,7 @@ public struct SignInFeature {
                       let req = AppleSignInRequestDTO(idToken: session.token)
                       return .publisher {
                         signInService.registerAppleSession(req)
-                          .map { SignInFeature.Action.registerSessionResponse(.success(())) }
+                          .map { SignInFeature.Action.registerSessionResponse(.success(($0))) }
                           .catch { Just(.registerSessionResponse(.failure($0))) }
                           .receive(on: RunLoop.main)
                       }
@@ -99,14 +102,15 @@ public struct SignInFeature {
                       print("로그인 프로바이더 정보 없음")
                       return .none
                     }
-
-
             case let .signInResponse(.failure(error)):
                 state.isLoading = false
                 print("로그인 실패:", error)
                 return .none
 
-            case .registerSessionResponse(.success):
+            case let .registerSessionResponse(.success(tokens)):
+                // ✅ 이 타이밍에 Keychain 저장
+                tokenProvider.accessToken = tokens.accessToken
+                // refreshToken도 저장하고 싶으면 TokenProvider에 추가 프로퍼티/메서드로 저장
                 state.isLoading = false
                 return .send(.delegate(.didSignIn))
 

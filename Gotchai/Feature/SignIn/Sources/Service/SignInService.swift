@@ -18,27 +18,27 @@ public struct SignInService {
         self.networkClient = networkClient
     }
 
-    public func registerKakaoSession(_ request: KakaoSignInRequestDTO) -> AnyPublisher<Void, Error> {
-        let target = SignInAPI.kakao(request)
-        
-        return networkClient
-            .request(target, type: SignInResponseDTO.self)
-            .handleEvents(receiveOutput: { response in
-               print("✅ 로그인 응답:", response)
-            })
-            .map { _ in () }
-            .eraseToAnyPublisher()
+    public func registerKakaoSession(_ request: KakaoSignInRequestDTO) -> AnyPublisher<AuthTokens, Error> {
+        register(.kakao(request))
     }
 
-    public func registerAppleSession(_ request: AppleSignInRequestDTO) -> AnyPublisher<Void, Error> {
-        let target = SignInAPI.apple(request)
+    public func registerAppleSession(_ request: AppleSignInRequestDTO) -> AnyPublisher<AuthTokens, Error> {
+        register(.apple(request))
+    }
 
-        return networkClient
+    // 공통 처리
+    private func register(_ target: SignInAPI) -> AnyPublisher<AuthTokens, Error> {
+        networkClient
             .request(target, type: SignInResponseDTO.self)
             .handleEvents(receiveOutput: { response in
-               print("✅ 로그인 응답:", response)
+                print("✅ 로그인 응답:", response)
             })
-            .map { _ in () }
+            .map { dto in
+                AuthTokens(
+                    accessToken: dto.accessToken,
+                    refreshToken: dto.refreshToken
+                )
+            }
             .eraseToAnyPublisher()
     }
 }
