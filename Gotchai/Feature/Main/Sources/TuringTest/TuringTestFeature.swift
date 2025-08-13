@@ -56,6 +56,7 @@ public struct TuringTestFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            // MARK: - Action: Life Cycle
             case .onAppearIntroView:
                 // 데이터 fetch
                 return .publisher {
@@ -65,10 +66,12 @@ public struct TuringTestFeature {
                         .receive(on: RunLoop.main)
                 }
                 .cancellable(id: CancelID.getTuringTestItem)
-            case .tappedTestShareButton:
-                return .none
+            
+            // MARK: - Action: 화면 전환 & 단순 작업
             case .tappedStartButton:
                 return .send(.delegate(.moveToConceptView(state.turingTestID, state.turingTest)))
+            case .tappedBackButton:
+                return .send(.delegate(.moveToMainView))
             case .tappedNextButton:
                 return .publisher {
                     turingTestService.startTuringTest(.postTestStart(state.turingTestID))
@@ -77,27 +80,29 @@ public struct TuringTestFeature {
                         .receive(on: RunLoop.main)
                 }
                 .cancellable(id: CancelID.postTuringTestStart)
-            case .tappedBackButton:
-                return .send(.delegate(.moveToMainView))
-            case .delegate:
+            case .tappedTestShareButton:
                 return .none
-            case let .getTuringTestResponse(result):
+            
+            // MARK: - Action: 데이터 응답 처리
+            case .getTuringTestResponse(let result):
                 switch result {
-                case let .success(turingTest):
+                case .success(let turingTest):
                     state.turingTest = turingTest
                     return .none
-                case let .failure(error):
+                case .failure(let error):
                     print("테스트 데이터 fetch 실패:", error)
                     return .none
                 }
-            case let .postTuringTestStartResponse(result):
+            case .postTuringTestStartResponse(let result):
                 switch result {
-                case let .success(quizIds):
+                case .success(let quizIds):
                     return .send(.delegate(.moveToQuizView(quizIds)))
-                case let .failure(error):
+                case .failure(let error):
                     print("테스트 시작 실패:", error)
                     return .none
                 }
+            default:
+                return .none
             }
         }
     }
