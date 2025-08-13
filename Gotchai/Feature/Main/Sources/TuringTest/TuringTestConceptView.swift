@@ -10,7 +10,7 @@ import DesignSystem
 import SwiftUI
 
 public struct TuringTestConceptView: View {
-    let store: StoreOf<TuringTestFeature>
+    @Bindable var store: StoreOf<TuringTestFeature>
     
     public init(store: StoreOf<TuringTestFeature>) {
         self.store = store
