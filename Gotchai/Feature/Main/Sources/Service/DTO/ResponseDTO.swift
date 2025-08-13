@@ -22,3 +22,7 @@ public struct TuringTestItemDTO: Decodable {
     let isSolved: Bool
     let createdAt: String
 }
+
+public struct TuringTestStartResponseDTO: Decodable {
+    let quizIds: [Int]
+}

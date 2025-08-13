@@ -11,6 +11,7 @@ import Moya
 enum TuringTestAPI {
     case getTestList
     case getTestDetail(Int)
+    case postTestStart(Int)
 }
 
 extension TuringTestAPI: BaseTarget {
@@ -20,6 +21,8 @@ extension TuringTestAPI: BaseTarget {
             return apiPrefix + "/exams"
         case let .getTestDetail(id):
             return apiPrefix + "/exams/\(id)"
+        case let .postTestStart(testID):
+            return apiPrefix + "/exams/\(testID)/start"
         }
     }
     
@@ -27,6 +30,7 @@ extension TuringTestAPI: BaseTarget {
         switch self {
         case .getTestList: return .get
         case .getTestDetail: return .get
+        case .postTestStart: return .post
         }
     }
     
@@ -35,6 +39,8 @@ extension TuringTestAPI: BaseTarget {
         case .getTestList:
             return .requestPlain
         case .getTestDetail:
+            return .requestPlain
+        case .postTestStart:
             return .requestPlain
         }
     }

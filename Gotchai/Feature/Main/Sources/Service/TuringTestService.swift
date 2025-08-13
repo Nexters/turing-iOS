@@ -51,4 +51,13 @@ struct TuringTestService {
             }
             .eraseToAnyPublisher()
     }
+    
+    func startTuringTest(_ target: TuringTestAPI) -> AnyPublisher<[Int], Error> {
+        networkClient
+            .request(target, type: TuringTestStartResponseDTO.self)
+            .map { dto in
+                dto.quizIds
+            }
+            .eraseToAnyPublisher()
+    }
 }
