@@ -43,8 +43,7 @@ public struct QuizView: View {
                 VStack(spacing: 16) {
                     ForEach(Array(viewStore.quiz.answers.enumerated()), id: \.offset) { index, item in
                         Button {
-                            // TODO: index를 id로 변경
-                            viewStore.send(.selectAnswer(index, index))
+                            viewStore.send(.selectAnswer(index, item.id, false))
                         } label: {
                             AnswerCard(idx: index, text: item.contents, state: viewStore.answerCardState[index])
                         }

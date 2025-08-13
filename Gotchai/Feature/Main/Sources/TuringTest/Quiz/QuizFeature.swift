@@ -65,10 +65,9 @@ public struct QuizFeature {
         
         // Quiz
         case initQuiz
-        case selectAnswer(Int, Int)
+        case selectAnswer(Int, Int, Bool)
         case setAnswerPopUpPresented(Bool)
         case tappedXButton
-        case tappedTestEndButton
         case delegate(Delegate)
         
         // Data
@@ -80,11 +79,7 @@ public struct QuizFeature {
             switch action {
             // MARK: - Action: Life Cycle
             case .onAppear:
-                if state.quizIndex < state.quizIdList.count {
-                    return .send(.initQuiz)
-                } else {
-                    return .none
-                }
+                return .send(.initQuiz)
                 
             // MARK: - Action: Timer
             case .startTimer:
@@ -112,12 +107,12 @@ public struct QuizFeature {
                     state.isRunningTimer = false
                     return .concatenate(
                         .cancel(id: CancelID.timer),
-                        .send(.selectAnswer(-1, 0)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
+                        .send(.selectAnswer(-1, 0, true)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
                     )
                 }
             
             // MARK: - Action: 정답 선택
-            case let .selectAnswer(index, id):
+            case let .selectAnswer(index, id, isTimeOut):
                 if state.isSelectedAnswer { return .none }
                 
                 state.isRunningTimer = false
@@ -131,9 +126,7 @@ public struct QuizFeature {
                     }
                 }
                 
-                // dummy
-                state.answer = "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"
-                state.progress = index == -1 ? .timeout : .correct
+                let req = GradeQuizRequestDTO(quizPickId: id, isTimeout: isTimeOut)
                 
                 return .concatenate(
                     .cancel(id: CancelID.timer),
@@ -150,6 +143,11 @@ public struct QuizFeature {
             
             // MARK: - Action: 퀴즈 초기화
             case .initQuiz:
+                // 테스트 결과 화면으로 이동
+                if state.quizIndex == state.quizIdList.count - 1 {
+                    return .send(.delegate(.moveToResultView))
+                }
+                
                 state.quizIndex += 1
                 state.isSelectedAnswer = false
                 state.answerCardState = Array(repeating: .idle, count: state.quiz.answers.count)
@@ -165,8 +163,6 @@ public struct QuizFeature {
             // MARK: - Action: 화면 전환 & 단순 state 변경
             case .tappedXButton:
                 return .send(.delegate(.moveToMainView))
-            case .tappedTestEndButton:
-                return .send(.delegate(.moveToResultView))
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
                 return .none

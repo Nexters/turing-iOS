@@ -40,7 +40,7 @@ public struct TuringTestResultView: View {
             
             BottomButtons()
         }
-        
+        .navigationBarBackButtonHidden()
     }
     
     @ViewBuilder
