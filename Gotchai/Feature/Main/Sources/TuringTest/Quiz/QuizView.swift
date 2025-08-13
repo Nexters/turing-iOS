@@ -25,7 +25,7 @@ public struct QuizView: View {
                     .padding(.top, 4)
                     .padding(.bottom, 28)
                 
-                Text("1/7")
+                Text("\(viewStore.quizIndex+1)/\(viewStore.quizIdList.count)")
                     .fontStyle(.body_5)
                     .foregroundStyle(Color(.primary_400))
                     .padding(.vertical, 3)

@@ -83,6 +83,7 @@ public struct QuizFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            // MARK: - Action: Life Cycle
             case .onAppear:
                 return .publisher {
                     turingTestService.getQuiz(.getQuiz(state.quizIdList[state.quizIndex]))
@@ -91,6 +92,8 @@ public struct QuizFeature {
                         .receive(on: RunLoop.main)
                 }
                 .cancellable(id: CancelID.getQuiz)
+                
+            // MARK: - Action: Timer
             case .startTimer:
                 state.secondsElapsed = 0
                 state.isRunningTimer = true
@@ -119,6 +122,8 @@ public struct QuizFeature {
                         .send(.selectAnswer(-1, 0)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
                     )
                 }
+            
+            // MARK: - Action: 정답 선택
             case let .selectAnswer(index, id):
                 if state.isSelectedAnswer { return .none }
                 
@@ -149,12 +154,23 @@ public struct QuizFeature {
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
                 return .none
+            
+            // MARK: - Action: 퀴즈 초기화
             case .initQuiz:
+                state.quizIndex += 1
+                
                 return .none
+                
+            // MARK: - Action: 화면 전환 & 단순 state 변경
             case .tappedXButton:
                 return .send(.delegate(.moveToMainView))
             case .tappedTestEndButton:
                 return .send(.delegate(.moveToResultView))
+            case let .setAnswerPopUpPresented(isPresented):
+                state.isAnswerPopUpPresented = isPresented
+                return .none
+                
+            // MARK: - Action: 데이터 응답 처리
             case let .getQuizResponse(result):
                 switch result {
                 case let .success(quiz):
