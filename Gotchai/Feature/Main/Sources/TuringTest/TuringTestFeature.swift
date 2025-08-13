@@ -24,18 +24,16 @@ public struct TuringTestFeature {
     public struct State {
         var turingTestID: Int
         var turingTest: TuringTest
-        var quizIds: [Int]
         
-        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy, quizIds: [Int] = []) {
+        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy) {
             self.turingTestID = turingTestID
             self.turingTest = turingTest
-            self.quizIds = quizIds
         }
     }
     
     public enum Delegate {
         case moveToConceptView(Int, TuringTest)
-        case moveToQuizView(Int)
+        case moveToQuizView([Int])
         case moveToMainView
     }
     
@@ -95,8 +93,7 @@ public struct TuringTestFeature {
             case let .postTuringTestStartResponse(result):
                 switch result {
                 case let .success(quizIds):
-                    state.quizIds = quizIds
-                    return .send(.delegate(.moveToQuizView(quizIds.first ?? -1)))
+                    return .send(.delegate(.moveToQuizView(quizIds)))
                 case let .failure(error):
                     print("테스트 시작 실패:", error)
                     return .none

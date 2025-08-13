@@ -29,7 +29,8 @@ public struct QuizFeature {
         var isRunningTimer = false
         
         // Quiz
-        var quizID: Int
+        var quizIdList: [Int]
+        var quizIndex: Int = 0
         var quiz: Quiz
         var progress: QuizProgress
         var answerCardState: [AnswerCardState]
@@ -38,13 +39,13 @@ public struct QuizFeature {
         var isAnswerPopUpPresented: Bool
         
         public init(
-            quizID: Int = -1,
+            quizIdList: [Int] = [],
             quiz: Quiz = Quiz.dummy,
             progress: QuizProgress = .notAnswered,
             answer: String = "",
             isAnswerPopUpPresented: Bool = false
         ) {
-            self.quizID = quizID
+            self.quizIdList = quizIdList
             self.quiz = quiz
             self.progress = progress
             self.answerCardState = Array(repeating: .idle, count: quiz.answers.count)
@@ -84,7 +85,7 @@ public struct QuizFeature {
             switch action {
             case .onAppear:
                 return .publisher {
-                    turingTestService.getQuiz(.getQuiz(state.quizID))
+                    turingTestService.getQuiz(.getQuiz(state.quizIdList[state.quizIndex]))
                         .map { .getQuizResponse(.success($0)) }
                         .catch{ Just(.getQuizResponse(.failure($0))) }
                         .receive(on: RunLoop.main)
@@ -139,10 +140,11 @@ public struct QuizFeature {
                 return .concatenate(
                     .cancel(id: CancelID.timer),
                     .publisher {
-                        Just(.setAnswerPopUpPresented(true))
-                            .delay(for: .seconds(0.3), scheduler: RunLoop.main)   
-                            .eraseToAnyPublisher()
-                    }
+                        turingTestService.gradeQuiz(.gradeQuiz(state.quizIdList[state.quizIndex], req))
+                            .map { .gradeQuizResponse(.success($0)) }
+                            .catch{ Just(.gradeQuizResponse(.failure($0))) }
+                            .receive(on: RunLoop.main)
+                    }.cancellable(id: CancelID.gradeQuiz)
                 )
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
