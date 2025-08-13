@@ -30,26 +30,21 @@ public struct QuizFeature {
         
         // Quiz
         var quizIdList: [Int]
-        var quizIndex: Int = 0
+        var quizIndex: Int = -1
         var quiz: Quiz
-        var progress: QuizProgress
         var answerCardState: [AnswerCardState]
         var isSelectedAnswer: Bool = false
-        var answer: String
+        var answerPopUpData: AnswerPopUp = .init(answer: "", status: .notAnswered)
         var isAnswerPopUpPresented: Bool
         
         public init(
             quizIdList: [Int] = [],
             quiz: Quiz = Quiz.dummy,
-            progress: QuizProgress = .notAnswered,
-            answer: String = "",
             isAnswerPopUpPresented: Bool = false
         ) {
             self.quizIdList = quizIdList
             self.quiz = quiz
-            self.progress = progress
             self.answerCardState = Array(repeating: .idle, count: quiz.answers.count)
-            self.answer = answer
             self.isAnswerPopUpPresented = isAnswerPopUpPresented
         }
     }
@@ -85,13 +80,11 @@ public struct QuizFeature {
             switch action {
             // MARK: - Action: Life Cycle
             case .onAppear:
-                return .publisher {
-                    turingTestService.getQuiz(.getQuiz(state.quizIdList[state.quizIndex]))
-                        .map { .getQuizResponse(.success($0)) }
-                        .catch{ Just(.getQuizResponse(.failure($0))) }
-                        .receive(on: RunLoop.main)
+                if state.quizIndex < state.quizIdList.count {
+                    return .send(.initQuiz)
+                } else {
+                    return .none
                 }
-                .cancellable(id: CancelID.getQuiz)
                 
             // MARK: - Action: Timer
             case .startTimer:
@@ -158,8 +151,16 @@ public struct QuizFeature {
             // MARK: - Action: 퀴즈 초기화
             case .initQuiz:
                 state.quizIndex += 1
+                state.isSelectedAnswer = false
+                state.answerCardState = Array(repeating: .idle, count: state.quiz.answers.count)
                 
-                return .none
+                return .publisher {
+                    turingTestService.getQuiz(.getQuiz(state.quizIdList[state.quizIndex]))
+                        .map { .getQuizResponse(.success($0)) }
+                        .catch{ Just(.getQuizResponse(.failure($0))) }
+                        .receive(on: RunLoop.main)
+                }
+                .cancellable(id: CancelID.getQuiz)
                 
             // MARK: - Action: 화면 전환 & 단순 state 변경
             case .tappedXButton:
@@ -178,6 +179,20 @@ public struct QuizFeature {
                     return .send(.startTimer)
                 case let .failure(error):
                     print("퀴즈 fetch 실패: \(error)")
+                    return .none
+                }
+            case let .gradeQuizResponse(result):
+                switch result {
+                case let .success(response):
+                    state.answerPopUpData = .init(answer: response.answer, status: response.status)
+                    
+                    return .publisher {
+                        Just(.setAnswerPopUpPresented(true))
+                            .delay(for: .seconds(0.3), scheduler: RunLoop.main)
+                            .eraseToAnyPublisher()
+                    }
+                case let .failure(error):
+                    print("퀴즈 채점 실패: \(error)")
                     return .none
                 }
             default:

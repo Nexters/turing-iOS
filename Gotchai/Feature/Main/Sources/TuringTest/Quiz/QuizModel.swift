@@ -21,3 +21,9 @@ public struct Answer: Equatable {
 public extension Quiz {
     static let dummy: Quiz = .init(id: 1, contents: "크리스마스 트리 꾸미기  중...\n“트리에 뭔가 허전한데, 뭘 더 달까?”", answers: [Answer(id: 1, contents: "별이 없네.\n트리는 역시 별을 달아야 완성이지!"),Answer(id: 2, contents: "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?")])
 }
+
+public struct AnswerPopUp: Equatable {
+    let answer: String
+    let status: QuizProgress
+}
+

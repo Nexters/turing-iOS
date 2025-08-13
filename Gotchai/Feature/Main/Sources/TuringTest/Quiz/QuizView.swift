@@ -73,8 +73,8 @@ public struct QuizView: View {
                 isPresented: viewStore.binding(
                     get: \.isAnswerPopUpPresented,
                     send: QuizFeature.Action.setAnswerPopUpPresented),
-                quizProgress: viewStore.progress,
-                answerText: viewStore.answer,
+                quizProgress: viewStore.answerPopUpData.status,
+                answerText: viewStore.answerPopUpData.answer,
                 action: {
                     viewStore.send(.initQuiz)
                 }
@@ -96,7 +96,7 @@ public struct QuizView: View {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(.primary_400))
                     .frame(width: geometry.size.width * progress)
-                    .animation(.linear(duration: 1), value: progress)
+                    .animation(progress == 0 ? nil : .linear(duration: 1), value: progress)
             }
         }
         .frame(height: 5)
