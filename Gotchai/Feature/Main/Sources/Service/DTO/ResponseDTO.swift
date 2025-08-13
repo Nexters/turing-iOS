@@ -19,5 +19,6 @@ public struct TuringTestItemDTO: Decodable {
     let iconImage: String
     let coverImage: String
     let theme: String
+    let isSolved: Bool
     let createdAt: String
 }

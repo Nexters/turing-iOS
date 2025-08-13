@@ -27,7 +27,8 @@ struct TuringTestService {
                         id: itemDto.id,
                         imageURL: itemDto.iconImage,
                         title: itemDto.title,
-                        subtitle: itemDto.subTitle
+                        subtitle: itemDto.subTitle,
+                        isSolved: itemDto.isSolved
                     )
                 }
                 return convertedData

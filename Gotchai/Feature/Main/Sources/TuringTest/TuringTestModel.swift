@@ -12,16 +12,17 @@ public struct TuringTestCard {
     let imageURL: String
     let title: String
     let subtitle: String
+    let isSolved: Bool
 }
 
 public extension TuringTestCard {
     static let dummyList: [TuringTestCard] = [
-        .init(id: 1, imageURL: "", title: "Ai와 크리스마스 파티", subtitle: "산타는 누구야?"),
-        .init(id: 2, imageURL: "", title: "소개팅 톡 감별 테스트", subtitle: "어떤 대답이 진심일까?"),
-        .init(id: 3, imageURL: "", title: "전학생과의 첫 인사", subtitle: "누가 진짜 전학생이야?"),
-        .init(id: 4, imageURL: "", title: "Ai와 크리스마스 파티", subtitle: "산타는 누구야?"),
-        .init(id: 5, imageURL: "", title: "소개팅 톡 감별 테스트", subtitle: "어떤 대답이 진심일까?"),
-        .init(id: 6, imageURL: "", title: "전학생과의 첫 인사", subtitle: "누가 진짜 전학생이야?")
+        .init(id: 1, imageURL: "", title: "Ai와 크리스마스 파티", subtitle: "산타는 누구야?", isSolved: false),
+        .init(id: 2, imageURL: "", title: "소개팅 톡 감별 테스트", subtitle: "어떤 대답이 진심일까?", isSolved: true),
+        .init(id: 3, imageURL: "", title: "전학생과의 첫 인사", subtitle: "누가 진짜 전학생이야?", isSolved: false),
+        .init(id: 4, imageURL: "", title: "Ai와 크리스마스 파티", subtitle: "산타는 누구야?", isSolved: false),
+        .init(id: 5, imageURL: "", title: "소개팅 톡 감별 테스트", subtitle: "어떤 대답이 진심일까?", isSolved: false),
+        .init(id: 6, imageURL: "", title: "전학생과의 첫 인사", subtitle: "누가 진짜 전학생이야?", isSolved: false)
     ]
 }
 

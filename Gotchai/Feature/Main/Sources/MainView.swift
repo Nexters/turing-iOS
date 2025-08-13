@@ -110,6 +110,16 @@ public struct MainView: View {
             )
 
             VStack(alignment: .leading, spacing: 2) {
+                if item.isSolved {
+                    Text("풀기완료")
+                        .fontStyle(.body_6)
+                        .foregroundStyle(Color(.gray_200))
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 8)
+                        .background(Color(.gray_700))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.bottom, 2)
+                }
                 Text(item.title)
                     .fontStyle(.body_2)
                     .foregroundStyle(Color(.gray_white))
