@@ -7,6 +7,7 @@
 
 import TCA
 import Main
+import Setting
 
 @Reducer
 struct AppPath {
@@ -17,6 +18,7 @@ struct AppPath {
       case turingTestConcept(TuringTestFeature.State)
       case quiz(QuizFeature.State)
       case turingTestResult(TuringTestFeature.State)
+      case setting(SettingFeature.State)
   }
 
   @CasePathable
@@ -25,6 +27,7 @@ struct AppPath {
       case turingTestConcept(TuringTestFeature.Action)
       case quiz(QuizFeature.Action)
       case turingTestResult(TuringTestFeature.Action)
+      case setting(SettingFeature.Action)
   }
 
   var body: some ReducerOf<Self> {
@@ -32,5 +35,6 @@ struct AppPath {
       Scope(state: \.turingTestConcept, action: \.turingTestConcept) { TuringTestFeature() }
       Scope(state: \.quiz, action: \.quiz) { QuizFeature() }
       Scope(state: \.turingTestResult, action: \.turingTestResult) { TuringTestFeature() }
+      Scope(state: \.setting, action: \.setting) { SettingFeature() }
   }
 }

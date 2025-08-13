@@ -8,6 +8,7 @@ import TCA
 import Onboarding
 import SignIn
 import Main // 모듈명이 Swift의 @main 과 헷갈리면 이름 변경 고려
+import Setting
 
 @Reducer
 struct AppFeature {
@@ -44,10 +45,16 @@ struct AppFeature {
                 state.root = .main
                 return .none
                 
-            case let .main(.delegate(.openTuringTest(item))):
-                state.path.append(.turingTest(
-                    .init() //TODO: 여기서 Item 넣어줘야함
-                ))
+            case let .main(.delegate(mainAction)):
+                switch mainAction {
+                case .openTuringTest(let item):
+                    state.path.append(.turingTest(
+                        .init() //TODO: 여기서 Item 넣어줘야함
+                    ))
+                case .moveToSetting:
+                    state.path.append(.setting(.init()))
+                }
+                
                 return .none
                 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
@@ -74,12 +81,17 @@ struct AppFeature {
                 
                 return .none
             case .path(.element(id: _, action: .quiz(.delegate(let quizAction)))):
+                // 퀴즈 화면에서 받는 Action
                 switch quizAction {
                 case .moveToMainView:
                     state.path.removeAll()
                 case .moveToResultView:
                     state.path.append(.turingTestResult(.init()))
                 }
+                return .none
+            case .path(.element(id: _, action: .setting(.delegate(.moveToMainView)))):
+                // 세팅 화면에서 받는 Action
+                state.path.removeAll()
                 return .none
             case let .setRoot(root):
                 state.root = root

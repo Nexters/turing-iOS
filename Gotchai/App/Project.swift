@@ -23,7 +23,8 @@ let project = Project(
                 .project(target: "Onboarding", path: .relativeToRoot("Gotchai/Feature/Onboarding")),
                 .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
                 .project(target: "Main", path: .relativeToRoot("Gotchai/Feature/Main")),
-                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn"))
+                .project(target: "SignIn", path: .relativeToRoot("Gotchai/Feature/SignIn")),
+                .project(target: "Setting", path: .relativeToRoot("Gotchai/Feature/Setting"))
             ]
         )
     ]
