@@ -5,10 +5,15 @@
 //  Created by 가은 on 7/26/25.
 //
 
+import Foundation
+import Combine
 import TCA
 
 @Reducer
 public struct MainFeature {
+    @Dependency(\.turingTestService) var turingTestService
+    
+    enum CancelID { case getTuringTestList }
     
     public init() { }
     
@@ -29,15 +34,30 @@ public struct MainFeature {
     }
 
     public enum Action {
+        // life cycle
+        case onAppear
+        
+        // view
         case selectedTabChanged(Tab)
         case tappedTestCard(Int)
         case tappedSettingButton
         case delegate(Delegate)
+        
+        // data
+        case turingTestListResponse(Result<TuringTestListResponseDTO, Error>)
     }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                return .publisher {
+                    turingTestService.getTestList(.getTestList)
+                        .map { MainFeature.Action.turingTestListResponse(.success($0)) }
+                        .catch{ Just(.turingTestListResponse(.failure($0))) }
+                        .receive(on: RunLoop.main)
+                }
+                .cancellable(id: CancelID.getTuringTestList)
             case let .selectedTabChanged(tab):
                 state.selectedTab = tab
                 return .none
@@ -47,6 +67,8 @@ public struct MainFeature {
             case .tappedSettingButton:
                 return .send(.delegate(.moveToSetting))
             case .delegate: return .none
+            case .turingTestListResponse(_):
+                return .none
             }
         }
     }

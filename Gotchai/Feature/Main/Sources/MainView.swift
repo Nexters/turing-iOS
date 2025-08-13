@@ -56,6 +56,9 @@ public struct MainView: View {
         .navigationBarBackButtonHidden()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
     
     @ViewBuilder
