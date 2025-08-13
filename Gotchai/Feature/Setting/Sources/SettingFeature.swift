@@ -6,52 +6,85 @@
 //
 
 import TCA
+import Auth
+import Foundation
+import Combine
+import Key
 
 @Reducer
 public struct SettingFeature {
-    
+    @Dependency(\.authClient) var authClient
+    @Dependency(\.tokenProvider) var tokenProvider
+
     public init() { }
-    
+
     @ObservableState
     public struct State: Equatable {
         var isPresentedPopUp: Bool
         var popUpType: SettingPopUpType?
-        
+
         public init(isPresentedPopUp: Bool = false, popUpType: SettingPopUpType? = nil) {
             self.isPresentedPopUp = isPresentedPopUp
             self.popUpType = popUpType
         }
     }
-    
+
     public enum Delegate {
         case moveToMainView
+        case didLogout
     }
-    
+
     public enum Action: Equatable {
         case tappedBackButton
         case tappedGetFeedbackButton
         case tappedTermsButton
         case tappedPolicyButton
         case logout
+        case logoutSucceeded
+        case logoutFailed(String)
         case withdraw
         case showPopUp(SettingPopUpType)
         case setIsPresentedPopUp(Bool)  // 바인딩용
         case delegate(Delegate)
     }
-    
+
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .tappedBackButton:
                 return .send(.delegate(.moveToMainView))
+                
             case let .showPopUp(type):
                 state.isPresentedPopUp = true
                 state.popUpType = type
                 return .none
+
             case let .setIsPresentedPopUp(flag):
                 state.isPresentedPopUp = flag
                 return .none
-                
+
+            case .logout:
+                return .publisher {
+                    authClient.signOut()
+                        .receive(on: DispatchQueue.main)  // UI 업데이트 안전
+                        .map { _ in .logoutSucceeded }    // 성공 시 액션 변환
+                        .catch { error in                 // 실패 시 액션 변환
+                            Just(.logoutFailed(error.localizedDescription))
+                        }
+                }
+
+            case .logoutSucceeded:
+                // 로컬 토큰/세션 정리(필요 시)
+                tokenProvider.accessToken = nil
+                state.isPresentedPopUp = false
+                state.popUpType = nil
+                return .send(.delegate(.didLogout)) // ← AppFeature로 버블업
+
+            case .logoutFailed(let message):
+                state.isPresentedPopUp = false
+                print("로그아웃 실패: \(message)")
+                return .none
+
             default: return .none
             }
         }
