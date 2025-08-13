@@ -25,11 +25,13 @@ public struct OnboardingView: View {
         VStack {
           HStack {
             Spacer()
-            Button("건너뛰기") {
-              viewStore.send(.start)
-            }
-            .foregroundColor(DesignSystemAsset.gray400.swiftUIColor)
-            .padding()
+              if (viewStore.currentPage < viewStore.pages.count - 1) {
+                  Button("건너뛰기") {
+                    viewStore.send(.start)
+                  }
+                  .foregroundColor(DesignSystemAsset.gray400.swiftUIColor)
+                  .padding()
+              }
           }
 
           Spacer()
@@ -42,7 +44,7 @@ public struct OnboardingView: View {
  idx,
  page in
               VStack(spacing: 24) {
-                Image(page.imageName)
+                  Image(page.imageName, bundle: .module)
                   .resizable()
                   .scaledToFit()
                   .frame(width: 300, height: 300)
