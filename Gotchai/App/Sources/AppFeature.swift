@@ -18,6 +18,7 @@ struct AppFeature {
         var onboarding = OnboardingFeature.State()
         var signIn     = SignInFeature.State()
         var main = MainFeature.State()
+        var turingTest = TuringTestFeature.State()
 
         var path = StackState<AppPath.State>()
     }
@@ -48,7 +49,8 @@ struct AppFeature {
             case let .main(.delegate(mainAction)):
                 switch mainAction {
                 case .openTuringTest(let id):
-                    state.path.append(.turingTest(.init(turingTestID: id)))
+                    state.turingTest = .init(turingTestID: id)
+                    state.path.append(.turingTest(state.turingTest))
                 case .moveToSetting:
                     state.path.append(.setting(.init()))
                 }
@@ -59,7 +61,8 @@ struct AppFeature {
                 // 테스트 표지 화면에서 받는 Action
                 switch turingAction {
                 case let .moveToConceptView(testID, turingTest):
-                    state.path.append(.turingTestConcept(.init(turingTestID: testID, turingTest: turingTest)))
+                    state.turingTest = .init(turingTestID: testID, turingTest: turingTest)
+                    state.path.append(.turingTestConcept(state.turingTest))
                 case .moveToMainView:
                     state.path.removeAll()
                 default: break
@@ -83,7 +86,7 @@ struct AppFeature {
                 case .moveToMainView:
                     state.path.removeAll()
                 case .moveToResultView:
-                    state.path.append(.turingTestResult(.init()))
+                    state.path.append(.turingTestResult(state.turingTest))
                 }
                 return .none
             case .path(.element(id: _, action: .setting(.delegate(.moveToMainView)))):

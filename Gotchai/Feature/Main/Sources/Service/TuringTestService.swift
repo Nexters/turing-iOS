@@ -47,7 +47,10 @@ struct TuringTestService {
                     title: dto.title,
                     subtitle: dto.subTitle,
                     explanation: dto.description,
-                    backgroundImageURL: dto.backgroundImage)
+                    backgroundImageURL: dto.backgroundImage,
+                    theme: dto.theme,
+                    prompt: dto.prompt
+                )
             }
             .eraseToAnyPublisher()
     }

@@ -48,7 +48,7 @@ public struct TuringTestResultView: View {
         HStack {
             Spacer()
             Button {
-                
+                store.send(.tappedBackButton)
             } label: {
                 Image("icon_xmark", bundle: .module)
                     .padding(12)
@@ -115,16 +115,21 @@ public struct TuringTestResultView: View {
                     .foregroundStyle(Color(.gray_white).opacity(0.5))
             }
             .padding(.top, 18)
-            Text("Ai산타")
+            Text(store.turingTest.theme)
                 .fontStyle(.subtitle_2)
                 .foregroundStyle(Color(.primary_300))
             Text("이 프롬프트로 만들었어요")
                 .fontStyle(.subtitle_1)
-            AsyncImage(url: URL(string: ""))
-                .frame(width: 133, height: 133)
-                .clipShape(Circle())
-                .padding(.vertical, 16)
-            Text("AI 산타 캐릭터를 만들거야. MBTI는 ESFP이고, 20대 초중반 정도의 젊은 산타였으면 좋겠어. 선물 고르는 센스가 남다르고, 공감을 잘하는 성격을 가진 캐릭터로 설정해줘.")
+            AsyncImage(url: URL(string: store.turingTest.imageURL)) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 133, height: 133)
+            .clipShape(Circle())
+            .padding(.vertical, 16)
+                
+            Text(store.turingTest.prompt)
                 .fontStyle(.body_4)
                 .multilineTextAlignment(.center)
             
