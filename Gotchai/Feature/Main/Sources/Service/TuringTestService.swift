@@ -75,4 +75,31 @@ struct TuringTestService {
             }
             .eraseToAnyPublisher()
     }
+    
+    func gradeQuiz(_ target: TuringTestAPI) -> AnyPublisher<AnswerPopUp, Error> {
+        networkClient
+            .request(target, type: GradeQuizResponseDTO.self)
+            .map { dto in
+                AnswerPopUp(
+                    answer: dto.contents,
+                    status: dto.isTimeout ? .timeout : dto.isAnswer ? .correct : .incorrect
+                )
+            }
+            .eraseToAnyPublisher()
+    }
+        
+    func submitTest(_ target: TuringTestAPI) -> AnyPublisher<ResultBadge, Error> {
+        networkClient
+            .request(target, type: SubmitTuringTestResponseDTO.self)
+            .map { dto in
+                ResultBadge(
+                    imageURL: dto.badge.image,
+                    badgeName: dto.badge.name,
+                    description: dto.badge.description,
+                    tier: GradientTheme(rawValue: dto.badge.tier) ?? .bronze,
+                    correctCount: dto.answerCount
+                )
+            }
+            .eraseToAnyPublisher()
+    }
 }

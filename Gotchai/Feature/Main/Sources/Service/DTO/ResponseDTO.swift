@@ -27,6 +27,21 @@ public struct TuringTestStartResponseDTO: Decodable {
     let quizIds: [Int]
 }
 
+public struct SubmitTuringTestResponseDTO: Decodable {
+    let answerCount: Int
+    let badge: TuringTestBadgeDTO
+}
+
+public struct TuringTestBadgeDTO: Decodable {
+    let id: Int
+    let examId: Int
+    let name: String
+    let description: String
+    let image: String
+    let tier: String
+    let createdAt: String
+}
+
 // 퀴즈 GET
 public struct GetQuizDTO: Decodable {
     let id: Int
@@ -38,4 +53,11 @@ public struct GetQuizDTO: Decodable {
 public struct AnswerCardDTO: Decodable {
     let id: Int
     let contents: String
+}
+
+// 퀴즈 채점
+public struct GradeQuizResponseDTO: Decodable {
+    let contents: String
+    let isAnswer: Bool
+    let isTimeout: Bool
 }

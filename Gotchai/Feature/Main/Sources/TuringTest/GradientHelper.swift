@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-enum GradientTheme {
-    case gold, silver, bronze
+enum GradientTheme: String {
+    case gold = "GOLD"
+    case silver = "SILVER"
+    case bronze = "BRONZE"
 }
 
 struct ColorPalette {

@@ -24,10 +24,12 @@ public struct TuringTestFeature {
     public struct State {
         var turingTestID: Int
         var turingTest: TuringTest
+        var resultBadge: ResultBadge?
         
-        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy) {
+        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy, resultBadge: ResultBadge?) {
             self.turingTestID = turingTestID
             self.turingTest = turingTest
+            self.resultBadge = resultBadge
         }
     }
     

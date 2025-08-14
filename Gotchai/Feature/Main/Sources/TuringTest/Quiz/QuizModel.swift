@@ -27,3 +27,10 @@ public struct AnswerPopUp: Equatable {
     let status: QuizProgress
 }
 
+public struct ResultBadge {
+    let imageURL: String
+    let badgeName: String
+    let description: String
+    let tier: GradientTheme
+    let correctCount: Int
+}
