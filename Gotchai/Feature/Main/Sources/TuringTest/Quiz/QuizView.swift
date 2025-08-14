@@ -75,7 +75,11 @@ public struct QuizView: View {
                 quizProgress: viewStore.answerPopUpData.status,
                 answerText: viewStore.answerPopUpData.answer,
                 action: {
-                    viewStore.send(.initQuiz)
+                    if viewStore.quizIndex == viewStore.quizIdList.count - 1 {
+                        viewStore.send(.delegate(.moveToResultView))
+                    } else {
+                        viewStore.send(.initQuiz)
+                    }
                 }
             )
             .onAppear {

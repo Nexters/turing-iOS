@@ -11,11 +11,15 @@ import TCA
 
 public struct TuringTestResultView: View {
     let store: StoreOf<TuringTestFeature>
-    let gradientStops = GradientHelper.getGradientStops(for: .gold)
-    let badgeCardColor = GradientHelper.getBadgeColors(for: .gold)
+    var gradientStops = GradientHelper.getGradientStops(for: .bronze)
+    var badgeCardColor = GradientHelper.getBadgeColors(for: .bronze)
     
     public init(store: StoreOf<TuringTestFeature>) {
         self.store = store
+        if let tier = store.resultBadge?.tier, tier != .bronze {
+            self.gradientStops = GradientHelper.getGradientStops(for: tier)
+            self.badgeCardColor = GradientHelper.getBadgeColors(for: tier)
+        }
     }
     
     public var body: some View {
@@ -41,6 +45,9 @@ public struct TuringTestResultView: View {
             BottomButtons()
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            store.send(.getResultBadge)
+        }
     }
     
     @ViewBuilder
@@ -64,18 +71,21 @@ public struct TuringTestResultView: View {
     
     @ViewBuilder
     private func BadgeCard() -> some View {
+        let count = store.resultBadge?.correctCount ?? 0
+        let countText = count == 7 ? "모두 맞춘 당신은" : "7개 중 \(count)개를 맞춘 당신은"
+        
         VStack(spacing: 0) {
-            AsyncImage(url: URL(string: ""))
+            AsyncImage(url: URL(string: store.resultBadge?.imageURL ?? ""))
                 .frame(width: 213, height: 213)
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-            Text("모두 맞춘 당신은")
+                .clipShape(Circle())
+            Text(countText)
                 .fontStyle(.body_1)
                 .foregroundStyle(Color(hex: badgeCardColor.subColor))
                 .padding(.top, 26)
-            Text("Ai 산타 감별사")
+            Text(store.resultBadge?.badgeName ?? "")
                 .fontStyle(.title_3)
                 .foregroundStyle(Color(hex: badgeCardColor.titleColor))
-            Text("크리스마스엔 선물보다\n눈치가 중요하다는 걸 증명했어요!")
+            Text(store.resultBadge?.description ?? "")
                 .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white).opacity(0.7))
                 .multilineTextAlignment(.center)

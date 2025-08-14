@@ -143,11 +143,6 @@ public struct QuizFeature {
             
             // MARK: - Action: 퀴즈 초기화
             case .initQuiz:
-                // 테스트 결과 화면으로 이동
-                if state.quizIndex == state.quizIdList.count - 1 {
-                    return .send(.delegate(.moveToResultView))
-                }
-                
                 state.quizIndex += 1
                 state.isSelectedAnswer = false
                 state.answerCardState = Array(repeating: .idle, count: state.quiz.answers.count)

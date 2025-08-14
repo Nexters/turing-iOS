@@ -16,6 +16,7 @@ public struct TuringTestFeature {
     enum CancelID {
         case getTuringTestItem
         case postTuringTestStart
+        case submitTuringTest
     }
     
     public init() { }
@@ -26,7 +27,7 @@ public struct TuringTestFeature {
         var turingTest: TuringTest
         var resultBadge: ResultBadge?
         
-        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy, resultBadge: ResultBadge?) {
+        public init(turingTestID: Int = -1, turingTest: TuringTest = TuringTest.dummy, resultBadge: ResultBadge? = nil) {
             self.turingTestID = turingTestID
             self.turingTest = turingTest
             self.resultBadge = resultBadge
@@ -49,10 +50,12 @@ public struct TuringTestFeature {
         case tappedNextButton
         case tappedBackButton
         case delegate(Delegate)
+        case getResultBadge
         
         // data
         case getTuringTestResponse(Result<TuringTest, Error>)
         case postTuringTestStartResponse(Result<[Int], Error>)
+        case submitTuringTestResponse(Result<ResultBadge, Error>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -84,7 +87,15 @@ public struct TuringTestFeature {
                 .cancellable(id: CancelID.postTuringTestStart)
             case .tappedTestShareButton:
                 return .none
-            
+            case .getResultBadge:
+                return .publisher {
+                    turingTestService.submitTest(.submitTest(state.turingTestID))
+                        .map { .submitTuringTestResponse(.success($0)) }
+                        .catch { Just(.submitTuringTestResponse(.failure($0))) }
+                        .receive(on: RunLoop.main)
+                }
+                .cancellable(id: CancelID.submitTuringTest)
+                
             // MARK: - Action: 데이터 응답 처리
             case .getTuringTestResponse(let result):
                 switch result {
@@ -101,6 +112,15 @@ public struct TuringTestFeature {
                     return .send(.delegate(.moveToQuizView(quizIds)))
                 case .failure(let error):
                     print("테스트 시작 실패:", error)
+                    return .none
+                }
+            case .submitTuringTestResponse(let result):
+                switch result {
+                case .success(let badge):
+                    state.resultBadge = badge
+                    return .none
+                case .failure(let error):
+                    print("테스트 제출 실패:", error)
                     return .none
                 }
             default:
