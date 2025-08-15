@@ -15,6 +15,7 @@ import Key
 public struct SettingFeature {
     @Dependency(\.authClient) var authClient
     @Dependency(\.tokenProvider) var tokenProvider
+    @Dependency(\.settingService) var settingService
 
     public init() { }
 
@@ -66,11 +67,11 @@ public struct SettingFeature {
             case .logout:
                 return .publisher {
                     authClient.signOut()
-                        .receive(on: DispatchQueue.main)  // UI 업데이트 안전
                         .map { _ in .logoutSucceeded }    // 성공 시 액션 변환
                         .catch { error in                 // 실패 시 액션 변환
                             Just(.logoutFailed(error.localizedDescription))
                         }
+                        .receive(on: DispatchQueue.main)  // UI 업데이트 안전
                 }
 
             case .logoutSucceeded:
@@ -78,7 +79,13 @@ public struct SettingFeature {
                 tokenProvider.accessToken = nil
                 state.isPresentedPopUp = false
                 state.popUpType = nil
-                return .send(.delegate(.didLogout)) // ← AppFeature로 버블업
+
+                return .publisher {
+                  settingService.signOut(.signOut)    // 서버에 세션 종료 통보
+                    .map { _ in .delegate(.didLogout) }
+                    .catch { _ in Just(.delegate(.didLogout)) } // 실패해도 UX 진행
+                    .receive(on: DispatchQueue.main)
+                }
 
             case .logoutFailed(let message):
                 state.isPresentedPopUp = false
