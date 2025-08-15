@@ -55,7 +55,7 @@ public struct SettingView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     
                     Button {
-                        viewStore.send(.showPopUp(.withdraw))
+                        viewStore.send(.showPopUp(.delete))
                     } label: {
                         Text("회원탈퇴")
                             .foregroundStyle(Color(.gray_500))
@@ -78,7 +78,7 @@ public struct SettingView: View {
                     if viewStore.popUpType == .logout {
                         viewStore.send(.logout)
                     } else {
-                        viewStore.send(.withdraw)
+                        viewStore.send(.delete)
                     }
                 }
             

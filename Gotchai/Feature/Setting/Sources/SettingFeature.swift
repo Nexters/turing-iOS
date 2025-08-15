@@ -43,7 +43,7 @@ public struct SettingFeature {
         case logout
         case logoutSucceeded
         case logoutFailed(String)
-        case withdraw
+        case delete
         case showPopUp(SettingPopUpType)
         case setIsPresentedPopUp(Bool)  // 바인딩용
         case delegate(Delegate)
@@ -81,7 +81,7 @@ public struct SettingFeature {
                 state.popUpType = nil
 
                 return .publisher {
-                  settingService.signOut(.signOut)    // 서버에 세션 종료 통보
+                  settingService.signOut()    // 서버에 세션 종료 통보
                     .map { _ in .delegate(.didLogout) }
                     .catch { _ in Just(.delegate(.didLogout)) } // 실패해도 UX 진행
                     .receive(on: DispatchQueue.main)
@@ -92,6 +92,18 @@ public struct SettingFeature {
                 print("로그아웃 실패: \(message)")
                 return .none
 
+            case .delete:
+                tokenProvider.accessToken = nil
+                state.isPresentedPopUp = false
+                state.popUpType = nil
+
+                return .publisher {
+                  settingService.delete()    // 서버에 세션 종료 통보
+                    .map { _ in .delegate(.didLogout) }
+                    .catch { _ in Just(.delegate(.didLogout)) } // 실패해도 UX 진행
+                    .receive(on: DispatchQueue.main)
+                }
+
             default: return .none
             }
         }
@@ -99,5 +111,5 @@ public struct SettingFeature {
 }
 
 public enum SettingPopUpType: Equatable {
-    case logout, withdraw
+    case logout, delete
 }

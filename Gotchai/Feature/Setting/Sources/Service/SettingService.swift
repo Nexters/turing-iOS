@@ -18,8 +18,12 @@ public struct SettingService {
         self.networkClient = networkClient
     }
 
-    func signOut(_ target: SettingAPI) -> AnyPublisher<Void, Error> {
+    func signOut() -> AnyPublisher<Void, Error> {
         networkClient
-            .request(target) // Void 오버로드
+            .request(SettingAPI.signOut) // Void 오버로드
+    }
+
+    func delete() -> AnyPublisher<Void, Error> {
+        networkClient.request(SettingAPI.delete)
     }
 }
