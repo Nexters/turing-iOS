@@ -15,8 +15,9 @@ public struct QuizFeature {
     @Dependency(\.turingTestService) var turingTestService
     
     public enum CancelID {
-        case getQuiz
         case timer
+        case getQuiz
+        case gradeQuiz
     }
     
     public init() { }
@@ -72,6 +73,7 @@ public struct QuizFeature {
         
         // Data
         case getQuizResponse(Result<Quiz, Error>)
+        case gradeQuizResponse(Result<AnswerPopUp, Error>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -137,9 +139,6 @@ public struct QuizFeature {
                             .receive(on: RunLoop.main)
                     }.cancellable(id: CancelID.gradeQuiz)
                 )
-            case let .setAnswerPopUpPresented(isPresented):
-                state.isAnswerPopUpPresented = isPresented
-                return .none
             
             // MARK: - Action: 퀴즈 초기화
             case .initQuiz:

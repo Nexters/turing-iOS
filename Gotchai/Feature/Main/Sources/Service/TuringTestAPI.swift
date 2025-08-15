@@ -48,16 +48,10 @@ extension TuringTestAPI: BaseTarget {
     
     var task: Moya.Task {
         switch self {
-        case .getTestList:
-            return .requestPlain
-        case .getTestDetail:
-            return .requestPlain
-        case .postTestStart:
-            return .requestPlain
-        case .getQuiz:
         case let .gradeQuiz(_, request):
             return .requestJSONEncodable(request)
         default:
+            return .requestPlain
         }
     }
 
