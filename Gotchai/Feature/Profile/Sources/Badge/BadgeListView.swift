@@ -5,7 +5,7 @@
 //  Created by 가은 on 8/9/25.
 //
 
-import ComposableArchitecture
+import TCA
 import SwiftUI
 
 struct BadgeListView: View {
