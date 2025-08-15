@@ -21,14 +21,14 @@ extension AuthClient: DependencyKey {
             // signOut
             signOut: {
                 Result { () -> AuthProvider in
-                    guard let p = runtime.provider() else { throw AuthError.noActiveProvider }
-                    return p
+                    guard let provider = runtime.provider() else { throw AuthError.noActiveProvider }
+                    return provider
                 }
                 .publisher
-                .flatMap { p in
-                    p.signOut()
-                        .handleEvents(receiveCompletion: { c in
-                            if case .finished = c { runtime.clear() }
+                .flatMap { provider in
+                    provider.signOut()
+                        .handleEvents(receiveCompletion: { completion in
+                            if case .finished = completion { runtime.clear() }
                         })
                 }
                 .eraseToAnyPublisher()
@@ -37,14 +37,14 @@ extension AuthClient: DependencyKey {
             // deleteUser
             deleteUser: {
                 Result { () -> AuthProvider in
-                    guard let p = runtime.provider() else { throw AuthError.noActiveProvider }
-                    return p
+                    guard let provider = runtime.provider() else { throw AuthError.noActiveProvider }
+                    return provider
                 }
                 .publisher
-                .flatMap { p in
-                    p.deleteUser()
-                        .handleEvents(receiveCompletion: { c in
-                            if case .finished = c { runtime.clear() }
+                .flatMap { provider in
+                    provider.deleteUser()
+                        .handleEvents(receiveCompletion: { completion in
+                            if case .finished = completion { runtime.clear() }
                         })
                 }
                 .eraseToAnyPublisher()
