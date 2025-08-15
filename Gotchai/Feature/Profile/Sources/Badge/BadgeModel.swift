@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Badge {
+public struct Badge: Equatable {
     let id: Int
     let imageURL: String
     let name: String
