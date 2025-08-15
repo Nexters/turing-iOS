@@ -6,21 +6,26 @@
 //
 
 import SwiftUI
+import TCA
+import DesignSystem
 
 struct SolvedTuringTestListView: View {
-    @State private var solvedTestItems: [SolvedTuringTest] = SolvedTuringTest.dummyList
-    
+    let store: StoreOf<SolvedTuringTestFeature>
+
     var body: some View {
-        ZStack {
-            Color(.gray_950).ignoresSafeArea()
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(solvedTestItems,id: \.id) { item in
-                        TestCard(data: item)
-                            .padding(.horizontal, 24)
+        WithViewStore(store, observe: \.solvedTuringTests) { viewStore in
+            ZStack {
+                Color(.gray_950).ignoresSafeArea()
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(store.solvedTuringTests ,id: \.id) { item in
+                            TestCard(data: item)
+                                .padding(.horizontal, 24)
+                        }
                     }
                 }
             }
+            .task { await store.send(.task).finish() }
         }
     }
     
@@ -49,5 +54,7 @@ struct SolvedTuringTestListView: View {
 }
 
 #Preview {
-    SolvedTuringTestListView()
+    SolvedTuringTestListView(store: .init(initialState: SolvedTuringTestFeature.State(), reducer: {
+        SolvedTuringTestFeature()
+     }))
 }
