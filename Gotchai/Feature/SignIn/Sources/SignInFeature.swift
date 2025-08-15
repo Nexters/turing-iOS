@@ -62,8 +62,8 @@ public struct SignInFeature {
                 state.lastProvider = .apple
                 return .publisher {
                     authClient.signIn(appleAuthProvider)
+                        .map { .signInResponse(.success($0)) }
                         .receive(on: DispatchQueue.main)
-                        .map { SignInFeature.Action.signInResponse(.success($0)) }
                         .catch { Just(.signInResponse(.failure($0))) }
                 }
                 .cancellable(id: CancelID.signIn, cancelInFlight: true)
