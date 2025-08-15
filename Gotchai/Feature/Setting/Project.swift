@@ -17,6 +17,7 @@ let project = Project(
                 .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
                 .project(target: "Key", path: .relativeToRoot("Gotchai/Core/Key")),
                 .project(target: "CustomNetwork", path: .relativeToRoot("Gotchai/Core/CustomNetwork")),
+                .project(target: "Auth", path: .relativeToRoot("Gotchai/Core/Auth"))
             ]
         )
     ]
