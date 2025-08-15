@@ -75,9 +75,14 @@ public struct TuringTestResultView: View {
         let countText = count == 7 ? "모두 맞춘 당신은" : "7개 중 \(count)개를 맞춘 당신은"
         
         VStack(spacing: 0) {
-            AsyncImage(url: URL(string: store.resultBadge?.imageURL ?? ""))
-                .frame(width: 213, height: 213)
-                .clipShape(Circle())
+            AsyncImage(url: URL(string: store.resultBadge?.imageURL ?? "")) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 213, height: 213)
+            .clipShape(Circle())
+
             Text(countText)
                 .fontStyle(.body_1)
                 .foregroundStyle(Color(hex: badgeCardColor.subColor))
