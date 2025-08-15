@@ -51,6 +51,8 @@ struct BadgeListView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
             }
+            .task { await store.send(.task).finish() }         // 화면 등장 시 1회 호출
+            .refreshable { await store.send(.refresh).finish() } // 당겨서 새로고침
         }
     }
 }
