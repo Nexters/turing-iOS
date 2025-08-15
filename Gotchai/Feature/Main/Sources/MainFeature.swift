@@ -6,6 +6,7 @@
 //
 
 import TCA
+import Profile
 
 @Reducer
 public struct MainFeature {
@@ -15,6 +16,9 @@ public struct MainFeature {
     @ObservableState
     public struct State {
         var selectedTab: Tab
+
+        public var profile: ProfileFeature.State = .init()
+
         var turingTestItems: [TuringTestCard]
         
         public init(selectedTab: Tab = .turingTest, turingTestItems: [TuringTestCard] = TuringTestCard.dummyList) {
@@ -32,10 +36,15 @@ public struct MainFeature {
         case selectedTabChanged(Tab)
         case tappedTestCard(Int)
         case tappedSettingButton
+
+        case profile(ProfileFeature.Action)
+
         case delegate(Delegate)
     }
     
     public var body: some ReducerOf<Self> {
+        Scope(state: \.profile, action: \.profile) { ProfileFeature() }
+
         Reduce { state, action in
             switch action {
             case let .selectedTabChanged(tab):
@@ -46,6 +55,8 @@ public struct MainFeature {
                 return .send(.delegate(.openTuringTest(item)))
             case .tappedSettingButton:
                 return .send(.delegate(.moveToSetting))
+            case .profile:
+                return .none
             case .delegate: return .none
             }
         }

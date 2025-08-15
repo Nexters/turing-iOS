@@ -7,11 +7,16 @@
 
 import DesignSystem
 import SwiftUI
+import TCA
 
 public struct ProfileView: View {
     
-    public init() { }
-    
+    let store: StoreOf<ProfileFeature>
+
+    public init(store: StoreOf<ProfileFeature>) {
+        self.store = store
+    }
+
     public var body: some View {
         VStack(spacing: 12) {
             Image("profile_default", bundle: .module)
@@ -65,7 +70,7 @@ public struct ProfileView: View {
                 Text("내 배지")
                 Spacer()
                 Button {
-                    
+                    store.send(.tappedBadgeComponent)
                 } label: {
                     Image("arrow_right", bundle: .module)
                         .padding(.vertical, 8)
@@ -109,7 +114,7 @@ public struct ProfileView: View {
             Spacer()
             
             Button {
-                
+                store.send(.tappedSolvedTuringTestComponent)
             } label: {
                 Image("arrow_right", bundle: .module)
                     .padding(.vertical, 8)
@@ -124,5 +129,9 @@ public struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(
+        store: Store(initialState: ProfileFeature.State(), reducer: {
+            ProfileFeature()
+        })
+    )
 }
