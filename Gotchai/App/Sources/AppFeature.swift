@@ -39,12 +39,12 @@ struct AppFeature {
             case .onboarding(.delegate(.navigateToSignIn)):
                 state.root = .signIn
                 return .none
-                
+
                 // 로그인 성공 → 메인으로
             case .signIn(.delegate(.didSignIn)):
                 state.root = .main
                 return .none
-                
+
             case let .main(.delegate(mainAction)):
                 switch mainAction {
                 case .openTuringTest(let item):
@@ -54,9 +54,9 @@ struct AppFeature {
                 case .moveToSetting:
                     state.path.append(.setting(.init()))
                 }
-                
+
                 return .none
-                
+
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
             case .path(.element(id: _, action: .turingTest(.delegate(let turingAction)))):
                 // 테스트 표지 화면에서 받는 Action
@@ -67,8 +67,9 @@ struct AppFeature {
                     state.path.removeAll()
                 default: break
                 }
-                
+
                 return .none
+
             case .path(.element(id: _, action: .turingTestConcept(.delegate(let turingAction)))):
                 // 테스트 상황 세팅 화면에서 받는 Action
                 switch turingAction {
@@ -78,8 +79,9 @@ struct AppFeature {
                     state.path.removeAll()
                 default: break
                 }
-                
+
                 return .none
+
             case .path(.element(id: _, action: .quiz(.delegate(let quizAction)))):
                 // 퀴즈 화면에서 받는 Action
                 switch quizAction {
@@ -89,14 +91,25 @@ struct AppFeature {
                     state.path.append(.turingTestResult(.init()))
                 }
                 return .none
+
+                // Setting 화면에서 로그아웃 완료 델리게이트 수신
+            case .path(.element(id: _, action: .setting(.delegate(.didLogout)))):
+                // 네비 스택 및 상태 정리 후 로그인 루트로 이동
+                state.path.removeAll()
+                state.main = MainFeature.State()      // 필요 시 초기화
+                state.signIn = SignInFeature.State()  // 필요 시 초기화
+                state.root = .signIn
+                return .none
+
             case .path(.element(id: _, action: .setting(.delegate(.moveToMainView)))):
                 // 세팅 화면에서 받는 Action
                 state.path.removeAll()
                 return .none
+
             case let .setRoot(root):
                 state.root = root
                 return .none
-                
+
             default:
                 return .none
             }

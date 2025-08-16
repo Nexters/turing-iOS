@@ -6,7 +6,6 @@
 //
 
 import TCA
-import Auth
 import Foundation
 
 extension KakaoAuthProvider: DependencyKey {

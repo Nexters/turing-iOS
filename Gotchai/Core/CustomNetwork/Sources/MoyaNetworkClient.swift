@@ -51,4 +51,13 @@ public final class MoyaAPIClient: NetworkClient {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
+
+    public func request(_ target: TargetType) -> AnyPublisher<Void, Error> {
+        provider.requestPublisher(MultiTarget(target))
+            .tryMap { response in
+                try response.filterSuccessfulStatusCodes()
+                return ()
+            }
+            .eraseToAnyPublisher()
+    }
 }

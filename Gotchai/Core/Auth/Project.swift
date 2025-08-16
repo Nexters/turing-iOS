@@ -16,7 +16,8 @@ let project = Project(
             dependencies: [
                 .external(name: "KakaoSDKCommon"),
                 .external(name: "KakaoSDKAuth"),
-                .external(name: "KakaoSDKUser")
+                .external(name: "KakaoSDKUser"),
+                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
             ]
         )
     ]
