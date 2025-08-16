@@ -58,7 +58,6 @@ public struct BadgeListView: View {
                     .padding(.top, 20)
                 }
                 .task { await viewStore.send(.task).finish() }         // 화면 등장 시 1회 호출
-                .refreshable { await viewStore.send(.refresh).finish() } // 당겨서 새로고침
                 .navigationBarBackButtonHidden()
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {

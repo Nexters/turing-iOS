@@ -38,7 +38,6 @@ public struct BadgeListFeature {
 
     public enum Action {
         case task                  // 뷰 등장/갱신 트리거
-        case refresh               // 당겨서 새로고침 등
         case badgesLoaded([Badge])
         case failed(String)
         case tappedBackButton
@@ -48,7 +47,7 @@ public struct BadgeListFeature {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .task, .refresh:
+            case .task:
                 state.isLoading = true
                 state.error = nil
                 return .publisher {
