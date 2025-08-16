@@ -81,11 +81,12 @@ public struct ProfileView: View {
                         .padding(.leading, 14)
                 }
             }
+            .padding(.bottom, store.lastBadge == nil ? 12 : 8)
+            
             if let badge = store.lastBadge {
                 Rectangle()
                     .frame(height: 1)
                     .foregroundStyle(Color(.gray_500))
-                    .padding(.top, 8)
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(badge.name)
@@ -102,12 +103,12 @@ public struct ProfileView: View {
                     .frame(width: 95, height: 95)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
-                .padding(.top, 20)
+                .padding(.vertical, 20)
             }
         }
         .fontStyle(.body_2)
         .foregroundStyle(Color(.gray_white))
-        .padding([.horizontal, .bottom], 20)
+        .padding(.horizontal, 20)
         .padding(.top, 12)
         .background(Color(.gray_900))
         .clipShape(RoundedRectangle(cornerRadius: 20))
