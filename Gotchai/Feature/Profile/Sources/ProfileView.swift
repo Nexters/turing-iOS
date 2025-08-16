@@ -49,6 +49,8 @@ public struct ProfileView: View {
     @ViewBuilder
     private func RankCard() -> some View {
         Image(rankImage, bundle: .module)
+            .resizable()
+            .scaledToFit()
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(alignment: .topLeading) {
                 VStack(alignment: .leading, spacing: 0) {
