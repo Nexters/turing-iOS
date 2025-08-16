@@ -16,7 +16,7 @@ extension ProfileAPI: BaseTarget {
     var path: String {
         switch self {
         case .getRanking:
-            return apiPrefix + "/users/ranking"
+            return apiPrefix + "/users/me/ranking"
         }
     }
     
