@@ -42,6 +42,7 @@ public struct ProfileView: View {
         .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
+        .onAppear { store.send(.onAppear) }
     }
     
     
