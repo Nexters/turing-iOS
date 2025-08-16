@@ -26,6 +26,25 @@ struct SolvedTuringTestListView: View {
                 }
             }
             .task { await store.send(.task).finish() }
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                    } label: {
+                        Image("arrow_back", bundle: .module)
+                            .padding(12)
+                    }
+                    .padding(.bottom, 8)
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("내가 풀었던 테스트")
+                        .fontStyle(.body_1)
+                        .foregroundStyle(Color(.gray_white))
+                        .padding(.vertical, 10)
+                        .padding(.bottom, 8)
+                    
+                }
+            }
         }
     }
     
