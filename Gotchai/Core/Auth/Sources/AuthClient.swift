@@ -6,23 +6,22 @@
 //
 
 import Combine
+import TCA
 
-public final class AuthManager {
-  private let provider: AuthProvider
-
-  public init(provider: AuthProvider) {
-    self.provider = provider
-  }
-
-  public func signIn() -> AnyPublisher<UserSession, Error> {
-    provider.signIn()
-  }
-
-  public func signOut() -> AnyPublisher<Void, Error>  {
-    provider.signOut()
-  }
-
-  public func deleteUser()-> AnyPublisher<Void, Error>  {
-    provider.deleteUser()
-  }
+public struct AuthClient: Sendable {
+    public var signIn:@Sendable (_ provider: AuthProvider) -> AnyPublisher<UserSession, Error>
+    public var signOut:@Sendable () -> AnyPublisher<Void, Error>
+    public var deleteUser:@Sendable () -> AnyPublisher<Void, Error>
+    
+    public init(
+        signIn: @Sendable @escaping (
+            _ provider: AuthProvider
+        ) -> AnyPublisher<UserSession, Error>,
+        signOut: @Sendable @escaping () -> AnyPublisher<Void, Error>,
+        deleteUser: @Sendable @escaping () -> AnyPublisher<Void, Error>
+    ) {
+        self.signIn = signIn
+        self.signOut = signOut
+        self.deleteUser = deleteUser
+    }
 }

@@ -11,4 +11,5 @@ import Combine
 
 public protocol NetworkClient {
     func request<T: Decodable>(_ target: TargetType, type: T.Type) -> AnyPublisher<T, Error>
+    func request(_ target: TargetType) -> AnyPublisher<Void, Error>   // ← 추가
 }
