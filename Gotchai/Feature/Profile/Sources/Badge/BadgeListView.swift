@@ -63,7 +63,7 @@ public struct BadgeListView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            
+                            viewStore.send(.tappedBackButton)
                         } label: {
                             Image("arrow_back", bundle: .module)
                                 .padding(12)
