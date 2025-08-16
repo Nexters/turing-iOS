@@ -118,6 +118,10 @@ struct AppFeature {
                 // 배지 리스트 화면에서 받는 Action
                 state.path.removeAll()
                 return .none
+                
+            case .path(.element(id: _, action: .solvedTuringTest(.delegate(.moveToMainView)))):
+                state.path.removeAll()
+                return .none
 
             case .path(.element(id: _, action: .turingTestResult(.delegate(.moveToMainView)))):
                 state.path.removeAll()

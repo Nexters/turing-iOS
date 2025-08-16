@@ -27,11 +27,17 @@ public struct SolvedTuringTestFeature {
             self.error = error
         }
     }
+    
+    public enum Delegate {
+        case moveToMainView
+    }
 
     public enum Action {
         case task                  // 뷰 등장/갱신 트리거
         case testsLoaded([SolvedTuringTest])
         case failed(String)
+        case tappedBackButton
+        case delegate(Delegate)
     }
 
     public var body: some ReducerOf<Self> {
@@ -62,6 +68,12 @@ public struct SolvedTuringTestFeature {
             case .failed(let message):
                 state.isLoading = false
                 state.error = message
+                return .none
+                
+            case .tappedBackButton:
+                return .send(.delegate(.moveToMainView))
+                
+            case .delegate(_):
                 return .none
             }
         }
