@@ -6,19 +6,48 @@
 //
 
 import SwiftUI
+import TCA
+import DesignSystem
 
-struct SolvedTuringTestListView: View {
-    @State private var solvedTestItems: [SolvedTuringTest] = SolvedTuringTest.dummyList
+public struct SolvedTuringTestListView: View {
+    let store: StoreOf<SolvedTuringTestFeature>
     
-    var body: some View {
-        ZStack {
-            Color(.gray_950).ignoresSafeArea()
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(solvedTestItems,id: \.id) { item in
-                        TestCard(data: item)
-                            .padding(.horizontal, 24)
+    public init(store: StoreOf<SolvedTuringTestFeature>) {
+        self.store = store
+    }
+
+    public var body: some View {
+        WithViewStore(store, observe: \.solvedTuringTests) { viewStore in
+            ZStack {
+                Color(.gray_950).ignoresSafeArea()
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(store.solvedTuringTests ,id: \.id) { item in
+                            TestCard(data: item)
+                                .padding(.horizontal, 24)
+                        }
                     }
+                }
+            }
+            .task { await store.send(.task).finish() }
+            .navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewStore.send(.tappedBackButton)
+                    } label: {
+                        Image("arrow_back", bundle: .module)
+                            .padding(12)
+                    }
+                    .padding(.bottom, 8)
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("내가 풀었던 테스트")
+                        .fontStyle(.body_1)
+                        .foregroundStyle(Color(.gray_white))
+                        .padding(.vertical, 10)
+                        .padding(.bottom, 8)
+                    
                 }
             }
         }
@@ -49,5 +78,7 @@ struct SolvedTuringTestListView: View {
 }
 
 #Preview {
-    SolvedTuringTestListView()
+    SolvedTuringTestListView(store: .init(initialState: SolvedTuringTestFeature.State(), reducer: {
+        SolvedTuringTestFeature()
+     }))
 }
