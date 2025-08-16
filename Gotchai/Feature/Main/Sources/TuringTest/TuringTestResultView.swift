@@ -11,11 +11,15 @@ import TCA
 
 public struct TuringTestResultView: View {
     let store: StoreOf<TuringTestFeature>
-    let gradientStops = GradientHelper.getGradientStops(for: .gold)
-    let badgeCardColor = GradientHelper.getBadgeColors(for: .gold)
+    var gradientStops = GradientHelper.getGradientStops(for: .bronze)
+    var badgeCardColor = GradientHelper.getBadgeColors(for: .bronze)
     
     public init(store: StoreOf<TuringTestFeature>) {
         self.store = store
+        if let tier = store.resultBadge?.tier, tier != .bronze {
+            self.gradientStops = GradientHelper.getGradientStops(for: tier)
+            self.badgeCardColor = GradientHelper.getBadgeColors(for: tier)
+        }
     }
     
     public var body: some View {
@@ -40,7 +44,10 @@ public struct TuringTestResultView: View {
             
             BottomButtons()
         }
-        
+        .navigationBarBackButtonHidden()
+        .onAppear {
+            store.send(.getResultBadge)
+        }
     }
     
     @ViewBuilder
@@ -48,7 +55,7 @@ public struct TuringTestResultView: View {
         HStack {
             Spacer()
             Button {
-                
+                store.send(.tappedBackButton)
             } label: {
                 Image("icon_xmark", bundle: .module)
                     .padding(12)
@@ -64,18 +71,26 @@ public struct TuringTestResultView: View {
     
     @ViewBuilder
     private func BadgeCard() -> some View {
+        let count = store.resultBadge?.correctCount ?? 0
+        let countText = count == 7 ? "모두 맞춘 당신은" : "7개 중 \(count)개를 맞춘 당신은"
+        
         VStack(spacing: 0) {
-            AsyncImage(url: URL(string: ""))
-                .frame(width: 213, height: 213)
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-            Text("모두 맞춘 당신은")
+            AsyncImage(url: URL(string: store.resultBadge?.imageURL ?? "")) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 213, height: 213)
+            .clipShape(Circle())
+
+            Text(countText)
                 .fontStyle(.body_1)
                 .foregroundStyle(Color(hex: badgeCardColor.subColor))
                 .padding(.top, 26)
-            Text("Ai 산타 감별사")
+            Text(store.resultBadge?.badgeName ?? "")
                 .fontStyle(.title_3)
                 .foregroundStyle(Color(hex: badgeCardColor.titleColor))
-            Text("크리스마스엔 선물보다\n눈치가 중요하다는 걸 증명했어요!")
+            Text(store.resultBadge?.description ?? "")
                 .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white).opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -115,16 +130,21 @@ public struct TuringTestResultView: View {
                     .foregroundStyle(Color(.gray_white).opacity(0.5))
             }
             .padding(.top, 18)
-            Text("Ai산타")
+            Text(store.turingTest.theme)
                 .fontStyle(.subtitle_2)
                 .foregroundStyle(Color(.primary_300))
             Text("이 프롬프트로 만들었어요")
                 .fontStyle(.subtitle_1)
-            AsyncImage(url: URL(string: ""))
-                .frame(width: 133, height: 133)
-                .clipShape(Circle())
-                .padding(.vertical, 16)
-            Text("AI 산타 캐릭터를 만들거야. MBTI는 ESFP이고, 20대 초중반 정도의 젊은 산타였으면 좋겠어. 선물 고르는 센스가 남다르고, 공감을 잘하는 성격을 가진 캐릭터로 설정해줘.")
+            AsyncImage(url: URL(string: store.turingTest.imageURL)) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 133, height: 133)
+            .clipShape(Circle())
+            .padding(.vertical, 16)
+                
+            Text(store.turingTest.prompt)
                 .fontStyle(.body_4)
                 .multilineTextAlignment(.center)
             

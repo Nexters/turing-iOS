@@ -18,6 +18,7 @@ struct AppFeature {
         var onboarding = OnboardingFeature.State()
         var signIn     = SignInFeature.State()
         var main = MainFeature.State()
+        var turingTest = TuringTestFeature.State()
 
         var path = StackState<AppPath.State>()
     }
@@ -47,22 +48,21 @@ struct AppFeature {
 
             case let .main(.delegate(mainAction)):
                 switch mainAction {
-                case .openTuringTest(let item):
-                    state.path.append(.turingTest(
-                        .init() //TODO: 여기서 Item 넣어줘야함
-                    ))
+                case .openTuringTest(let id):
+                    state.turingTest = .init(turingTestID: id)
+                    state.path.append(.turingTest(state.turingTest))
                 case .moveToSetting:
                     state.path.append(.setting(.init()))
                 }
-
                 return .none
 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환
             case .path(.element(id: _, action: .turingTest(.delegate(let turingAction)))):
                 // 테스트 표지 화면에서 받는 Action
                 switch turingAction {
-                case .moveToConceptView:
-                    state.path.append(.turingTestConcept(.init()))
+                case let .moveToConceptView(testID, turingTest):
+                    state.turingTest = .init(turingTestID: testID, turingTest: turingTest)
+                    state.path.append(.turingTestConcept(state.turingTest))
                 case .moveToMainView:
                     state.path.removeAll()
                 default: break
@@ -73,8 +73,8 @@ struct AppFeature {
             case .path(.element(id: _, action: .turingTestConcept(.delegate(let turingAction)))):
                 // 테스트 상황 세팅 화면에서 받는 Action
                 switch turingAction {
-                case .moveToQuizView:
-                    state.path.append(.quiz(.init()))
+                case let .moveToQuizView(quizIds):
+                    state.path.append(.quiz(.init(quizIdList: quizIds)))
                 case .moveToMainView:
                     state.path.removeAll()
                 default: break
@@ -88,7 +88,7 @@ struct AppFeature {
                 case .moveToMainView:
                     state.path.removeAll()
                 case .moveToResultView:
-                    state.path.append(.turingTestResult(.init()))
+                    state.path.append(.turingTestResult(state.turingTest))
                 }
                 return .none
 
@@ -105,7 +105,10 @@ struct AppFeature {
                 // 세팅 화면에서 받는 Action
                 state.path.removeAll()
                 return .none
-
+            case .path(.element(id: _, action: .turingTestResult(.delegate(.moveToMainView)))):
+                state.path.removeAll()
+                return .none
+                
             case let .setRoot(root):
                 state.root = root
                 return .none
