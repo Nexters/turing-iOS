@@ -16,7 +16,7 @@ extension SolvedTuringTestAPI: BaseTarget {
     var path: String {
         switch self {
         case .fetchSolvedTuringTests:
-            return apiPrefix + "/user/me/exams/solved"
+            return apiPrefix + "/users/me/exams/solved"
         }
     }
 

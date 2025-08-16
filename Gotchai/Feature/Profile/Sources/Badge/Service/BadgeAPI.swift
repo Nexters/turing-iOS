@@ -16,7 +16,7 @@ extension BadgeAPI: BaseTarget {
     var path: String {
         switch self {
         case .fetchBadges:
-            return apiPrefix + "/user/me/badges"
+            return apiPrefix + "/users/me/badges"
         }
     }
 
