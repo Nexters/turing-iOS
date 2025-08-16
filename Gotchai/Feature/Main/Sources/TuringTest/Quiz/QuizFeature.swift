@@ -6,11 +6,20 @@
 //
 
 import Combine
+import CustomNetwork
 import TCA
 import SwiftUI
 
 @Reducer
 public struct QuizFeature {
+    @Dependency(\.turingTestService) var turingTestService
+    
+    public enum CancelID {
+        case timer
+        case getQuiz
+        case gradeQuiz
+    }
+    
     public init() { }
     
     @ObservableState
@@ -21,23 +30,22 @@ public struct QuizFeature {
         var isRunningTimer = false
         
         // Quiz
+        var quizIdList: [Int]
+        var quizIndex: Int = -1
         var quiz: Quiz
-        var progress: QuizProgress
         var answerCardState: [AnswerCardState]
         var isSelectedAnswer: Bool = false
-        var answer: String
+        var answerPopUpData: AnswerPopUp = .init(answer: "", status: .notAnswered)
         var isAnswerPopUpPresented: Bool
         
         public init(
+            quizIdList: [Int] = [],
             quiz: Quiz = Quiz.dummy,
-            progress: QuizProgress = .notAnswered,
-            answer: String = "",
             isAnswerPopUpPresented: Bool = false
         ) {
+            self.quizIdList = quizIdList
             self.quiz = quiz
-            self.progress = progress
             self.answerCardState = Array(repeating: .idle, count: quiz.answers.count)
-            self.answer = answer
             self.isAnswerPopUpPresented = isAnswerPopUpPresented
         }
     }
@@ -47,7 +55,7 @@ public struct QuizFeature {
         case moveToResultView
     }
     
-    public enum Action: Equatable {
+    public enum Action {
         // Life Cycle
         case onAppear
         
@@ -58,22 +66,24 @@ public struct QuizFeature {
         
         // Quiz
         case initQuiz
-        case selectAnswer(Int, Int)
+        case selectAnswer(Int, Int, Bool)
         case setAnswerPopUpPresented(Bool)
         case tappedXButton
-        case tappedTestEndButton
         case delegate(Delegate)
+        
+        // Data
+        case getQuizResponse(Result<Quiz, Error>)
+        case gradeQuizResponse(Result<AnswerPopUp, Error>)
     }
-    
-    enum CancelID { case timer }
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            // MARK: - Action: Life Cycle
             case .onAppear:
+                return .send(.initQuiz)
                 
-                // TODO: 데이터 setting
-                return .send(.startTimer)
+            // MARK: - Action: Timer
             case .startTimer:
                 state.secondsElapsed = 0
                 state.isRunningTimer = true
@@ -99,10 +109,12 @@ public struct QuizFeature {
                     state.isRunningTimer = false
                     return .concatenate(
                         .cancel(id: CancelID.timer),
-                        .send(.selectAnswer(-1, 0)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
+                        .send(.selectAnswer(-1, 0, true)) // 임시 값, 10초가 되었을 때 이후 작업을 하기 위함
                     )
                 }
-            case let .selectAnswer(index, id):
+            
+            // MARK: - Action: 정답 선택
+            case let .selectAnswer(index, id, isTimeOut):
                 if state.isSelectedAnswer { return .none }
                 
                 state.isRunningTimer = false
@@ -116,27 +128,63 @@ public struct QuizFeature {
                     }
                 }
                 
-                // dummy
-                state.answer = "음~ 반짝이랑 리본 살짝 감으면 확 살아날 것 같은데?"
-                state.progress = index == -1 ? .timeout : .correct
+                let req = GradeQuizRequestDTO(quizPickId: id, isTimeout: isTimeOut)
                 
                 return .concatenate(
                     .cancel(id: CancelID.timer),
                     .publisher {
-                        Just(.setAnswerPopUpPresented(true))
-                            .delay(for: .seconds(0.3), scheduler: RunLoop.main)   
-                            .eraseToAnyPublisher()
-                    }
+                        turingTestService.gradeQuiz(.gradeQuiz(state.quizIdList[state.quizIndex], req))
+                            .map { .gradeQuizResponse(.success($0)) }
+                            .catch{ Just(.gradeQuizResponse(.failure($0))) }
+                            .receive(on: RunLoop.main)
+                    }.cancellable(id: CancelID.gradeQuiz)
                 )
+            
+            // MARK: - Action: 퀴즈 초기화
+            case .initQuiz:
+                state.quizIndex += 1
+                state.isSelectedAnswer = false
+                state.answerCardState = Array(repeating: .idle, count: state.quiz.answers.count)
+                
+                return .publisher {
+                    turingTestService.getQuiz(.getQuiz(state.quizIdList[state.quizIndex]))
+                        .map { .getQuizResponse(.success($0)) }
+                        .catch{ Just(.getQuizResponse(.failure($0))) }
+                        .receive(on: RunLoop.main)
+                }
+                .cancellable(id: CancelID.getQuiz)
+                
+            // MARK: - Action: 화면 전환 & 단순 state 변경
+            case .tappedXButton:
+                return .send(.delegate(.moveToMainView))
             case let .setAnswerPopUpPresented(isPresented):
                 state.isAnswerPopUpPresented = isPresented
                 return .none
-            case .initQuiz:
-                return .none
-            case .tappedXButton:
-                return .send(.delegate(.moveToMainView))
-            case .tappedTestEndButton:
-                return .send(.delegate(.moveToResultView))
+                
+            // MARK: - Action: 데이터 응답 처리
+            case let .getQuizResponse(result):
+                switch result {
+                case let .success(quiz):
+                    state.quiz = quiz
+                    return .send(.startTimer)
+                case let .failure(error):
+                    print("퀴즈 fetch 실패: \(error)")
+                    return .none
+                }
+            case let .gradeQuizResponse(result):
+                switch result {
+                case let .success(response):
+                    state.answerPopUpData = .init(answer: response.answer, status: response.status)
+                    
+                    return .publisher {
+                        Just(.setAnswerPopUpPresented(true))
+                            .delay(for: .seconds(0.3), scheduler: RunLoop.main)
+                            .eraseToAnyPublisher()
+                    }
+                case let .failure(error):
+                    print("퀴즈 채점 실패: \(error)")
+                    return .none
+                }
             default:
                 return .none
             }

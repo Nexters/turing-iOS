@@ -59,6 +59,9 @@ public struct MainView: View {
         .navigationBarBackButtonHidden()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
     
     @ViewBuilder
@@ -97,15 +100,29 @@ public struct MainView: View {
     @ViewBuilder
     private func TestCardItem(item: TuringTestCard) -> some View {
         HStack(spacing: 16) {
-            AsyncImage(url: URL(string: item.imageURL)) { image in
-                image.resizable()
-            } placeholder: {
-//                ProgressView()
+            // TODO: 이미지 캐시
+            ZStack {
+                AsyncImage(url: URL(string: item.imageURL)) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 56, height: 56)
+                .padding(12)
+                .background(
+                    Circle().fill(Color(.gray_900))
+                )
+                if item.isSolved {
+                    Text("풀기완료")
+                        .fontStyle(.body_6)
+                        .foregroundStyle(Color(.gray_200))
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 8)
+                        .background(Color(.gray_700))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.bottom, 2)
+                }
             }
-            .frame(width: 80, height: 80)
-            .background(
-                Circle().fill(Color(.gray_900))
-            )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.title)

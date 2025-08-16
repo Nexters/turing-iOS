@@ -25,7 +25,7 @@ public struct QuizView: View {
                     .padding(.top, 4)
                     .padding(.bottom, 28)
                 
-                Text("1/7")
+                Text("\(viewStore.quizIndex+1)/\(viewStore.quizIdList.count)")
                     .fontStyle(.body_5)
                     .foregroundStyle(Color(.primary_400))
                     .padding(.vertical, 3)
@@ -35,18 +35,17 @@ public struct QuizView: View {
                             .fill(Color(.primary_400).opacity(0.1))
                     )
                 
-                Text(store.quiz.contents)
+                Text(viewStore.quiz.contents)
                     .fontStyle(.subtitle_2)
                     .foregroundStyle(Color(.gray_white))
                     .padding(.top, 16)
                 
                 VStack(spacing: 16) {
-                    ForEach(Array(store.quiz.answers.enumerated()), id: \.offset) { index, item in
+                    ForEach(Array(viewStore.quiz.answers.enumerated()), id: \.offset) { index, item in
                         Button {
-                            // TODO: index를 id로 변경
-                            viewStore.send(.selectAnswer(index, index))
+                            viewStore.send(.selectAnswer(index, item.id, false))
                         } label: {
-                            AnswerCard(idx: index, text: item, state: viewStore.answerCardState[index])
+                            AnswerCard(idx: index, text: item.contents, state: viewStore.answerCardState[index])
                         }
                         .allowsHitTesting(!viewStore.state.isSelectedAnswer)    // 답 선택하면 터치 막기
                     }
@@ -73,10 +72,14 @@ public struct QuizView: View {
                 isPresented: viewStore.binding(
                     get: \.isAnswerPopUpPresented,
                     send: QuizFeature.Action.setAnswerPopUpPresented),
-                quizProgress: viewStore.progress,
-                answerText: viewStore.answer,
+                quizProgress: viewStore.answerPopUpData.status,
+                answerText: viewStore.answerPopUpData.answer,
                 action: {
-                    viewStore.send(.initQuiz)
+                    if viewStore.quizIndex == viewStore.quizIdList.count - 1 {
+                        viewStore.send(.delegate(.moveToResultView))
+                    } else {
+                        viewStore.send(.initQuiz)
+                    }
                 }
             )
             .onAppear {
@@ -96,7 +99,7 @@ public struct QuizView: View {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(.primary_400))
                     .frame(width: geometry.size.width * progress)
-                    .animation(.linear(duration: 1), value: progress)
+                    .animation(progress == 0 ? nil : .linear(duration: 1), value: progress)
             }
         }
         .frame(height: 5)

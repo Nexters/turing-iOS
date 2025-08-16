@@ -15,7 +15,8 @@ let project = Project(
             dependencies: [
                 .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
                 .project(target: "DesignSystem", path: "../../Shared/DesignSystem"),
-                .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile"))
+                .project(target: "Profile", path: .relativeToRoot("Gotchai/Feature/Profile")),
+                .project(target: "CustomNetwork", path: .relativeToRoot("Gotchai/Core/CustomNetwork"))
             ]
         )
     ]
