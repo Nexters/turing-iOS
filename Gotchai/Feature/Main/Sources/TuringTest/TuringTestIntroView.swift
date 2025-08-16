@@ -21,10 +21,9 @@ public struct TuringTestIntroView: View {
             AsyncImage(url: URL(string: store.turingTest.iconURL)) { image in
                 image.resizable()
             } placeholder: {
-//                ProgressView()
+                ProgressView()
             }
             .frame(width: 40, height: 40)
-            .background(.yellow)    // 임시
             
             Text(store.turingTest.title)
                 .fontStyle(.title_2)
@@ -44,7 +43,7 @@ public struct TuringTestIntroView: View {
             AsyncImage(url: URL(string: store.turingTest.imageURL)) { image in
                 image.resizable()
             } placeholder: {
-//                ProgressView()
+                ProgressView()
             }
             .frame(width: 305, height: 305)
             .background(

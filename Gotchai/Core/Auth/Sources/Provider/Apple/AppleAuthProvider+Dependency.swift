@@ -6,7 +6,6 @@
 //
 
 import TCA
-import Auth
 
 extension AppleAuthProvider: DependencyKey {
     public static let liveValue: AppleAuthProvider = {

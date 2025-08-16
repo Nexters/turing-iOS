@@ -10,7 +10,7 @@ import DesignSystem
 import SwiftUI
 
 public struct TuringTestConceptView: View {
-    let store: StoreOf<TuringTestFeature>
+    @Bindable var store: StoreOf<TuringTestFeature>
     
     public init(store: StoreOf<TuringTestFeature>) {
         self.store = store
@@ -18,7 +18,11 @@ public struct TuringTestConceptView: View {
     
     public var body: some View {
         ZStack {
-            // TODO: 배경 이미지 추가 
+            AsyncImage(url: URL(string: store.turingTest.backgroundImageURL), content: { image in
+                image.resizable()
+            }, placeholder: { })
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .ignoresSafeArea()
             
             Color(.gray_950).opacity(0.5).ignoresSafeArea()
             

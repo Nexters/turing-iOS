@@ -14,7 +14,10 @@ let project = Project(
             resources: ["Resources/**"],
             dependencies: [
                 .project(target: "DesignSystem", path: .relativeToRoot("Gotchai/Shared/DesignSystem")),
-                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA"))
+                .project(target: "TCA", path: .relativeToRoot("Gotchai/Core/Third/TCA")),
+                .project(target: "Key", path: .relativeToRoot("Gotchai/Core/Key")),
+                .project(target: "CustomNetwork", path: .relativeToRoot("Gotchai/Core/CustomNetwork")),
+                .project(target: "Auth", path: .relativeToRoot("Gotchai/Core/Auth"))
             ]
         )
     ]
