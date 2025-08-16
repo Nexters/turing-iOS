@@ -8,6 +8,7 @@
 import TCA
 import Main
 import Setting
+import Profile
 
 @Reducer
 struct AppPath {
@@ -19,6 +20,7 @@ struct AppPath {
       case quiz(QuizFeature.State)
       case turingTestResult(TuringTestFeature.State)
       case setting(SettingFeature.State)
+      case badgeList(BadgeListFeature.State)
   }
 
   @CasePathable
@@ -28,6 +30,7 @@ struct AppPath {
       case quiz(QuizFeature.Action)
       case turingTestResult(TuringTestFeature.Action)
       case setting(SettingFeature.Action)
+      case badgeList(BadgeListFeature.Action)
   }
 
   var body: some ReducerOf<Self> {
@@ -36,5 +39,6 @@ struct AppPath {
       Scope(state: \.quiz, action: \.quiz) { QuizFeature() }
       Scope(state: \.turingTestResult, action: \.turingTestResult) { TuringTestFeature() }
       Scope(state: \.setting, action: \.setting) { SettingFeature() }
+      Scope(state: \.badgeList, action: \.badgeList) { BadgeListFeature() }
   }
 }

@@ -12,6 +12,7 @@ import Auth
 import Onboarding
 import Main
 import Setting
+import Profile
 
 struct AppView: View {
     let store: StoreOf<AppFeature>
@@ -62,6 +63,10 @@ struct AppView: View {
                     case .setting:
                         if let settingStore = store.scope(state: \.setting, action: \.setting) {
                             SettingView(store: settingStore)
+                        }
+                    case .badgeList:
+                        if let badgeListStore = store.scope(state: \.badgeList, action: \.badgeList) {
+                            BadgeListView(store: badgeListStore)
                         }
                     }
                 }

@@ -46,7 +46,10 @@ public struct MainView: View {
                                 .padding(.horizontal, 24)
                         }
                     case .achievement:
-                        ProfileView()
+                        ProfileView(
+                            store: store
+                                .scope(state: \.profile, action: \.profile)
+                        )
                         Spacer()
                     }
                 }

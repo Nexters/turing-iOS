@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import TCA
+import Profile
 
 @Reducer
 public struct MainFeature {
@@ -20,6 +21,9 @@ public struct MainFeature {
     @ObservableState
     public struct State {
         var selectedTab: Tab
+
+        public var profile: ProfileFeature.State = .init()
+
         var turingTestItems: [TuringTestCard]
         
         public init(selectedTab: Tab = .turingTest, turingTestItems: [TuringTestCard] = TuringTestCard.dummyList) {
@@ -41,6 +45,9 @@ public struct MainFeature {
         case selectedTabChanged(Tab)
         case tappedTestCard(Int)
         case tappedSettingButton
+
+        case profile(ProfileFeature.Action)
+
         case delegate(Delegate)
         
         // data
@@ -48,6 +55,8 @@ public struct MainFeature {
     }
     
     public var body: some ReducerOf<Self> {
+        Scope(state: \.profile, action: \.profile) { ProfileFeature() }
+
         Reduce { state, action in
             switch action {
             case .onAppear:
@@ -65,6 +74,8 @@ public struct MainFeature {
                 return .send(.delegate(.openTuringTest(id)))
             case .tappedSettingButton:
                 return .send(.delegate(.moveToSetting))
+            case .profile:
+                return .none
             case .delegate: return .none
             case let .turingTestListResponse(.success(items)):
                 // 리스트 데이터 저장
