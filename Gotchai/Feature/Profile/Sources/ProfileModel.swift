@@ -8,4 +8,9 @@
 public struct Profile {
     let nickname: String
     let rating: Int
+    
+    public init(nickname: String, rating: Int) {
+        self.nickname = nickname
+        self.rating = rating
+    }
 }

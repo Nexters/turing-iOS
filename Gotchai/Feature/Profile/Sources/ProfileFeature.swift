@@ -13,10 +13,18 @@ public struct ProfileFeature {
     @Dependency(\.profileService) var profileService
     
     public init() { }
+    
+    public enum CancelID {
+        case getRanking
+    }
 
     @ObservableState
     public struct State {
-        public init() {}
+        var profile: Profile
+        
+        public init(profile: Profile = Profile(nickname: "닉네임", rating: 50)) {
+            self.profile = profile
+        }
     }
 
     public enum Delegate {
@@ -45,6 +53,8 @@ public struct ProfileFeature {
                         .map { .getRankingResponse(.success($0)) }
                         .catch { Just(.getRankingResponse(.failure($0)))}
                 }
+                .cancellable(id: CancelID.getRanking)
+                
             case .tappedBadgeComponent:
                 return .send(.delegate(.openMyBadgeList))
             case .tappedSolvedTuringTestComponent:
@@ -53,6 +63,7 @@ public struct ProfileFeature {
             case .getRankingResponse(let result):
                 switch result {
                 case .success(let profile):
+                    state.profile = profile
                     return .none
                 case .failure(let error):
                     return .none
