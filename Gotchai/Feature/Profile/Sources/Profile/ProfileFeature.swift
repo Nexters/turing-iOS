@@ -11,19 +11,23 @@ import TCA
 @Reducer
 public struct ProfileFeature {
     @Dependency(\.profileService) var profileService
+    @Dependency(\.badgeService) var badgeService
     
     public init() { }
     
     public enum CancelID {
         case getRanking
+        case getBadgeList
     }
 
     @ObservableState
     public struct State {
         var profile: Profile
+        var lastBadge: Badge?
         
-        public init(profile: Profile = Profile(nickname: "닉네임", rating: 50)) {
+        public init(profile: Profile = Profile(nickname: "닉네임", rating: 50), lastBadge: Badge? = nil) {
             self.profile = profile
+            self.lastBadge = lastBadge
         }
     }
 
@@ -42,18 +46,28 @@ public struct ProfileFeature {
         case delegate(Delegate)
         
         case getRankingResponse(Result<Profile, Error>)
+        case getBadgeListResponse(Result<[Badge], Error>)
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .publisher {
+                let getRanking: Effect<Action> = .publisher {
                     profileService.getRanking()
                         .map { .getRankingResponse(.success($0)) }
                         .catch { Just(.getRankingResponse(.failure($0)))}
                 }
                 .cancellable(id: CancelID.getRanking)
+                
+                let getBadgeList: Effect<Action> = .publisher {
+                    badgeService.fetchBadges()
+                        .map { .getBadgeListResponse(.success($0)) }
+                        .catch { Just(.getBadgeListResponse(.failure($0)))}
+                }
+                .cancellable(id: CancelID.getBadgeList)
+                
+                return .merge(getRanking, getBadgeList)
                 
             case .tappedBadgeComponent:
                 return .send(.delegate(.openMyBadgeList))
@@ -64,6 +78,15 @@ public struct ProfileFeature {
                 switch result {
                 case .success(let profile):
                     state.profile = profile
+                    return .none
+                case .failure(let error):
+                    return .none
+                }
+                
+            case .getBadgeListResponse(let result):
+                switch result {
+                case .success(let badges):
+                    state.lastBadge = badges.first
                     return .none
                 case .failure(let error):
                     return .none

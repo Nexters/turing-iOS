@@ -8,6 +8,7 @@
 import DesignSystem
 import SwiftUI
 import TCA
+import Common
 
 public struct ProfileView: View {
     
@@ -80,23 +81,29 @@ public struct ProfileView: View {
                         .padding(.leading, 14)
                 }
             }
-            Rectangle()
-                .frame(height: 1)
-                .foregroundStyle(Color(.gray_500))
-                .padding(.top, 8)
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("기계사냥꾼")
-                    Text("7월 16일에 획득")
-                        .fontStyle(.body_6)
-                        .foregroundStyle(Color(.gray_500))
-                }
-                Spacer()
-                AsyncImage(url: URL(string: ""))
+            if let badge = store.lastBadge {
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundStyle(Color(.gray_500))
+                    .padding(.top, 8)
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(badge.name)
+                        Text("7월 16일에 획득")
+                            .fontStyle(.body_6)
+                            .foregroundStyle(Color(.gray_500))
+                    }
+                    Spacer()
+                    AsyncImage(url: URL(string: badge.imageURL)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
                     .frame(width: 95, height: 95)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .padding(.top, 20)
             }
-            .padding(.top, 20)
         }
         .fontStyle(.body_2)
         .foregroundStyle(Color(.gray_white))
