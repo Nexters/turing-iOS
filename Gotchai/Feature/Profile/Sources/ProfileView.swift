@@ -20,7 +20,7 @@ public struct ProfileView: View {
     public var body: some View {
         VStack(spacing: 12) {
             Image("profile_default", bundle: .module)
-            Text("닉네임")
+            Text(store.profile.nickname)
                 .fontStyle(.body_4)
                 .foregroundStyle(Color(.gray_white))
                 .padding(.vertical, 6)
@@ -42,19 +42,22 @@ public struct ProfileView: View {
         .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.gray_950))
+        .onAppear { store.send(.onAppear) }
     }
     
     
     @ViewBuilder
     private func RankCard() -> some View {
-        Image("rank_card5", bundle: .module)
+        Image(rankImage, bundle: .module)
+            .resizable()
+            .scaledToFit()
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(alignment: .topLeading) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("닉네임님은")
+                    Text("\(store.profile.nickname)님은")
                         .fontStyle(.body_6)
                         .foregroundStyle(Color(.gray_white).opacity(0.6))
-                    Text("상위 5%")
+                    Text("상위 \(store.profile.rating)%")
                         .fontStyle(.subtitle_2)
                         .foregroundStyle(Color(.gray_white))
                 }
@@ -125,6 +128,13 @@ public struct ProfileView: View {
         .padding(.vertical, 12)
         .background(Color(.gray_900))
         .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+    
+    private var rankImage: String {
+        let rating = store.profile.rating
+        print(rating)
+        let cap = [5, 10, 25, 50].first(where: { rating <= $0 }) ?? 50
+        return "rank_card\(cap)"
     }
 }
 
