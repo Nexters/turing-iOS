@@ -27,17 +27,12 @@ public struct BadgeListFeature {
             self.error = error
         }
     }
-    
-    public enum Delegate {
-        case moveToBadgeList
-    }
 
     public enum Action {
         case task                  // 뷰 등장/갱신 트리거
         case refresh               // 당겨서 새로고침 등
         case badgesLoaded([Badge])
         case failed(String)
-        case delegate(Delegate)
     }
 
     public var body: some ReducerOf<Self> {
@@ -66,8 +61,6 @@ public struct BadgeListFeature {
             case .failed(let message):
                 state.isLoading = false
                 state.error = message
-                return .none
-            case .delegate(_):
                 return .none
             }
         }
