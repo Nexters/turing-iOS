@@ -89,7 +89,7 @@ public struct ProfileView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(badge.name)
-                        Text("7월 16일에 획득")
+                        Text("\(DateManager.shared.parseISO(badge.acquiredAt))에 획득")
                             .fontStyle(.body_6)
                             .foregroundStyle(Color(.gray_500))
                     }
