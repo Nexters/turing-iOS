@@ -17,15 +17,13 @@ public struct SolvedTuringTestService {
         self.networkClient = networkClient
     }
 
-    public func fetchSolvedTuringTests() -> AnyPublisher<TuringTestListResponseDTO, Error> {
+    public func fetchSolvedTuringTests() -> AnyPublisher<[SolvedTuringTest], Error> {
         networkClient
             .request(
                 SolvedTuringTestAPI.fetchSolvedTuringTests ,
                 type: TuringTestListResponseDTO.self
             )
-            .handleEvents(receiveOutput: { response in
-                print("✅ fetch Solved Turing Test 응답:", response)
-            })
+            .map { $0.list.map(SolvedTuringTest.init(dto:)) }
             .eraseToAnyPublisher()
     }
 }

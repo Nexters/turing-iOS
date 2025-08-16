@@ -21,7 +21,7 @@ public struct SolvedTuringTestFeature {
         var isLoading = false
         var error: String?
         
-        public init(solvedTuringTests: [SolvedTuringTest] = SolvedTuringTest.dummyList, isLoading: Bool = false, error: String? = nil) {
+        public init(solvedTuringTests: [SolvedTuringTest] = [], isLoading: Bool = false, error: String? = nil) {
             self.solvedTuringTests = solvedTuringTests
             self.isLoading = isLoading
             self.error = error
@@ -48,13 +48,6 @@ public struct SolvedTuringTestFeature {
                 state.error = nil
                 return .publisher {
                     solvedTuringTestService.fetchSolvedTuringTests()
-                        .tryMap { dto -> [SolvedTuringTest] in
-                            guard dto.isSuccess else {
-                                throw SolvedTuringTestError
-                                    .server(status: dto.status)
-                            }
-                            return dto.data.list.map(SolvedTuringTest.init(dto:))
-                        }
                         .map(SolvedTuringTestFeature.Action.testsLoaded)
                         .catch { Just(.failed($0.localizedDescription)) }
                         .receive(on: DispatchQueue.main)
