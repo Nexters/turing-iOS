@@ -14,6 +14,10 @@ public struct BadgeListFeature {
     @Dependency(\.badgeService) var badgeService
     
     public init() { }
+    
+    enum CancelID {
+        case fetchBadges
+    }
 
     @ObservableState
     public struct State {
@@ -49,15 +53,10 @@ public struct BadgeListFeature {
                 state.error = nil
                 return .publisher {
                     badgeService.fetchBadges()
-                        .tryMap { dto -> [Badge] in
-                            guard dto.isSuccess else {
-                                throw BadgeListError.server(status: dto.status)
-                            }
-                            return dto.data.badges.map(Badge.init(dto:))
-                        }
                         .map(BadgeListFeature.Action.badgesLoaded)
                         .catch { Just(.failed($0.localizedDescription)) }
                 }
+                .cancellable(id: CancelID.fetchBadges)
 
             case .badgesLoaded(let items):
                 state.isLoading = false

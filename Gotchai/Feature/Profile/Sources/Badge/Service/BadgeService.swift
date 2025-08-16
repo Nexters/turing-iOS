@@ -17,12 +17,10 @@ public struct BadgeService {
         self.networkClient = networkClient
     }
 
-    public func fetchBadges() -> AnyPublisher<BadgeListResponseDTO, Error> {
+    public func fetchBadges() -> AnyPublisher<[Badge], Error> {
         networkClient
             .request(BadgeAPI.fetchBadges , type: BadgeListResponseDTO.self)
-            .handleEvents(receiveOutput: { response in
-                print("✅ fetch Badges 응답:", response)
-            })
+            .map { $0.badges.map(Badge.init(dto:)) }
             .eraseToAnyPublisher()
     }
 }
