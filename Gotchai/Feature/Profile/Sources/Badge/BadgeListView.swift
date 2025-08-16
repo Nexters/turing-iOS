@@ -8,12 +8,16 @@
 import TCA
 import SwiftUI
 
-struct BadgeListView: View {
+public struct BadgeListView: View {
     let store: StoreOf<BadgeListFeature>
     
     let colums = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    
+    public init(store: StoreOf<BadgeListFeature>) {
+        self.store = store
+    }
 
-    var body: some View {
+    public var body: some View {
         WithViewStore(store, observe: \.badgeItems) { viewStore in
             ZStack {
                 Color(.gray_950).ignoresSafeArea()

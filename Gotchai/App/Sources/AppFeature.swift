@@ -105,6 +105,10 @@ struct AppFeature {
                 // 세팅 화면에서 받는 Action
                 state.path.removeAll()
                 return .none
+                
+            case .path(.element(id: _, action: .badgeList(.delegate(.moveToBadgeList)))):
+                state.path.append(.badgeList(.init()))
+                return .none
 
             case let .setRoot(root):
                 state.root = root

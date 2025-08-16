@@ -10,24 +10,37 @@ import SwiftUI
 import Combine
 
 @Reducer
-struct BadgeListFeature {
+public struct BadgeListFeature {
     @Dependency(\.badgeService) var badgeService
+    
+    public init() { }
 
     @ObservableState
-    struct State {
-        var badgeItems: [Badge] = []
+    public struct State {
+        var badgeItems: [Badge]
         var isLoading = false
         var error: String?
+        
+        public init(badgeItems: [Badge] = [], isLoading: Bool = false, error: String? = nil) {
+            self.badgeItems = badgeItems
+            self.isLoading = isLoading
+            self.error = error
+        }
+    }
+    
+    public enum Delegate {
+        case moveToBadgeList
     }
 
-    enum Action {
+    public enum Action {
         case task                  // 뷰 등장/갱신 트리거
         case refresh               // 당겨서 새로고침 등
         case badgesLoaded([Badge])
         case failed(String)
+        case delegate(Delegate)
     }
 
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task, .refresh:
@@ -53,6 +66,8 @@ struct BadgeListFeature {
             case .failed(let message):
                 state.isLoading = false
                 state.error = message
+                return .none
+            case .delegate(_):
                 return .none
             }
         }
