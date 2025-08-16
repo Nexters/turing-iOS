@@ -11,10 +11,13 @@ let project = Project(
             product: .app,
             bundleId: "com.gotchai.Gotchai",
             infoPlist: .extendingDefault(with: [
-                "UILaunchStoryboardName": "Launch Screen",
                 "KAKAO_NATIVE_APP_KEY": "$(KAKAO_NATIVE_APP_KEY)",
                 "BASE_SCHEME": "$(BASE_SCHEME)",
                 "BASE_HOST": "$(BASE_HOST)",
+                "UILaunchScreen": [
+                    "UIImageName": "launch_logo",
+                    "UIColorName": "launch_color"
+                ]
             ]),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
