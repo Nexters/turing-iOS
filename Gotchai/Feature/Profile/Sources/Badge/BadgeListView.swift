@@ -24,30 +24,39 @@ public struct BadgeListView: View {
                 Color(.gray_950).ignoresSafeArea()
 
                 ScrollView {
-                    HStack(spacing: 12) {
-                        Image("icon_congratulations", bundle: .module)
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("축하해요")
-                                .fontStyle(.body_6)
-                                .foregroundStyle(Color(.gray_white))
-                            Text("12개의 배지를 모았어요!")
-                                .fontStyle(.body_2)
-                                .foregroundStyle(Color(.primary_400))
+                    if viewStore.state.count > 0 {
+                        HStack(spacing: 12) {
+                            Image("icon_congratulations", bundle: .module)
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("축하해요")
+                                    .fontStyle(.body_6)
+                                    .foregroundStyle(Color(.gray_white))
+                                Text("\(viewStore.state.count)개의 배지를 모았어요!")
+                                    .fontStyle(.body_2)
+                                    .foregroundStyle(Color(.primary_400))
+                            }
+                            Spacer()
                         }
-                        Spacer()
+                        .padding(.leading, 20)
+                        .padding(.vertical, 16)
+                        .background(Color(.primary_900))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.leading, 20)
-                    .padding(.vertical, 16)
-                    .background(Color(.primary_900))
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.horizontal, 24)
 
                     LazyVGrid(columns: colums, spacing: 16) {
-                        ForEach(store.badgeItems, id: \.id) { item in
+                        ForEach(viewStore.state, id: \.id) { item in
                             VStack(spacing: 12) {
-                                AsyncImage(url: URL(string: item.imageURL))
-                                    .frame(width: 104, height: 104)
-                                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                                AsyncImage(url: URL(string: item.imageURL)) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: 68, height: 68)
+                                .padding(18)
+                                .background(Color(.gray_900))
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                
                                 Text(item.name)
                                     .fontStyle(.body_6)
                                     .foregroundStyle(Color(.gray_100))
