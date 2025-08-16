@@ -68,6 +68,10 @@ struct AppView: View {
                         if let badgeListStore = store.scope(state: \.badgeList, action: \.badgeList) {
                             BadgeListView(store: badgeListStore)
                         }
+                    case .solvedTuringTest:
+                        if let solvedTestStore = store.scope(state: \.solvedTuringTest, action: \.solvedTuringTest) {
+                            SolvedTuringTestListView(store: solvedTestStore)
+                        }
                     }
                 }
             }

@@ -55,8 +55,13 @@ struct AppFeature {
                     state.path.append(.setting(.init()))
                 }
                 return .none
-            case .main(.profile(.delegate(.openMyBadgeList))):
-                state.path.append(.badgeList(.init()))
+            case .main(.profile(.delegate(let profileAction))):
+                switch profileAction {
+                case .openMyBadgeList:
+                    state.path.append(.badgeList(.init()))
+                case .openMySovledTuringTestList:
+                    state.path.append(.solvedTuringTest(.init()))
+                }
                 return .none
 
                 // 필요 시 메인에서 로그아웃 이벤트 받아 루트 전환

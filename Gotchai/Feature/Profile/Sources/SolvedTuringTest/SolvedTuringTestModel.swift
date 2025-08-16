@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SolvedTuringTest: Equatable {
+public struct SolvedTuringTest: Equatable {
     let id: Int
     let iconURL: String
     let title: String
@@ -29,7 +29,7 @@ extension SolvedTuringTest {
     }
 }
 
-extension SolvedTuringTest {
+public extension SolvedTuringTest {
     static let dummyList: [SolvedTuringTest] = (0..<10).map { index in
         SolvedTuringTest(
             id: index ,

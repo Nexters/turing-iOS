@@ -9,10 +9,14 @@ import SwiftUI
 import TCA
 import DesignSystem
 
-struct SolvedTuringTestListView: View {
+public struct SolvedTuringTestListView: View {
     let store: StoreOf<SolvedTuringTestFeature>
+    
+    public init(store: StoreOf<SolvedTuringTestFeature>) {
+        self.store = store
+    }
 
-    var body: some View {
+    public var body: some View {
         WithViewStore(store, observe: \.solvedTuringTests) { viewStore in
             ZStack {
                 Color(.gray_950).ignoresSafeArea()

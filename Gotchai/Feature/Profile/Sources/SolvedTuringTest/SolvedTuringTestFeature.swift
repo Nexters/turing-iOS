@@ -10,23 +10,31 @@ import SwiftUI
 import Combine
 
 @Reducer
-struct SolvedTuringTestFeature {
+public struct SolvedTuringTestFeature {
     @Dependency(\.solvedTuringTestService) var solvedTuringTestService
+    
+    public init() { }
 
     @ObservableState
-    struct State {
-        var solvedTuringTests: [SolvedTuringTest] = SolvedTuringTest.dummyList
+    public struct State {
+        var solvedTuringTests: [SolvedTuringTest]
         var isLoading = false
         var error: String?
+        
+        public init(solvedTuringTests: [SolvedTuringTest] = SolvedTuringTest.dummyList, isLoading: Bool = false, error: String? = nil) {
+            self.solvedTuringTests = solvedTuringTests
+            self.isLoading = isLoading
+            self.error = error
+        }
     }
 
-    enum Action {
+    public enum Action {
         case task                  // 뷰 등장/갱신 트리거
         case testsLoaded([SolvedTuringTest])
         case failed(String)
     }
 
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .task:

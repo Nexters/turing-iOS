@@ -21,6 +21,7 @@ struct AppPath {
       case turingTestResult(TuringTestFeature.State)
       case setting(SettingFeature.State)
       case badgeList(BadgeListFeature.State)
+      case solvedTuringTest(SolvedTuringTestFeature.State)
   }
 
   @CasePathable
@@ -31,6 +32,7 @@ struct AppPath {
       case turingTestResult(TuringTestFeature.Action)
       case setting(SettingFeature.Action)
       case badgeList(BadgeListFeature.Action)
+      case solvedTuringTest(SolvedTuringTestFeature.Action)
   }
 
   var body: some ReducerOf<Self> {
@@ -40,5 +42,6 @@ struct AppPath {
       Scope(state: \.turingTestResult, action: \.turingTestResult) { TuringTestFeature() }
       Scope(state: \.setting, action: \.setting) { SettingFeature() }
       Scope(state: \.badgeList, action: \.badgeList) { BadgeListFeature() }
+      Scope(state: \.solvedTuringTest, action: \.solvedTuringTest) { SolvedTuringTestFeature() }
   }
 }
