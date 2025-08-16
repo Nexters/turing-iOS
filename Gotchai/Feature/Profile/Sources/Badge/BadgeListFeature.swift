@@ -21,11 +21,13 @@ public struct BadgeListFeature {
 
     @ObservableState
     public struct State {
+        var totalBadgeCount: Int
         var badgeItems: [Badge]
         var isLoading = false
         var error: String?
         
-        public init(badgeItems: [Badge] = [], isLoading: Bool = false, error: String? = nil) {
+        public init(totalBadgeCount: Int, badgeItems: [Badge] = [], isLoading: Bool = false, error: String? = nil) {
+            self.totalBadgeCount = totalBadgeCount
             self.badgeItems = badgeItems
             self.isLoading = isLoading
             self.error = error

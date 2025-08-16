@@ -147,7 +147,7 @@ public struct ProfileView: View {
 
 #Preview {
     ProfileView(
-        store: Store(initialState: ProfileFeature.State(), reducer: {
+        store: Store(initialState: ProfileFeature.State(totalTuringTestCount: 8), reducer: {
             ProfileFeature()
         })
     )

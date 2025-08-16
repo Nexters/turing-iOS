@@ -22,17 +22,19 @@ public struct ProfileFeature {
 
     @ObservableState
     public struct State {
+        var totalTuringTestCount: Int
         var profile: Profile
         var lastBadge: Badge?
         
-        public init(profile: Profile = Profile(nickname: "닉네임", rating: 50), lastBadge: Badge? = nil) {
+        public init(totalTuringTestCount: Int, profile: Profile = Profile(nickname: "닉네임", rating: 50), lastBadge: Badge? = nil) {
+            self.totalTuringTestCount = totalTuringTestCount
             self.profile = profile
             self.lastBadge = lastBadge
         }
     }
 
     public enum Delegate {
-        case openMyBadgeList
+        case openMyBadgeList(Int)
         case openMySovledTuringTestList
     }
 
@@ -70,7 +72,7 @@ public struct ProfileFeature {
                 return .merge(getRanking, getBadgeList)
                 
             case .tappedBadgeComponent:
-                return .send(.delegate(.openMyBadgeList))
+                return .send(.delegate(.openMyBadgeList(state.totalTuringTestCount)))
             case .tappedSolvedTuringTestComponent:
                 return .send(.delegate(.openMySovledTuringTestList))
                 
